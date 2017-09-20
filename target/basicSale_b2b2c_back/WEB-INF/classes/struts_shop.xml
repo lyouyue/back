@@ -1,0 +1,1703 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+		<package name="basePackage" extends="struts-default">
+		<interceptors>
+			<interceptor-stack name="baseStack">
+                <interceptor-ref name="exception" />
+                <interceptor-ref name="alias" />
+                <interceptor-ref name="servletConfig" />
+                <interceptor-ref name="i18n" />
+                <interceptor-ref name="prepare" />
+                <interceptor-ref name="chain" />
+                <interceptor-ref name="debugging" />
+                <interceptor-ref name="scopedModelDriven" />
+                <interceptor-ref name="modelDriven" />
+                <interceptor-ref name="fileUpload" />
+                <interceptor-ref name="checkbox" />
+                <interceptor-ref name="multiselect" />
+                <interceptor-ref name="staticParams" />
+                <interceptor-ref name="actionMappingParams" />
+                <interceptor-ref name="params">
+					<param name="excludeParams">dojo\..*,^struts\..*</param>
+                </interceptor-ref>
+                <interceptor-ref name="conversionError"/>
+                <!-- 配置方法级别的校验 -->
+                <interceptor-ref name="validation">
+                    <param name="excludeMethods">input,back,cancel,browse</param>
+                    <param name="validateAnnotatedMethodOnly">true</param>
+                </interceptor-ref>
+                <interceptor-ref name="workflow">
+                    <param name="excludeMethods">input,back,cancel,browse</param>
+                </interceptor-ref>
+            </interceptor-stack>
+		</interceptors>
+
+		<!-- 配置默认拦截器栈 -->
+		<default-interceptor-ref name="baseStack" />
+
+		<!-- 未到找Action指向页面 -->
+		<default-action-ref name="errorPage" />
+
+		<action name="errorPage">
+			<result type="redirect">/404.jsp</result>
+		</action>
+		
+	</package>
+
+     <!-- 会员begin -->
+	 <package name="customer" namespace="/back/customer" extends="functionPurview">
+	 	<action name="gotoCustomerPage" class="customerAction" method="gotoCustomerPage">
+	 	    <!-- 调用功能权限的拦截器 -->
+			<interceptor-ref name="functionPurviewStack"/>
+	 		<result>/WEB-INF/shop/customer/customerList.jsp</result>
+	 	</action>
+	 	<action name="listCustomer" class="customerAction" method="listCustomer"/>
+	 	<action name="customerGroup" class="customerAction" method="customerGroup"/>
+	 	<action name="saveOrUpdateCustomer" class="customerAction" method="saveOrUpdateCustomer"/>
+	 	<action name="uploadImage" class="customerAction" method="uploadImage"/>
+	 	<action name="getCustomerObject" class="customerAction" method="getCustomerObject"/>
+	 	<action name="deleteCustomerAll" class="customerAction" method="deleteCustomerAll"/>
+	 	<action name="saveOrUpdateShopCustomer" class="customerAction" method="saveOrUpdateShopCustomer"/>
+	 	<action name="getSpCustomerObject" class="customerAction" method="getSpCustomerObject"/>
+	 	<action name="deleteSpCustomer" class="customerAction" method="deleteSpCustomer"/>
+	 	<action name="checkLoginName" class="customerAction" method="checkLoginName"/>
+	 	<action name="checkEmail" class="customerAction" method="checkEmail"/>
+	 	<action name="changeLockedState" class="customerAction" method="changeLockedState"/>
+	 	<action name="findInvoiceInfo" class="customerAction" method="findInvoiceInfo"/>
+<!-- 	 	授信额度与等级维护 -->
+	 	<action name="levelAndLineOfCredit" class="customerAction" method="levelAndLineOfCredit"/>
+	 	 <!-- 粉丝信息 -->
+	 	<action name="getFansUserInfoObject" class="customerAction" method="getFansUserInfoObject"/>
+	 	<action name="gotoCustomerMallCoinPage" class="customerAction" method="gotoCustomerMallCoinPage">
+	 		<result>/WEB-INF/shop/customer/customerMallCoinList.jsp</result>
+	 	</action>
+	 	<action name="gotoRechargePage" class="customerAction" method="gotoRechargePage">
+	 		<result>/WEB-INF/shop/customer/rechargeList.jsp</result>
+	 	</action>
+	 	<action name="gotoRechargeMoney" class="customerAction" method="gotoRechargeMoney"/>
+	 	<action name="customerRechargeList" class="customerAction" method="customerRechargeList"/>
+		 <action name="upgradeShop" class="customerAction" method="upgradeShop"/>
+	 	<!-- 会员订单 -->
+	 	<action name="gotoListOrdersPage" class="customerAction" method="gotoListOrdersPage">
+	 		<result>/WEB-INF/shop/order/listCustomerOrders.jsp</result>
+	 	</action>
+	 </package>
+	<!-- 余额 begin -->
+	<package name="balance" namespace="/balance" extends="struts-default">
+		<action name="getBalanceById" class="customerAction" method="getBalanceById">
+			<!--<result name="success" type="json"></result>-->
+		</action>
+	</package>
+	<!-- 余额 end -->
+	<!-- 金币 begin -->
+	<package name="mallCoin" namespace="/back/mallCoin" extends="basePackage">
+		<action name="gotoMallCoin" class="mallCoinAction" method="gotoMallCoin">
+			<result>/WEB-INF/shop/mallCoin/mallCoinList.jsp</result>
+		</action>
+		<action name="mallCoinList" class="mallCoinAction" method="mallCoinList"></action>
+		<action name="getVirtualCoinById" class="mallCoinAction" method="getVirtualCoinById"></action>
+		<action name="customerMallCoinList" class="mallCoinAction" method="customerMallCoinList"></action>
+		<action name="getMallCoinObjectById" class="mallCoinAction" method="getMallCoinObjectById"></action>
+	</package>
+	<package name="coinBalance" namespace="/coinBalance" extends="json-default">
+		<action name="getMallCoinBalanceById" class="mallCoinAction" method="getMallCoinBalanceById">
+			<result name="success" type="json"></result>
+		</action>
+	</package>
+	<!-- 金币 end -->
+
+	 <!-- 会员end -->
+
+    <!-- 企业信息管理 begin-->
+    <package name="company" namespace="/back/company" extends="functionPurview">
+    	<action name="gotoCompanyManagePage" class="companyManageAction" method="gotoCompanyManagePage">
+	 		<!-- 调用功能权限的拦截器 -->
+			<interceptor-ref name="functionPurviewStack"/>
+	 		<result>/WEB-INF/shop/company/companyManageList.jsp</result>
+	 	</action>
+	 	<action name="listCompantManage" class="companyManageAction" method="listCompantManage"></action>
+	 	<action name="getCompanyManageById" class="companyManageAction" method="getCompanyManageById"></action>
+	 	<action name="saveOrUpdateCompanyManage" class="companyManageAction" method="saveOrUpdateCompanyManage"></action>
+    	<action name="saveOrUpdateCompanyManageInvoice" class="companyManageAction" method="saveOrUpdateCompanyManageInvoice"></action>
+    </package>
+    <!-- 企业信息管理 end-->
+
+    <!-- 商品品牌信息 begin-->
+     <package name="brand" namespace="/back/brand" extends="functionPurview">
+	 	<action name="gotoBrandPage" class="brandAction" method="gotoBrandPage">
+	 		<!-- 调用功能权限的拦截器 -->
+			<interceptor-ref name="functionPurviewStack"/>
+	 		<result>/WEB-INF/shop/brand/brandList.jsp</result>
+	 	</action>
+	 	<action name="listBrand" class="brandAction" method="listBrand"/>
+	 	<action name="saveOrUpdateBrand" class="brandAction" method="saveOrUpdateBrand"/>
+	 	<action name="getBrandInfo" class="brandAction" method="getBrandInfo"/>
+	 	<action name="deleteBrand" class="brandAction" method="deleteBrand"/>
+	 </package>
+    <!-- 商品品牌信息end -->
+
+     <!-- 计量单位信息 begin-->
+     <package name="measuringUnit" namespace="/back/measuringUnit" extends="functionPurview">
+	 	<action name="gotoMeasuringUnitPage" class="measuringUnitAction" method="gotoMeasuringUnitPage">
+	 		<!-- 调用功能权限的拦截器 -->
+			<interceptor-ref name="functionPurviewStack"/>
+	 		<result>/WEB-INF/shop/measuringUnit/measuringUnitList.jsp</result>
+	 	</action>
+	 	<action name="listMeasuringUnit" class="measuringUnitAction" method="listMeasuringUnit"/>
+	 	<action name="saveOrUpdateMeasuringUnit" class="measuringUnitAction" method="saveOrUpdateMeasuringUnit"/>
+	 	<action name="getMeasuringUnitInfo" class="measuringUnitAction" method="getMeasuringUnitInfo"/>
+	 	<action name="deleteMeasuringUnits" class="measuringUnitAction" method="deleteMeasuringUnits"/>
+	 	<action name="checkMeasuringUnit" class="measuringUnitAction" method="checkMeasuringUnit"/>
+	 </package>
+    <!-- 计量单位信息end -->
+
+    <!-- 商品计量单位信息 begin-->
+     <package name="productMeasuringUnit" namespace="/back/productMeasuringUnit" extends="functionPurview">
+	 	<action name="gotoProductMeasuringUnitListByProductTypeId" class="productMeasuringUnitAction" method="gotoProductMeasuringUnitListByProductTypeId">
+	 		<!-- 调用功能权限的拦截器 -->
+			<interceptor-ref name="functionPurviewStack"/>
+	 		<result>/WEB-INF/shop/productMeasuringUnit/productMeasuringUnitList.jsp</result>
+	 	</action>
+	 	<action name="listProductMeasuringUnitByProductTypeId" class="productMeasuringUnitAction" method="listProductMeasuringUnitByProductTypeId"/>
+	 	<action name="deleteProductMeasuringUnit" class="productMeasuringUnitAction" method="deleteProductMeasuringUnit"/>
+	 	<action name="findTypeMeasuringUnit" class="productMeasuringUnitAction" method="findTypeMeasuringUnit"/>
+	 	<action name="saveMoreProductMeasuringUnit" class="productMeasuringUnitAction" method="saveMoreProductMeasuringUnit"/>
+	 </package>
+    <!-- 商品计量单位信息end -->
+
+    <!-- 商品分类begin -->
+	   <package name="producttype" namespace="/back/producttype" extends="functionPurview">
+		   <action name="gotoProductTypePage" class="productTypeAction" method="gotoProductTypePage">
+	       		<!-- 调用功能权限的拦截器 -->
+				<interceptor-ref name="functionPurviewStack"/>
+	       		<result name="success">/WEB-INF/shop/producttype/productTypeList.jsp</result>
+		   	</action>
+		   	<action name="gotoProductTypeByLevelPage" class="productTypeAction" method="gotoProductTypeByLevelPage">
+	       		<!-- 调用功能权限的拦截器 -->
+				<interceptor-ref name="functionPurviewStack"/>
+	       		<result name="success">/WEB-INF/shop/producttype/productTypeByLevelList.jsp</result>
+		   	</action>
+		   	<action name="getNodes" class="productTypeAction" method="getNodes"/>
+		   	<action name="saveOrEditProductType" class="productTypeAction" method="saveOrEditProductType"/>
+		   	<action name="getProductTypeObject" class="productTypeAction" method="getProductTypeObject"/>
+		   	<action name="delProductType" class="productTypeAction" method="delProductType"/>
+		   	<action name="gotoProductInfoListByProductTypeId" class="productTypeAction" method="gotoProductInfoListByProductTypeId">
+	       		<result name="success">/WEB-INF/shop/producttype/productInfoList.jsp</result>
+		   	</action>
+		   	<action name="listProductInfoByProductTypeId" class="productTypeAction" method="listProductInfoByProductTypeId"/>
+		   	<action name="deleteTypeProduct" class="productTypeAction" method="deleteTypeProduct"/>
+		   	<action name="initProdutTypeInfo" class="productTypeAction" method="initProdutTypeInfo"/>
+	   </package>
+	<!-- 商品分类end -->
+
+	<!-- 商品分类(Table)begin -->
+	<package name="productTypeTable" namespace="/back/productTypeTable" extends="basePackage">
+	 	<action name="gotoProductTypeTablePage" class="productTypeTableAction" method="gotoProductTypeTablePage">
+       		<result name="success">/WEB-INF/shop/productTypeTable/productTypeList.jsp</result>
+	   	</action>
+	   	<action name="listProductType" class="productTypeTableAction" method="listProductType"/>
+	   	<action name="saveOrEditProductType" class="productTypeTableAction" method="saveOrEditProductType"/>
+	   	<action name="getProductTypeObject" class="productTypeTableAction" method="getProductTypeObject"/>
+	   	<action name="delProductType" class="productTypeTableAction" method="delProductType"/>
+	</package>
+	<!-- 商品分类(Table)end -->
+
+	 <!-- 品牌和分类begin -->
+		<package name="brandtype" namespace="/back/brandtype" extends="struts-default">
+		   <action name="getProductTypeListByBrandId" class="brandTypeAction" method="getProductTypeListByBrandId">
+	       		<result name="success">/WEB-INF/shop/brandtype/brandTypeList.jsp</result>
+		   	</action>
+		   <action name="saveBrandType" class="brandTypeAction" method="saveBrandType"/>
+		   <action name="gotoBrandListByProductTypeId" class="brandTypeAction" method="gotoBrandListByProductTypeId">
+	       		<result name="success">/WEB-INF/shop/brandtype/brandList.jsp</result>
+		   	</action>
+		   	<action name="listBrandByProductTypeId" class="brandTypeAction" method="listBrandByProductTypeId"/>
+		   	<action name="deleteBrandType" class="brandTypeAction" method="deleteBrandType"/>
+		   	<action name="findTypeBrand" class="brandTypeAction" method="findTypeBrand"/>
+		   	<action name="saveMoreBrandType" class="brandTypeAction" method="saveMoreBrandType"/>
+		   	<action name="updateIsShowState" class="brandTypeAction" method="updateIsShowState"/>
+		   	<action name="copyParentProductType" class="brandTypeAction" method="copyParentProductType"/>
+	   </package>
+	  <!-- 品牌和分类end -->
+
+	   <!-- 商品begin -->
+	   <package name="productinfo" namespace="/back/productinfo" extends="functionPurview">
+		   <action name="gotoProductInfoPage" class="productInfoAction" method="gotoProductInfoPage">
+		   		<!-- 调用功能权限的拦截器 -->
+				<interceptor-ref name="functionPurviewStack"/>
+	       		<result name="success">/WEB-INF/shop/productinfo/productInfoList.jsp</result>
+		   	</action>
+		   	<action name="listProductInfo" class="productInfoAction" method="listProductInfo"/>
+		   	<action name="saveOrUpdateProductInfo" class="productInfoAction" method="saveOrUpdateProductInfo"/>
+		   	<action name="getProductInfoObject" class="productInfoAction" method="getProductInfoObject"/>
+		   	<action name="findProductType" class="productInfoAction" method="findProductType"/>
+		   	<action name="getAttrAndPara" class="productInfoAction" method="getAttrAndPara"/>
+		   	<action name="productInfoGeneratedQrCode" class="productInfoAction" method="productInfoGeneratedQrCode"/>
+		   	<action name="updateShowList" class="productInfoAction" method="updateShowList"/>
+		   	<action name="updateRatio" class="productInfoAction" method="updateRatio"/>
+
+			<!-- 商品维护begin -->
+			<action name="gotoBasicProductList" class="editProductInfoAction" method="gotoBasicProductList">
+				<!-- 调用功能权限的拦截器 -->
+				<interceptor-ref name="functionPurviewStack"/>
+				<result name="success">/WEB-INF/shop/productinfo/basicProductInfoList.jsp</result>
+			</action>
+			<action name="queryAddProductInfo" class="editProductInfoAction" method="queryAddProductInfo"></action>
+			<action name="getBasicProductList" class="editProductInfoAction" method="getBasicProductList"></action>
+			<action name="addProductInfo" class="editProductInfoAction" method="addProductInfo">
+				<result>/WEB-INF/shop/productinfo/add_productInfo.jsp</result>
+			</action>
+			<action name="addProduct" class="editProductInfoAction" method="addProduct">
+				<result>/WEB-INF/shop/productinfo/merchandise_add.jsp</result>
+			</action>
+			<action name="getProductInfoByProductId" class="editProductInfoAction" method="getProductInfoByProductId">
+				<result>/WEB-INF/shop/productinfo/edit_productInfo.jsp</result>
+			</action>
+			<!-- 通过适用行业ID获取相关联的适用场合信息 -->
+			<action name="getShopSituationTagInfoList" class="editProductInfoAction" method="getShopSituationTagInfoList"/>
+			<!-- new异步获取当前分类下的品牌，参数，属性，规格 -->
+			<action name="selectOtherInfoByProductTypeId" class="editProductInfoAction" method="selectOtherInfoByProductTypeId"/>
+			<!-- 异步获取指定规格的规格值 -->
+			<action name="getSpecificationValueBySpecificationId" class="editProductInfoAction" method="getSpecificationValueBySpecificationId"/>
+			<!-- new获取产品组的给个产品的规格值 -->
+			<action name="getGoodsProductSpecificationValue" class="editProductInfoAction" method="getGoodsProductSpecificationValue"/>
+			<!-- new解除该商品所在商品组的规格以及对应的规格值的关联关系 -->
+			<action name="removeProductSpecificationValueGoodsGuanlian" class="editProductInfoAction" method="removeProductSpecificationValueGoodsGuanlian"/>
+
+			<!-- 根据地区Id查询下一级地区 -->
+			<action name="findAreaList" class="editProductInfoAction" method="findAreaList"/>
+			<action name="findShopInfoList" class="editProductInfoAction" method="findShopInfoList"/>
+			<action name="copyBasicProductInfo" class="editProductInfoAction" method="copyBasicProductInfo"/>
+			<action name="deleteProductAll" class="editProductInfoAction" method="deleteProductAll"/>
+		<!-- 商品维护end -->
+
+		<!-- 添加或修改商品begin -->
+			<action name="saveOrUpdateFrontProduct" class="addProductInfoAction" method="saveOrUpdateFrontProduct">
+				<!-- <result type="redirectAction">
+					<param name="actionName">gotoProductInfoPage</param>
+				</result> -->
+				<!-- <result>/WEB-INF/shop/productinfo/productCuccess.jsp</result> -->
+			</action>
+			<action name="uploadImageFront" class="addProductInfoAction" method="uploadImageFront"/>
+			<action name="updateFrontProductInfo" class="addProductInfoAction" method="updateFrontProductInfo">
+				<!-- <result type="redirectAction">
+					<param name="actionName">gotoProductInfoPage</param>
+				</result> -->
+			</action>
+			<action name="updateFrontProductFunctionDesc" class="addProductInfoAction" method="updateFrontProductFunctionDesc">
+			</action>
+			<action name="updateFrontProductAttribute" class="addProductInfoAction" method="updateFrontProductAttribute">
+			</action>
+			<action name="updateFrontProductParameters" class="addProductInfoAction" method="updateFrontProductParameters">
+			</action>
+			<action name="updateFrontProductSourceImg" class="addProductInfoAction" method="updateFrontProductSourceImg">
+			</action>
+			<action name="updateFrontProductReferral" class="addProductInfoAction" method="updateFrontProductReferral">
+				<result type="redirectAction">
+					<param name="actionName">gotoProductInfoPage</param>
+				</result>
+			</action>
+			<action name="updateFrontProductImg" class="addProductInfoAction" method="updateFrontProductImg">
+				<!-- <result type="redirectAction">
+					<param name="actionName">gotoProductInfoPage</param>
+				</result> -->
+			</action>
+			<action name="deleteProductImg" class="addProductInfoAction" method="deleteProductImg">
+			</action>
+			<action name="updateFrontProductSpecification" class="addProductInfoAction" method="updateFrontProductSpecification">
+				<!-- <result type="redirectAction">
+					<param name="actionName">gotoProductInfoPage</param>
+				</result> -->
+			</action>
+		<!-- 添加或修改商品end -->
+		   <!--修改产品是否显示-->
+		   <action name="editProductInfoIsShow" class="editProductInfoAction" method="editProductInfoIsShow"/>
+		   <!--根据id删除产品-->
+		   <action name="deleteProductInfo" class="productInfoAction" method="deleteProductInfo"/>
+	   </package>
+	<!-- 商品end -->
+
+	<!-- 积分政策begin -->
+	   <package name="point" namespace="/back/point" extends="struts-default">
+		   <action name="gotoPointPage" class="pointAction" method="gotoPointPage">
+	       		<result name="success">/WEB-INF/shop/point/pointList.jsp</result>
+		   	</action>
+		   	<action name="listPoint" class="pointAction" method="listPoint"/>
+		   	<action name="saveOrUpdatePoint" class="pointAction" method="saveOrUpdatePoint"/>
+		   	<action name="getPointObject" class="pointAction" method="getPointObject"/>
+		   	<action name="deletePoint" class="pointAction" method="deletePoint"/>
+	   </package>
+	<!-- 积分政策end -->
+
+	<!-- 订单begin -->
+
+	<package name="ordersPayCallBack" namespace="/callBack" extends="json-default">
+		<action name="savePaySuccess" class="ordersAction" method="savePaySuccess">
+			<result name="success" type="json"></result>
+		</action>
+	</package>
+
+	<package name="orders" namespace="/back/orders" extends="functionPurview">
+		<!-- 订单 -->
+		<action name="gotoOrdersPage" class="ordersAction" method="gotoOrdersPage">
+		    <!-- 调用功能权限的拦截器 -->
+			<interceptor-ref name="functionPurviewStack"/>
+			<result>/WEB-INF/shop/order/listOrders.jsp</result>
+		</action>
+		<action name="ordersList" class="ordersAction" method="ordersList"/>
+		<action name="saveOrUpdateOrders" class="ordersAction" method="saveOrUpdateOrders"/>
+		<action name="getOrdersObject" class="ordersAction" method="getOrdersObject"/>
+		<action name="deleteOrders" class="ordersAction" method="deleteOrders"/>
+		<action name="findOrdersProduct" class="ordersAction" method="findOrdersProduct"/>
+		<action name="saveOrUpdateOrdersStuts" class="ordersAction" method="saveOrUpdateOrdersStuts"/>
+		<action name="findCityList" class="ordersAction" method="findCityList"/>
+		<action name="checkShipments" class="ordersAction" method="checkShipments"/>
+		<action name="changeShipments" class="ordersAction" method="changeShipments">
+		</action>
+		<!-- 订单审核 -->
+		<action name="gotoUntreatedOrdersPage" class="ordersAction" method="gotoUntreatedOrdersPage">
+		    <!-- 调用功能权限的拦截器 -->
+			<interceptor-ref name="functionPurviewStack"/>
+			<result>/WEB-INF/shop/order/untreatedOrderslist.jsp</result>
+		</action>
+		<action name="gotoUnpaidOrdersPage" class="ordersAction" method="gotoUnpaidOrdersPage">
+		    <!-- 调用功能权限的拦截器 -->
+			<interceptor-ref name="functionPurviewStack"/>
+			<result>/WEB-INF/shop/order/unpaidOrderslist.jsp</result>
+		</action>
+		<action name="gotoWaitShipmentsOrdersPage" class="ordersAction" method="gotoWaitShipmentsOrdersPage">
+		    <!-- 调用功能权限的拦截器 -->
+			<interceptor-ref name="functionPurviewStack"/>
+			<result>/WEB-INF/shop/order/waitShipmentsOrderslist.jsp</result>
+		</action>
+		<action name="gotoAlreadyShipmentsOrdersPage" class="ordersAction" method="gotoAlreadyShipmentsOrdersPage">
+		    <!-- 调用功能权限的拦截器 -->
+			<interceptor-ref name="functionPurviewStack"/>
+			<result>/WEB-INF/shop/order/alreadyShipmentsOrderslist.jsp</result>
+		</action>
+		<action name="gotoValidationOrdersPage" class="ordersAction" method="gotoValidationOrdersPage">
+		    <!-- 调用功能权限的拦截器 -->
+			<interceptor-ref name="functionPurviewStack"/>
+			<result>/WEB-INF/shop/order/validationOrderslist.jsp</result>
+		</action>
+		<action name="gotoReceivingOrdersPage" class="ordersAction" method="gotoReceivingOrdersPage">
+		    <!-- 调用功能权限的拦截器 -->
+			<interceptor-ref name="functionPurviewStack"/>
+			<result>/WEB-INF/shop/order/receivingOrderslist.jsp</result>
+		</action>
+		<action name="gotoCancelOrdersPage" class="ordersAction" method="gotoCancelOrdersPage">
+		    <!-- 调用功能权限的拦截器 -->
+			<interceptor-ref name="functionPurviewStack"/>
+			<result>/WEB-INF/shop/order/cancelOrderslist.jsp</result>
+		</action>
+		<action name="gotoCompelLockedPage" class="ordersAction" method="gotoCompelLockedPage">
+		    <!-- 调用功能权限的拦截器 -->
+			<interceptor-ref name="functionPurviewStack"/>
+			<result>/WEB-INF/shop/order/compelLockedOrderslist.jsp</result>
+		</action>
+		<action name="gotopreEvaluate" class="ordersAction" method="gotopreEvaluate">
+		    <!-- 调用功能权限的拦截器 -->
+			<interceptor-ref name="functionPurviewStack"/>
+			<result>/WEB-INF/shop/order/preEvaluateOrderslist.jsp</result>
+		</action>
+		<action name="gotoEvaluateList" class="ordersAction" method="gotoEvaluateList">
+		    <!-- 调用功能权限的拦截器 -->
+			<interceptor-ref name="functionPurviewStack"/>
+			<result>/WEB-INF/shop/order/evaluateOrderslist.jsp</result>
+		</action>
+		<action name="gotoReturnGoods" class="ordersAction" method="gotoReturnGoods">
+		    <!-- 调用功能权限的拦截器 -->
+			<interceptor-ref name="functionPurviewStack"/>
+			<result>/WEB-INF/shop/order/returnApplylist.jsp</result>
+		</action>
+		<action name="gotoValidationGoods" class="ordersAction" method="gotoValidationGoods">
+		    <!-- 调用功能权限的拦截器 -->
+			<interceptor-ref name="functionPurviewStack"/>
+			<result>/WEB-INF/shop/order/validationGoodslist.jsp</result>
+		</action>
+		<action name="updateOrdersState" class="ordersAction" method="updateOrdersState"/>
+		<action name="lockOrders" class="ordersAction" method="lockOrders"/>
+		<action name="verdictOrders" class="ordersAction" method="verdictOrders"/>
+		<action name="relieveLockedState" class="ordersAction" method="relieveLockedState"/>
+		<action name="updatePrice" class="ordersAction" method="updatePrice"/>
+		<action name="returnsApplyList" class="ordersAction" method="returnsApplyList"/>
+
+		<!-- 订单操作日志 -->
+		<action name="gotoOrdersOPLogPage" class="ordersOPLogAction" method="gotoOrdersOPLogPage">
+		    <!-- 调用功能权限的拦截器 -->
+			<interceptor-ref name="functionPurviewStack"/>
+			<result>/WEB-INF/shop/order/listOrdersOPLog.jsp</result>
+		</action>
+		<action name="ordersOPLogList" class="ordersOPLogAction" method="ordersOPLogList"/>
+		<action name="saveOrUpdateOrdersOPLog" class="ordersOPLogAction" method="saveOrUpdateOrdersOPLog"/>
+		<action name="getOrdersOPLogObject" class="ordersOPLogAction" method="getOrdersOPLogObject"/>
+		<action name="deleteOrdersOPLog" class="ordersOPLogAction" method="deleteOrdersOPLog"/>
+		<!-- 订单明细 -->
+		<action name="gotoOrderListPage" class="ordersListAction" method="gotoOrderListPage">
+		    <!-- 调用功能权限的拦截器 -->
+			<interceptor-ref name="functionPurviewStack"/>
+			<result>/WEB-INF/shop/order/listOrdersList.jsp</result>
+		</action>
+		<action name="ordersListList" class="ordersListAction" method="ordersListList"/>
+		<action name="saveOrUpdateOrdersList" class="ordersListAction" method="saveOrUpdateOrdersList"/>
+		<action name="getOrderListObject" class="ordersListAction" method="getOrderListObject"/>
+		<action name="deleteOrdersList" class="ordersListAction" method="deleteOrdersList"/>
+	</package>
+	<!-- 订单end -->
+
+	<!-- 商品积分begin -->
+	<!--目前没有此类，日后需新增-->
+	   <!--<package name="productpoint" namespace="/back/productpoint" extends="struts-default">
+		   <action name="gotoProductPointPage" class="productPointAction" method="gotoProductPointPage">
+	       		<result name="success">/WEB-INF/shop/productpoint/productpointList.jsp</result>
+		   	</action>
+		   	<action name="listProductPoint" class="productPointAction" method="listProductPoint"/>
+		   	<action name="getProductPointInfo" class="productPointAction" method="getProductPointInfo"/>
+		   	<action name="saveOrUpdateProductPoint" class="productPointAction" method="saveOrUpdateProductPoint">
+		   		<result name="success">/WEB-INF/shop/productpoint/productpointList.jsp</result>
+		   	</action>
+		   	<action name="deleteProductPoint" class="productPointAction" method="deleteProductPoint"/>
+		   	<action name="listProductInfo" class="productPointAction" method="listProductInfo"/>
+	   </package>-->
+	<!-- 商品积分end -->
+
+	<!-- 积分商城分类begin -->
+		<package name="backCoinMallProductType" namespace="/back/coinMallProductType" extends="struts-default">
+			<action name="gotoCoinMallProductType" class="coinMallProductTypeAction" method="gotoCoinMallProductType">
+				<result>/WEB-INF/shop/coinMallProductType/coinMallProductTypeList.jsp</result>
+			</action>
+			<action name="getNodes" class="coinMallProductTypeAction" method="getNodes"/>
+			<action name="saveOrEditCoinMallTuanProductType" class="coinMallProductTypeAction" method="saveOrEditCoinMallTuanProductType"/>
+			<action name="getCoinMallProductTypeObject" class="coinMallProductTypeAction" method="getCoinMallProductTypeObject"/>
+			<action name="delCoinMallProductType" class="coinMallProductTypeAction" method="delCoinMallProductType"/>
+			<action name="gotoProductInfoListByTypeId" class="coinMallProductTypeAction" method="gotoProductInfoListByTypeId">
+				<result>/WEB-INF/shop/coinMallProductType/coinMallProductList.jsp</result>
+			</action>
+			<action name="gotoBrandListByTypeId" class="coinMallProductTypeAction" method="gotoBrandListByTypeId"/>
+			<action name="listProductInfoByTypeId" class="coinMallProductTypeAction" method="listProductInfoByTypeId"/>
+		</package>
+	<!-- 积分商城分类begin -->
+
+	<!-- 用户留言begin -->
+	   <package name="customerMsg" namespace="/back/customerMsg" extends="struts-default">
+		   <action name="gotoCustomerMsgPage" class="customerMsgAction" method="gotoCustomerMsgPage">
+	       		<result name="success">/WEB-INF/shop/customerMsg/customerMsgList.jsp</result>
+		   	</action>
+		   	<action name="saveOrUpdateCustomerMsg" class="customerMsgAction" method="saveOrUpdateCustomerMsg"/>
+		   	<action name="getCustomerMsgObject" class="customerMsgAction" method="getCustomerMsgObject"/>
+		   	<action name="deleteCustomerMsg" class="customerMsgAction" method="deleteCustomerMsg"/>
+		   	<action name="listCustomerMsg" class="customerMsgAction" method="listCustomerMsg"/>
+	   </package>
+	<!-- 用户留言end -->
+
+	<!-- 用户地址begin -->
+	   <package name="customerAcceptAddress" namespace="/back/customerAcceptAddress" extends="struts-default">
+		   <action name="findAcceptAddressListByCustomerId" class="customerAcceptAddressAction" method="findAcceptAddressListByCustomerId">
+	       		<result name="success">/WEB-INF/shop/customerAcceptAddress/customerAcceptAddressList.jsp</result>
+		   	</action>
+		   	<action name="saveOrUpdateCustomerAcceptAddress" class="customerAcceptAddressAction" method="saveOrUpdateCustomerAcceptAddress"/>
+		   	<action name="getCustomerAcceptAddressObject" class="customerAcceptAddressAction" method="getCustomerAcceptAddressObject"/>
+		   	<action name="deleteCustomerAcceptAddress" class="customerAcceptAddressAction" method="deleteCustomerAcceptAddress"/>
+		   	<action name="listCustomerAcceptAddress" class="customerAcceptAddressAction" method="listCustomerAcceptAddress"/>
+	   </package>
+	<!-- 用户地址end -->
+
+
+
+	<!-- 用户收藏begin -->
+	   <package name="customerCollectProduct" namespace="/back/customerCollectProduct" extends="struts-default">
+		   <action name="findCustomerCollectProductListByCustomerId" class="customerCollectProductAction" method="findCustomerCollectProductListByCustomerId">
+	       		<result name="success">/WEB-INF/shop/customerCollectProduct/customerCollectProductList.jsp</result>
+		   	</action>
+		   <action name="findCustomerCollectShopInfoListByCustomerId" class="customerCollectProductAction" method="findCustomerCollectShopInfoListByCustomerId">
+	       		<result name="success">/WEB-INF/shop/customerCollectProduct/customerCollectShopInfoList.jsp</result>
+		   	</action>
+		   	<action name="saveOrUpdateCustomerCollectProduct" class="customerCollectProductAction" method="saveOrUpdateCustomerCollectProduct"/>
+		   	<action name="getCustomerCollectProductObject" class="customerCollectProductAction" method="getCustomerCollectProductObject"/>
+		   	<action name="deleteCustomerCollectProduct" class="customerCollectProductAction" method="deleteCustomerCollectProduct"/>
+		   	<action name="listCustomerCollectProduct" class="customerCollectProductAction" method="listCustomerCollectProduct"/>
+		   	<action name="listCustomerCollectShopInfo" class="customerCollectProductAction" method="listCustomerCollectShopInfo"/>
+	   </package>
+	<!-- 用户收藏end -->
+
+	<!-- 用户浏览商品历史记录begin -->
+	<package name="browseRecord" namespace="/back/browseRecord" extends="struts-default">
+		<action name="gotoProBrRecordPage" class="proBrRecordAction" method="gotoProBrRecordPage">
+			<result>/WEB-INF/shop/browseRecord/listProBrRecord.jsp</result>
+		</action>
+		<action name="proBrRecordList" class="proBrRecordAction" method="proBrRecordList"/>
+		<action name="getProBrRecordObject" class="proBrRecordAction" method="getProBrRecordObject"/>
+		<action name="deleteProBrRecord" class="proBrRecordAction" method="deleteProBrRecord"/>
+
+		<!-- 测试浏览商品记录 -->
+		<action name="findProInfo" class="proBrRecordAction" method="findProInfo">
+			<result>/WEB-INF/shop/test/productInfoList.jsp</result>
+		</action>
+		<!-- 前台点击商品添加商品浏览记录 -->
+<!--		<action name="operateProBrRecord" class="proBrRecordAction" method="operateProBrRecord"></action>-->
+		<action name="operateProBrRecord" class="proBrRecordAction" method="opBrRecord"/>
+		<!-- 前台展示浏览记录 -->
+<!--		<action name="lookRecord" class="proBrRecordAction" method="lookRecord"></action>-->
+		<action name="lookRecord" class="proBrRecordAction" method="lookRecordByCookie"/>
+
+		<!-- 测试商品添加到购物车 -->
+		<action name="findProInfoToCar" class="proBrRecordAction" method="findProInfo">
+			<result>/WEB-INF/shop/test/productListToShopCar.jsp</result>
+		</action>
+		<!--购物车action开始  商品添加到购物车 -->
+		<action name="putProToShopCar" class="shopCartAction" method="putProToShopCar">
+			<result>/WEB-INF/shop/test/productShopCar.jsp</result>
+		</action>
+		<!-- 删除购物车中某一件商品-->
+		<action name="deleteGoods" class="shopCartAction" method="deleteGoods">
+			<result>/WEB-INF/shop/test/productShopCar.jsp</result>
+		</action>
+		<!-- 购物车action结束-->
+
+		<!-- 密码修改测试 -->
+		<action name="updatePasswordCheck" class="proBrRecordAction" method="updatePasswordCheck"/>
+		<action name="updatePassword" class="proBrRecordAction" method="updatePassword"/>
+
+		<!-- 找回密码测试 -->
+		<action name="findUser" class="proBrRecordAction" method="findUser"/>
+		<action name="safeQuestion" class="proBrRecordAction" method="safeQuestion"/>
+		<action name="setNewPassword" class="proBrRecordAction" method="setNewPassword"/>
+
+		<!-- 前台用户注册测试 -->
+		<!-- 验证是否已经存在此用户 -->
+		<action name="customerCheck" class="proBrRecordAction" method="customerCheck"/>
+		<!-- 前台用户注册-->
+		<action name="customerRegister" class="proBrRecordAction" method="customerRegister"/>
+	</package>
+	<!-- 用户浏览商品历史记录end -->
+
+	<!-- 用户等级begin -->
+	   <package name="customerCredit" namespace="/back/customerCredit" extends="struts-default">
+		   <action name="gotoCustomerCreditPage" class="customerCreditAction" method="gotoCustomerCreditPage">
+	       		<result name="success">/WEB-INF/shop/customerCredit/customerCreditList.jsp</result>
+		   	</action>
+		   	<action name="saveOrUpdateCustomerCredit" class="customerCreditAction" method="saveOrUpdateCustomerCredit"/>
+		   	<action name="getCustomerCreditObject" class="customerCreditAction" method="getCustomerCreditObject"/>
+		   	<action name="listCustomerCredit" class="customerCreditAction" method="listCustomerCredit"/>
+		   	<action name="deleteCustomerCredit" class="customerCreditAction" method="deleteCustomerCredit"/>
+		   	<action name="uploadImage" class="customerCreditAction" method="uploadImage"/>
+	   </package>
+	<!-- 用户等级end -->
+
+	<!-- 安全认证begin -->
+	   <package name="safetyCertificate" namespace="/back/safetyCertificate" extends="struts-default">
+		   <action name="gotoSafetyCertificatePage" class="safetyCertificateAction" method="gotoSafetyCertificatePage">
+	       		<result name="success">/WEB-INF/shop/safetyCertificate/safetyCertificateList.jsp</result>
+		   	</action>
+		   	<action name="saveOrUpdateSafetyCertificate" class="safetyCertificateAction" method="saveOrUpdateSafetyCertificate"/>
+		   	<action name="getSafetyCertificateObject" class="safetyCertificateAction" method="getSafetyCertificateObject"/>
+		   	<action name="listSafetyCertificate" class="safetyCertificateAction" method="listSafetyCertificate"/>
+		   	<action name="deleteSafetyCertificate" class="safetyCertificateAction" method="deleteSafetyCertificate"/>
+	   </package>
+	<!-- 安全认证end -->
+
+	<!-- 首页右面模块展示分类begin -->
+	  <package name="rightShow" namespace="/back/rightShow" extends="struts-default">
+		   <action name="gotoRightShowTypePage" class="rightShowTypeAction" method="gotoRightShowTypePage">
+	       		<result name="success">/WEB-INF/shop/rightShow/rightShowTypeTree.jsp</result>
+		   	</action>
+		   	<action name="getNodes" class="rightShowTypeAction" method="getNodes"/>
+		   	<action name="saveOrUpdateRightShowType" class="rightShowTypeAction" method="saveOrUpdateRightShowType"/>
+		   	<action name="getRightShowTypeObject" class="rightShowTypeAction" method="getRightShowTypeObject"/>
+		   	<action name="deleteRightShowType" class="rightShowTypeAction" method="deleteRightShowType"/>
+
+			<!-- 首页右面模块展示信息begin -->
+		   <action name="gotoRightShowInfoPage" class="rightShowInfoAction" method="gotoRightShowInfoPage">
+	       		<result name="success">/WEB-INF/shop/rightShow/rightInfoPage.jsp</result>
+		   	</action>
+		   <action name="gotoRightShowInfoListPage" class="rightShowInfoAction" method="gotoRightShowInfoListPage">
+	       		<result name="product">/WEB-INF/shop/rightShow/rightShowProductInfoList.jsp</result>
+	       		<result name="brand">/WEB-INF/shop/rightShow/rightShowBrandInfoList.jsp</result>
+	       		<result name="kind">/WEB-INF/shop/rightShow/rightShowKindInfoList.jsp</result>
+		   	</action>
+		   	<action name="listRightShowBrandInfo" class="rightShowInfoAction" method="listRightShowBrandInfo"/>
+		   	<action name="listRightShowProductInfo" class="rightShowInfoAction" method="listRightShowProductInfo"/>
+		   	<action name="saveOrUpdateRightShowInfo" class="rightShowInfoAction" method="saveOrUpdateRightShowInfo">
+				<result name="product">/WEB-INF/shop/rightShow/rightShowProductInfoList.jsp</result>
+	       		<result name="brand">/WEB-INF/shop/rightShow/rightShowBrandInfoList.jsp</result>
+	       		<result name="kind">/WEB-INF/shop/rightShow/rightShowKindInfoList.jsp</result>
+		   	</action>
+		   	<action name="deleteRightShowInfo" class="rightShowInfoAction" method="deleteRightShowInfo"/>
+		   	<action name="productSplit" class="rightShowInfoAction" method="productSplit">
+		   		<result>/WEB-INF/shop/rightShow/addOrEditRSProduct.jsp</result>
+		   	</action>
+		   	<action name="findProducts" class="rightShowInfoAction" method="findProducts">
+		   		<result>/WEB-INF/shop/rightShow/productList.jsp</result>
+		   	</action>
+		   	<action name="leftShowTypeList" class="rightShowInfoAction" method="leftShowTypeList">
+		   		<result>/WEB-INF/shop/rightShow/leftShowTypeList.jsp</result>
+		   	</action>
+		   	<action name="getRightShowBrandObject" class="rightShowInfoAction" method="getRightShowBrandObject"/>
+		   	<action name="getRightShowInfoObject" class="rightShowInfoAction" method="getRightShowInfoObject"/>
+		   	<action name="listBrand" class="rightShowInfoAction" method="listBrand"/>
+		   	<action name="listProductInfo" class="rightShowInfoAction" method="listProductInfo"/>
+	   	</package>
+		<!-- 首页右面模块展示信息end -->
+	<!-- 首页右面模块展示分类end -->
+
+	<!-- 充值明细begin -->
+	   <package name="rechargeSheet" namespace="/back/rechargeSheet" extends="struts-default">
+		   <action name="gotoRechargeSheetPage" class="rechargeSheetAction" method="gotoRechargeSheetPage">
+	       		<result name="success">/WEB-INF/shop/rechargeSheet/rechargeSheetList.jsp</result>
+		   	</action>
+		   	<action name="saveOrUpdateRechargeSheet" class="rechargeSheetAction" method="saveOrUpdateRechargeSheet"/>
+		   	<action name="getRechargeSheetObject" class="rechargeSheetAction" method="getRechargeSheetObject"/>
+		   	<action name="listRechargeSheet" class="rechargeSheetAction" method="listRechargeSheet"/>
+		   	<action name="deleteRechargeSheet" class="rechargeSheetAction" method="deleteRechargeSheet"/>
+	   </package>
+	<!-- 充值明细end -->
+
+	<!-- 退换申请begin -->
+	   <package name="returnsApply" namespace="/back/returnsApply" extends="functionPurview">
+		   <action name="gotoReturnsApplyPage" class="returnsApplyAction" method="gotoReturnsApplyPage">
+		   		<interceptor-ref name="functionPurviewStack"/>
+	       		<result name="success">/WEB-INF/shop/returnsApply/returnsApplyList.jsp</result>
+		   	</action>
+		   	<action name="findordersByCustomerId" class="returnsApplyAction" method="findordersByCustomerId"/>
+		   	<action name="findOrdersListListByOrdersId" class="returnsApplyAction" method="findOrdersListListByOrdersId"/>
+		   	<action name="getProductInfoByProductId" class="returnsApplyAction" method="getProductInfoByProductId"/>
+		   	<action name="saveOrUpdateReturnsApply" class="returnsApplyAction" method="saveOrUpdateReturnsApply"/>
+		   	<action name="listReturnsApply" class="returnsApplyAction" method="listReturnsApply"/>
+		   	<action name="deleteReturnsApply" class="returnsApplyAction" method="deleteReturnsApply"/>
+		   	<action name="getReturnsApplyObject" class="returnsApplyAction" method="getReturnsApplyObject"/>
+		   	<action name="getReturnsApplyOPLogList" class="returnsApplyAction" method="getReturnsApplyOPLogList"/>
+	   </package>
+	<!-- 退换申请end -->
+
+	<!-- 退换申请操作日志begin -->
+	   <package name="returnsApplyOPLog" namespace="/back/returnsApplyOPLog" extends="functionPurview">
+		   <action name="gotoReturnsApplyOPLogPage" class="returnsApplyOPLogAction" method="gotoReturnsApplyOPLogPage">
+		    	<interceptor-ref name="functionPurviewStack"/>
+	       		<result name="success">/WEB-INF/shop/returnsApplyOPLog/returnsApplyOPLogList.jsp</result>
+		   	</action>
+		   	<action name="saveOrUpdateReturnsApplyOPLog" class="returnsApplyOPLogAction" method="saveOrUpdateReturnsApplyOPLog"/>
+		   	<action name="listReturnsApplyOPLog" class="returnsApplyOPLogAction" method="listReturnsApplyOPLog"/>
+		   	<action name="deleteReturnsApplyOPLog" class="returnsApplyOPLogAction" method="deleteReturnsApplyOPLog"/>
+		   	<action name="getReturnsApplyOPLogObject" class="returnsApplyOPLogAction" method="getReturnsApplyOPLogObject"/>
+	   </package>
+	<!-- 退换申请操作日志end -->
+
+	<!-- 导航条begin -->
+	   <package name="navigation" namespace="/back/navigation" extends="functionPurview">
+		   <action name="gotoNavigationPage" class="navigationAction" method="gotoNavigationPage">
+		  		<interceptor-ref name="functionPurviewStack"/>
+				<result>/WEB-INF/shop/navigation/navigationList.jsp</result>
+		   	</action>
+		   	<action name="listNavigation" class="navigationAction" method="listNavigation"/>
+		   	<action name="saveOrUpdateNavigation" class="navigationAction" method="saveOrUpdateNavigation"/>
+		   	<action name="deleteNavigation" class="navigationAction" method="deleteNavigation"/>
+		   	<action name="getNavigationObject" class="navigationAction" method="getNavigationObject"/>
+		   	<action name="checkNavigationName" class="navigationAction" method="checkNavigationName"/>
+	   </package>
+	<!-- 导航条end -->
+
+	  <!-- 积分兑换begin -->
+	  	<package name="integralexChange" namespace="/back/integralexChange" extends="struts-default">
+		   <action name="gotoIntegralexChangePage" class="integralexChangeAction" method="gotoIntegralexChangePage">
+	       		<result name="success">/WEB-INF/shop/integralexChange/integralexChangeList.jsp</result>
+		   	</action>
+		   <action name="listIntegralexChange" class="integralexChangeAction" method="listIntegralexChange"/>
+		   	<action name="saveOrUpdateIntegralexChange" class="integralexChangeAction" method="saveOrUpdateIntegralexChange"/>
+		   	<action name="getIntegralexChangeInfo" class="integralexChangeAction" method="getIntegralexChangeInfo"/>
+		   	<action name="deleteIntegralexChange" class="integralexChangeAction" method="deleteIntegralexChange"/>
+	   </package>
+	  <!-- 积分兑换end -->
+
+	  <!-- 收支明细begin -->
+	  	<package name="incomePayDetail" namespace="/back/incomePayDetail" extends="functionPurview">
+		   <action name="gotoIncomePayDetailPage" class="incomePayDetailAction" method="gotoIncomePayDetailPage">
+		   		<interceptor-ref name="functionPurviewStack"/>
+	       		<result name="success">/WEB-INF/shop/incomePayDetail/incomePayDetailList.jsp</result>
+		   	</action>
+		   <action name="listIncomePayDetail" class="incomePayDetailAction" method="listIncomePayDetail"/>
+		   	<action name="saveOrUpdateIncomePayDetail" class="incomePayDetailAction" method="saveOrUpdateIncomePayDetail"/>
+		   	<action name="getIncomePayDetailObject" class="incomePayDetailAction" method="getIncomePayDetailObject"/>
+		   	<action name="deleteIncomePayDetail" class="incomePayDetailAction" method="deleteIncomePayDetail"/>
+		   	<action name="exportXNBTXExcel" class="incomePayDetailAction" method="exportXNBTXExcel">
+		   		<result name="success" type="redirectAction">
+					<param name="namespace">/publicExport</param>
+					<param name="actionName">exportExcel</param>
+				</result>
+				<result name="error" >/error.jsp</result>
+		   	</action>
+	   </package>
+	  <!-- 收支明细end -->
+
+	  <!-- 发货详情begin -->
+	  	<package name="shipping" namespace="/back/shipping" extends="functionPurview">
+		   <action name="gotoShippingPage" class="shippingAction" method="gotoShippingPage">
+		   		<interceptor-ref name="functionPurviewStack"/>
+	       		<result name="success">/WEB-INF/shop/shipping/shippingList.jsp</result>
+		   	</action>
+		   <action name="listShipping" class="shippingAction" method="listShipping"/>
+		   <action name="saveOrUpdateShipping" class="shippingAction" method="saveOrUpdateShipping"/>
+		   <action name="getShippingObject" class="shippingAction" method="getShippingObject"/>
+		   <action name="deleteShipping" class="shippingAction" method="deleteShipping"/>
+	   </package>
+	  <!-- 发货详情end -->
+
+	  <!-- 前台begin -->
+	  	<package name="frontLogin" namespace="/back/frontLogin" extends="struts-default">
+		   <action name="login" class="loginAction" method="login"/>
+		   <action name="checkingCustomer" class="loginAction" method="checkingCustomer"/>
+		   <action name="register" class="loginAction" method="register"/>
+		   <action name="home" class="loginAction" method="home">
+		   		<result name="success">/shopFront/index.jsp</result>
+		   </action>
+		   <action name="queryProductInfo" class="loginAction" method="queryProductInfo">
+		   		<result name="success">/shopFront/spxiangqing.jsp</result>
+		   </action>
+		   <action name="tuanProductInfo" class="loginAction" method="tuanProductInfo">
+		   		<result name="success">/shopFront/tuangounieye.jsp</result>
+		   </action>
+		   <action name="tuangouhome" class="loginAction" method="tuangouhome">
+		   		<result name="success">/shopFront/tuangou.jsp</result>
+		   </action>
+	   </package>
+	  <!-- 前台end -->
+
+	  <!-- 前台订单begin -->
+	  	<package name="frontOrder" namespace="/back/frontOrder" extends="struts-default">
+	  		 <action name="checkOrder" class="frontOrderAction" method="checkOrder">
+	  		 	<result name="success">/shopFront/heduixinxi.jsp</result>
+	  		 </action>
+	  		 <action name="generateOrder" class="frontOrderAction" method="generateOrder">
+	  		 	<result name="success">/shopFront/chgtijiao.jsp</result>
+	  		 </action>
+	  		 <action name="ordersInfo" class="frontOrderAction" method="ordersInfo">
+	  		 	<result name="success">/shopFront/ddzhongxin.jsp</result>
+	  		 </action>
+	  	</package>
+	  <!-- 前台订单end -->
+	   <!-- 商品详细参数begin -->
+	  	<package name="productParameters" namespace="/back/productParameters" extends="functionPurview">
+	  		 <action name="gotoProductParametersPage" class="productParametersAction" method="gotoProductParametersPage">
+	  		 	<!-- 调用功能权限的拦截器 -->
+				<interceptor-ref name="functionPurviewStack"/>
+	  		 	<result name="success">/WEB-INF/shop/productParameters/productParametersList.jsp</result>
+	  		 </action>
+	  		 <action name="gotoProductParametersNewPage" class="productParametersAction" method="gotoProductParametersNewPage">
+	  		 	<result name="success">/WEB-INF/shop/productParameters/productParameters.jsp</result>
+	  		 </action>
+	  		 <action name="gotoProductParameters" class="productParametersAction" method="gotoProductParameters">
+	  		 	<!-- 调用功能权限的拦截器 -->
+				<interceptor-ref name="functionPurviewStack"/>
+	  		 	<result name="success">/WEB-INF/shop/productParameters/productParametersTypeList.jsp</result>
+	  		 </action>
+	  		 <action name="listProductParameters" class="productParametersAction" method="listProductParameters"/>
+	  		 <action name="saveOrUpdateProductParameters" class="productParametersAction" method="saveOrUpdateProductParameters"/>
+	  		 <action name="getPorductParametersInfo" class="productParametersAction" method="getPorductParametersInfo"/>
+	  		 <action name="deleteProductParameters" class="productParametersAction" method="deleteProductParameters"/>
+	  		 <action name="getPorductTypeName" class="productParametersAction" method="getPorductTypeName"/>
+	  		 <action name="getPorductTypeList" class="productParametersAction" method="getPorductTypeList"/>
+	  		 <action name="getPorductParameters" class="productParametersAction" method="getPorductParameters"/>
+	  	</package>
+	  <!-- 商品详细参数end -->
+
+	   <!-- 商品扩展属性begin -->
+	  	<package name="productAttribute" namespace="/back/productAttribute" extends="functionPurview">
+	  		 <action name="gotoProductAttribute" class="productAttributeAction" method="gotoProductAttribute">
+	  		 	<!-- 调用功能权限的拦截器 -->
+				<interceptor-ref name="functionPurviewStack"/>
+	  		 	<result name="success">/WEB-INF/shop/productAttribute/productAttributeTypeList.jsp</result>
+	  		 </action>
+	  		 <action name="checkName" class="productAttributeAction" method="checkName"/>
+	  		 <action name="findAllProductAttribute" class="productAttributeAction" method="findAllProductAttribute"/>
+	  		 <action name="findProductTypeList" class="productAttributeAction" method="findProductTypeList"/>
+	  		 <action name="saveOrUpdateProductAttr" class="productAttributeAction" method="saveOrUpdateProductAttr"/>
+	  		 <action name="deleteProductAttribute" class="productAttributeAction" method="deleteProductAttribute"/>
+	  		 <action name="getProductAttributeById" class="productAttributeAction" method="getProductAttributeById"/>
+	  		 <action name="gotoProductAttributeList" class="productAttributeAction" method="gotoProductAttributeList">
+				<interceptor-ref name="functionPurviewStack"/>
+	  		 	<result name="success">/WEB-INF/shop/productAttribute/productAttributeList.jsp</result>
+	  		 </action>
+	  	</package>
+	  <!-- 商品扩展属性end -->
+
+	 <!-- 店铺分类begin -->
+	   <package name="shopCategory" namespace="/back/shopCategory" extends="functionPurview">
+		   <action name="gotoShopCategoryPage" class="shopCategoryAction" method="gotoShopCategoryPage">
+	       		<!-- 调用功能权限的拦截器 -->
+			<interceptor-ref name="functionPurviewStack"/>
+	       		<result name="success">/WEB-INF/shop/shopCategory/shopCategoryList.jsp</result>
+		   	</action>
+		   <action name="gotoShopInfoPageByShopCategoryId" class="shopCategoryAction" method="gotoShopInfoPageByShopCategoryId">
+	       		<result name="success">/WEB-INF/shop/shopCategory/shopInfoList.jsp</result>
+		   	</action>
+		   	<action name="findShopInfoByShopCategoryId" class="shopCategoryAction" method="findShopInfoByShopCategoryId"/>
+		   	<action name="getNodes" class="shopCategoryAction" method="getNodes"/>
+		   	<action name="saveOrEditShopCategory" class="shopCategoryAction" method="saveOrEditShopCategory"/>
+		   	<action name="getShopCategoryObject" class="shopCategoryAction" method="getShopCategoryObject"/>
+		   	<action name="delShopCategory" class="shopCategoryAction" method="delShopCategory"/>
+		   	<action name="findShopCategoryList" class="shopCategoryAction" method="findShopCategoryList"/>
+	   </package>
+	 <!-- 店铺分类end -->
+
+	 <!-- 店铺内部商品分类begin -->
+	   <package name="shopProCategory" namespace="/back/shopProCategory" extends="functionPurview">
+		   <action name="gotoShopProCategoryPage" class="shopProCategoryAction" method="gotoShopProCategoryPage">
+	       		<result name="success">/WEB-INF/shop/shopProCategory/shopProCategoryList.jsp</result>
+		   	</action>
+		   <action name="gotoShopProCategory" class="shopProCategoryAction" method="gotoShopProCategory">
+	       		<interceptor-ref name="functionPurviewStack"/>
+	       		<result name="success">/WEB-INF/shop/shopProCategory/ruZhuShopProCategoryList.jsp</result>
+		   	</action>
+
+		   	<action name="getNodes" class="shopProCategoryAction" method="getNodes"/>
+		   	<action name="saveOrEditShopProCategory" class="shopProCategoryAction" method="saveOrEditShopProCategory"/>
+		   	<action name="getShopProCategoryObject" class="shopProCategoryAction" method="getShopProCategoryObject"/>
+		   	<action name="delShopProCategory" class="shopProCategoryAction" method="delShopProCategory"/>
+	   </package>
+	 <!-- 店铺内部商品分类end -->
+
+	 <!-- 店铺信息begin -->
+	  	<package name="shopinfo" namespace="/back/shopinfo" extends="functionPurview">
+	  		 <action name="gotoShopInfoPage" class="shopInfoAction" method="gotoShopInfoPage">
+	  		 	<interceptor-ref name="functionPurviewStack"/>
+	  		 	<result name="success">/WEB-INF/shop/shopinfo/shopInfoList.jsp</result>
+	  		 </action>
+	  		 <action name="listShopInfo" class="shopInfoAction" method="listShopInfo"/>
+	  		 <action name="uploadImage" class="shopInfoAction" method="uploadImage"/>
+	  		 <action name="deleteShopInfo" class="shopInfoAction" method="deleteShopInfo"/>
+	  		 <action name="getShopInfoById" class="shopInfoAction" method="getShopInfoById"/>
+	  		 <action name="saveOrUpdateShopInfo" class="shopInfoAction" method="saveOrUpdateShopInfo"/>
+	  		 <action name="selectCountry" class="shopInfoAction" method="selectCountry"/>
+	  		 <action name="saveOrUpdateIsCloss" class="shopInfoAction" method="saveOrUpdateIsCloss"/>
+	  		  <action name="saveOrUpdateIsVip" class="shopInfoAction" method="saveOrUpdateIsVip"/>
+	  		  <action name="shopInfoGeneratedQrCode" class="shopInfoAction" method="shopInfoGeneratedQrCode"/>
+	  	</package>
+	  <!-- 店铺信息end -->
+
+	 <!-- 自营店铺begin -->
+	 	<package name="selfSupportShopInfo" namespace="/back/selfSupportShopInfo" extends="functionPurview">
+	 		<action name="gotoShopInfoPage" class="selfSupportShopInfoAction" method="gotoShopInfoPage">
+	  		 	<interceptor-ref name="functionPurviewStack"/>
+	  		 	<result name="success">/WEB-INF/shop/selfSupportShopInfo/shopInfoList.jsp</result>
+	  		 </action>
+	 		<action name="gotoSelfSupportCustomerService" class="selfSupportShopInfoAction" method="gotoSelfSupportCustomerService">
+	  		 	<interceptor-ref name="functionPurviewStack"/>
+	  		 	<result name="success">/WEB-INF/shop/selfSupportCustomerService/listShopCustomerService.jsp</result>
+	  		 </action>
+	  		 <action name="listShopInfo" class="selfSupportShopInfoAction" method="listShopInfo"/>
+	  		 <action name="uploadImage" class="selfSupportShopInfoAction" method="uploadImage"/>
+	  		 <action name="deleteShopInfo" class="selfSupportShopInfoAction" method="deleteShopInfo"/>
+	  		 <action name="getShopInfoById" class="selfSupportShopInfoAction" method="getShopInfoById"/>
+	  		 <action name="saveOrUpdateShopInfo" class="selfSupportShopInfoAction" method="saveOrUpdateShopInfo"/>
+	  		 <action name="saveOrUpdateEnterprise" class="selfSupportShopInfoAction" method="saveOrUpdateEnterprise"/>
+	  		 <action name="selectCountry" class="selfSupportShopInfoAction" method="selectCountry"/>
+	  		 <action name="saveOrUpdateIsCloss" class="selfSupportShopInfoAction" method="saveOrUpdateIsCloss"/>
+	  		  <action name="saveOrUpdateIsVip" class="selfSupportShopInfoAction" method="saveOrUpdateIsVip"/>
+	  		  <action name="shopInfoGeneratedQrCode" class="selfSupportShopInfoAction" method="shopInfoGeneratedQrCode"/>
+	 	</package>
+	 <!-- 自营店铺end -->
+
+	 <!-- 自营店铺内部分类begin -->
+	 <package name="selfSupportShopProCategory" namespace="/back/selfSupportShopProCategory" extends="functionPurview">
+	 	<action name="gotoSelfSupportShopProCategory" class="selfSupportShopProCategoryAction" method="gotoSelfSupportShopProCategory">
+	 		<interceptor-ref name="functionPurviewStack"/>
+	 		<result name="success">/WEB-INF/shop/selfSupportShopProCategory/selfSupportShopProCategoryList.jsp</result>
+	 	</action>
+	 	<action name="gotoSelfSupportShopInfo" class="selfSupportShopProCategoryAction" method="gotoSelfSupportShopInfo">
+	 		<interceptor-ref name="functionPurviewStack"/>
+	 		<result name="success">/WEB-INF/shop/selfSupportShopInfo/shopInfoList.jsp</result>
+	 	</action>
+	 	<action name="uploadImage" class="selfSupportShopProCategoryAction" method="uploadImage"></action>
+	 	<action name="getSelfSupportShopProCategoryList" class="selfSupportShopProCategoryAction" method="getSelfSupportShopProCategoryList"></action>
+	 	<action name="getObjectById" class="selfSupportShopProCategoryAction" method="getObjectById"></action>
+	 	<action name="deleteSelfSupportShopProCategpry" class="selfSupportShopProCategoryAction" method="deleteSelfSupportShopProCategpry"></action>
+	 	<action name="saveOrUpdateShopOriCategory" class="selfSupportShopProCategoryAction" method="saveOrUpdateShopOriCategory"></action>
+	 </package>
+	 <!-- 自营店铺内部分类end -->
+
+	 <!-- 商品规格begin -->
+	   <package name="specification" namespace="/back/specification" extends="functionPurview">
+		   <action name="gotoSpecificationPage" class="specificationAction" method="gotoSpecificationPage">
+		  		<interceptor-ref name="functionPurviewStack"/>
+	       		<result name="success">/WEB-INF/shop/specification/specificationList.jsp</result>
+		   	</action>
+		   <action name="gotoSpecificationTree" class="specificationAction" method="gotoSpecificationTree">
+		  		<interceptor-ref name="functionPurviewStack"/>
+	       		<result name="success">/WEB-INF/shop/specificationByType/specificationTree.jsp</result>
+		   	</action>
+		   <action name="findSpecificationValueListBySpecificationId" class="specificationAction" method="findSpecificationValueListBySpecificationId">
+	       		<result name="success">/WEB-INF/shop/specificationValue/specificationValueListBySpecificationId.jsp</result>
+		   	</action>
+		   	<action name="listSpecification" class="specificationAction" method="listSpecification"/>
+		   	<action name="listSpecificationValueListBySpecificationId" class="specificationAction" method="listSpecificationValueListBySpecificationId"/>
+		   	<action name="saveOrUpdateSpecification" class="specificationAction" method="saveOrUpdateSpecification"/>
+		   	<action name="getSpecificationInfo" class="specificationAction" method="getSpecificationInfo"/>
+		   	<action name="getPorductTypeList" class="specificationAction" method="getPorductTypeList"/>
+		   	<action name="deleteSpecification" class="specificationAction" method="deleteSpecification"/>
+		   	<action name="uploadImage" class="specificationAction" method="uploadImage"/>
+		   	<action name="findProductTypeListByParentId" class="specificationAction" method="findProductTypeListByParentId"/>
+		   	<action name="gotoTestPage" class="specificationAction" method="gotoTestPage">
+		   		<result name="success">/WEB-INF/shop/specification/test1.jsp</result>
+		   	</action>
+		   	<action name="findSpecificationByProductTypeId" class="specificationAction" method="findSpecificationByProductTypeId">
+		   		<result name="success">/WEB-INF/shop/specification/test.jsp</result>
+		   	</action>
+	   </package>
+	   <package name="specificationTree" namespace="/back/specificationTree" extends="functionPurview">
+		   <action name="gotoSpecificationTreePage" class="specificationTreeAction" method="gotoSpecificationTreePage">
+		  		<interceptor-ref name="functionPurviewStack"/>
+	       		<result name="success">/WEB-INF/shop/specificationByType/specificationList.jsp</result>
+		   	</action>
+		   <action name="gotoSpecificationTree" class="specificationTreeAction" method="gotoSpecificationTree">
+		  		<interceptor-ref name="functionPurviewStack"/>
+	       		<result name="success">/WEB-INF/shop/specificationByType/specificationTreeTypeList.jsp</result>
+		   	</action>
+		   	<action name="listSpecification" class="specificationTreeAction" method="listSpecification"/>
+	   </package>
+	 <!-- 商品规格end -->
+
+	 <!-- 商品规格值begin -->
+	   <package name="specificationValue" namespace="/back/specificationValue" extends="functionPurview">
+		   <action name="gotoSpecificationValuePage" class="specificationValueAction" method="gotoSpecificationValuePage">
+				<interceptor-ref name="functionPurviewStack"/>
+	       		<result name="success">/WEB-INF/shop/specificationValue/specificationValueList.jsp</result>
+		   	</action>
+		   	<action name="listSpecificationValue" class="specificationValueAction" method="listSpecificationValue"/>
+		   	<action name="saveOrUpdateSpecificationValue" class="specificationValueAction" method="saveOrUpdateSpecificationValue"/>
+		   	<action name="getSpecificationValueInfo" class="specificationValueAction" method="getSpecificationValueInfo"/>
+		   	<action name="deleteSpecificationValue" class="specificationValueAction" method="deleteSpecificationValue"/>
+		   	<action name="uploadImage" class="specificationValueAction" method="uploadImage"/>
+	   </package>
+	 <!-- 商品规格值end -->
+
+	 <!-- 店铺商品begin -->
+	  	<package name="shopProduct" namespace="/back/shopProduct" extends="struts-default">
+	  		 <action name="gotoProductListByShopInfoPage" class="shopProAction" method="gotoProductListByShopInfoPage">
+	  		 	<result name="success">/WEB-INF/shop/shopProduct/productListByShopProductId.jsp</result>
+	  		 </action>
+	  		 <action name="gotoSelfSupportProductListByShopInfoPage" class="shopProAction" method="gotoSelfSupportProductListByShopInfoPage">
+	  		 	<result name="success">/WEB-INF/shop/shopProduct/selfSupPortproductListByShopProductId.jsp</result>
+	  		 </action>
+	  		 <action name="findProductListByShopInfoId" class="shopProAction" method="findProductListByShopInfoId"/>
+	  		 <action name="saveOrUpdateShopProduct" class="shopProAction" method="saveOrUpdateShopProduct"/>
+	  		 <action name="deleteShopProduct" class="shopProAction" method="deleteShopProduct"/>
+	  		 <action name="listProductInfo" class="shopProAction" method="listProductInfo"/>
+	  	</package>
+	  <!-- 店铺商品end -->
+
+	  <!-- 购物车begin -->
+	  	<package name="shoppingCart" namespace="/back/shoppingCart" extends="struts-default">
+	  		 <action name="gotoShoppingCartPage" class="shoppingCartAction" method="gotoShoppingCartPage">
+	  		 	<result name="success">/WEB-INF/shop/shoppingCart/shoppingCartList.jsp</result>
+	  		 </action>
+	  		 <action name="findProductListByShopInfoId" class="shoppingCartAction" method="findProductListByShopInfoId"/>
+	  		 <action name="listShoppingCart" class="shoppingCartAction" method="listShoppingCart"/>
+	  		 <action name="saveOrUpdateShoppingCart" class="shoppingCartAction" method="saveOrUpdateShoppingCart"/>
+	  		 <action name="getShoppingCartInfo" class="shoppingCartAction" method="getShoppingCartInfo"/>
+	  		 <action name="deleteShoppingCart" class="shoppingCartAction" method="deleteShoppingCart"/>
+	  	</package>
+	  <!-- 购物车end -->
+
+	  <!-- SEO begin -->
+	  	<package name="shopseo" namespace="/back/shopseo" extends="functionPurview">
+	  		 <action name="gotoShopSeoPage" class="shopSeoAction" method="gotoShopSeoPage">
+	  			 <interceptor-ref name="functionPurviewStack"/>
+	  		 	<result name="success">/WEB-INF/shop/seo/seoList.jsp</result>
+	  		 </action>
+	  		 <action name="listShopSeo" class="shopSeoAction" method="listShopSeo"/>
+	  		 <action name="saveOrUpdateShopSeo" class="shopSeoAction" method="saveOrUpdateShopSeo"/>
+	  		 <action name="getShopseoObject" class="shopSeoAction" method="getShopseoObject"/>
+	  		 <action name="deleteShopseo" class="shopSeoAction" method="deleteShopseo"/>
+	  	</package>
+	  <!-- SEO end -->
+
+	  <!-- 会员投诉begin -->
+	  	<package name="customerComplaint" namespace="/back/customerComplaint" extends="struts-default">
+	  		 <action name="gotoCustomerComplaintPage" class="customerComplaintAction" method="gotoCustomerComplaintPage">
+	  		 	<result name="success">/WEB-INF/shop/customerComplaint/listCustomerComplaint.jsp</result>
+	  		 </action>
+	  		 <action name="saveOrUpdateCustomerComplaint" class="customerComplaintAction" method="saveOrUpdateCustomerComplaint"/>
+	  		 <action name="listCustomerComplaint" class="customerComplaintAction" method="listCustomerComplaint"/>
+	  		 <action name="getCustomerComplaintObject" class="customerComplaintAction" method="getCustomerComplaintObject"/>
+	  		 <action name="deleteCustomerComplaint" class="customerComplaintAction" method="deleteCustomerComplaint"/>
+	  	</package>
+	  <!-- 会员投诉end -->
+
+	   <!-- 前台中间部分分类begin -->
+	  	<package name="prosceniumCategory" namespace="/back/prosceniumCategory" extends="functionPurview">
+	  		 <action name="gotoProsceniumCategoryPage" class="prosceniumCategoryAction" method="gotoProsceniumCategoryPage">
+	  			 <interceptor-ref name="functionPurviewStack"/>
+	  		 	<result name="success">/WEB-INF/shop/prosceniumCategory/prosceniumCategoryList.jsp</result>
+	  		 </action>
+	  		 <action name="listProsceniumCategory" class="prosceniumCategoryAction" method="listProsceniumCategory"/>
+	  		 <action name="saveOrUpdateProsceniumCategory" class="prosceniumCategoryAction" method="saveOrUpdateProsceniumCategory"/>
+	  		 <action name="deleteProsceniumCategory" class="prosceniumCategoryAction" method="deleteProsceniumCategory"/>
+	  		 <action name="getProsceniumCategoryInfo" class="prosceniumCategoryAction" method="getProsceniumCategoryInfo"/>
+	  		 <action name="uploadImage" class="prosceniumCategoryAction" method="uploadImage"/>
+	  		 <action name="findProductType" class="prosceniumCategoryAction" method="findProductType"/>
+	  	</package>
+	  <!-- 前台中间部分分类end -->
+
+	   <!-- 前台图片轮播begin -->
+	  	<package name="broadcasting" namespace="/back/broadcasting" extends="functionPurview">
+	  		 <action name="gotoBroadcastingPage" class="broadcastingAction" method="gotoBroadcastingPage">
+	  		 	<!-- 调用功能权限的拦截器 -->
+				<interceptor-ref name="functionPurviewStack"/>
+	  		 	<result name="success">/WEB-INF/shop/broadcasting/listBroadcasting.jsp</result>
+	  		 </action>
+	  		 <action name="listBroadcasting" class="broadcastingAction" method="listBroadcasting"/>
+	  		 <action name="saveOrUpdateBroadcasting" class="broadcastingAction" method="saveOrUpdateBroadcasting"/>
+	  		 <action name="getBroadcastingInfo" class="broadcastingAction" method="getBroadcastingInfo"/>
+	  		 <action name="deleteBroadcasting" class="broadcastingAction" method="deleteBroadcasting"/>
+	  		 <action name="uploadImage" class="broadcastingAction" method="uploadImage"/>
+	  	</package>
+	  <!-- 前台图片轮播end -->
+
+	   <!-- 商品图片begin -->
+	  	<package name="productImg" namespace="/back/productImg" extends="struts-default">
+	  		 <action name="uploadImage" class="productImgAction" method="uploadImage"></action>
+	  	</package>
+	  <!-- 商品图片end -->
+
+	   <!-- 地区信息begin -->
+	  	<package name="districtInfo" namespace="/back/districtInfo" extends="struts-default">
+	  		 <action name="gotoDistrictInfoPage" class="districtInfoAction" method="gotoDistrictInfoPage">
+	  		 	<result name="success">/WEB-INF/shop/districtInfo/listDistrictInfo.jsp</result>
+	  		 </action>
+	  		 <action name="getNodes" class="districtInfoAction" method="getNodes"/>
+	  		 <action name="saveOrEditDistrictInfo" class="districtInfoAction" method="saveOrEditDistrictInfo"/>
+	  		 <action name="getDistrictInfoObject" class="districtInfoAction" method="getDistrictInfoObject"/>
+	  		 <action name="delDistrictInfo" class="districtInfoAction" method="delDistrictInfo"/>
+	  	</package>
+	  <!-- 地区信息begin -->
+
+	    <!--商品图片展示配置begin -->
+	  <package name="deployShowPhoto" namespace="/back/deployShowPhoto" extends="struts-default">
+	 	<action name="gotoDeployShowPhotoPage" class="deployShowPhotoAction" method="gotoDeployShowPhotoPage">
+	 		<result>/WEB-INF/shop/DeployShowPhoto/DeployShowPhotoList.jsp</result>
+	 	</action>
+	 	<action name="listDeployShowPhoto" class="deployShowPhotoAction" method="listDeployShowPhoto"></action>
+	 	<action name="saveOrUpdateDeployShowPhoto" class="deployShowPhotoAction" method="saveOrUpdateDeployShowPhoto"></action>
+	 	<action name="getDeployShowPhotoInfo" class="deployShowPhotoAction" method="getDeployShowPhotoInfo"></action>
+	 	<action name="deleteDeployShowPhoto" class="deployShowPhotoAction" method="deleteDeployShowPhoto"></action>
+	 </package>
+	 <!-- 商品图片展示配置end -->
+
+	    <!--店铺品牌关联表begin -->
+	  <package name="shopBrand" namespace="/back/shopBrand" extends="functionPurview">
+	 	<action name="gotoShopBrandPage" class="shopBrandAction" method="gotoShopBrandPage">
+	 		<interceptor-ref name="functionPurviewStack"/>
+	 		<result>/WEB-INF/shop/shopbrand/shopBrandList.jsp</result>
+	 	</action>
+ 	 	<action name="listShopBrand" class="shopBrandAction" method="listShopBrand"></action>
+	 	<action name="save" class="shopBrandAction" method="save"></action>
+ 	 	<action name="delete" class="shopBrandAction" method="delete"></action>
+ 	 	<action name="findShopBrand" class="shopBrandAction" method="findShopBrand"></action>
+	 </package>
+	 <!-- 店铺品牌关联表end -->
+	 <!--查看用户评价begin -->
+	  <package name="evalGoods" namespace="/back/evalGoods" extends="functionPurview">
+	  	<action name="listEvalGoods" class="customerEvaluateGoodsAction" method="listEvalGoods"></action>
+	 	<action name="gotoEvaluateGoods" class="customerEvaluateGoodsAction" method="gotoEvaluateGoods">
+	 	<!-- 调用功能权限的拦截器 -->
+			<interceptor-ref name="functionPurviewStack"/>
+	 		<result>/WEB-INF/shop/customerEvaluateGoods/evaluateGoodsList.jsp</result>
+	 	</action>
+	  	<action name="listEvalGoodsByProductId" class="customerEvaluateGoodsAction" method="listEvalGoodsByProductId"></action>
+	 	<action name="gotoProEvaluateGoods" class="customerEvaluateGoodsAction" method="gotoProEvaluateGoods">
+	 		<result>/WEB-INF/shop/productinfo/evaluateGoodsList.jsp</result>
+	 	</action>
+ 	 	<action name="updateContentAndEvaluateState" class="customerEvaluateGoodsAction" method="updateContentAndEvaluateState"></action>
+ 	 	<action name="getEvaluateGoods" class="customerEvaluateGoodsAction" method="getEvaluateGoods"></action>
+	 </package>
+	 <!-- 查看用户评价end -->
+	 <!--金币begin -->
+	  <package name="virtualCoin" namespace="/back/virtualCoin" extends="struts-default">
+	 	<action name="gotoVirtualCoin" class="virtualCoinAction" method="gotoVirtualCoin">
+	 		<result>/WEB-INF/shop/virtualCoin/virtualCoinList.jsp</result>
+	 	</action>
+	 	<action name="virtualCoinList" class="virtualCoinAction" method="virtualCoinList">
+	 	</action>
+	 	<action name="getVirtualCoinById" class="virtualCoinAction" method="getVirtualCoinById">
+	 	</action>
+	 </package>
+	 <!-- 金币end -->
+	<!-- 前后台通用校验 begin -->
+	<package name="check" namespace="/shop/check" extends="struts-default">
+		<action name="checkPhone" class="checkAction" method="checkPhone"></action>
+		<action name="checkEmail" class="checkAction" method="checkEmail"></action>
+	</package>
+	<!-- 前后台通用校验 end -->
+
+	 <!-- 每日推荐模块begin -->
+    <package name="dayRecommendLBT" namespace="/back/dayRecommend" extends="functionPurview">
+  	  <!-- 每日推荐轮播图 -->
+			  <action name="gotoDayRecommendLBTPage" class="dayRecommendLBTAction" method="gotoDayRecommendLBTPage">
+			        <!-- 调用功能权限的拦截器 -->
+			        <interceptor-ref name="functionPurviewStack"/>
+		  		 	<result name="success">/WEB-INF/shop/dayRecommend/listDayRecommendLBT.jsp</result>
+		 	   </action>
+			   <action name="listDayRecommendLBT" class="dayRecommendLBTAction" method="listDayRecommendLBT"/>
+			   <action name="saveOrUpdateDayRecommendLBT" class="dayRecommendLBTAction" method="saveOrUpdateDayRecommendLBT"/>
+			   <action name="getDayRecommendLBTInfo" class="dayRecommendLBTAction" method="getDayRecommendLBTInfo"/>
+			   <action name="deleteDayRecommendLBT" class="dayRecommendLBTAction" method="deleteDayRecommendLBT"/>
+			   <action name="uploadImage" class="dayRecommendLBTAction" method="uploadImage">
+			   </action>
+			   <!-- 每日推荐 -->
+			   <action name="gotoDayRecommendPage" class="dayRecommendAction" method="gotoDayRecommendPage">
+			        <!-- 调用功能权限的拦截器 -->
+			        <interceptor-ref name="functionPurviewStack"/>
+		  		 	<result name="success">/WEB-INF/shop/dayRecommend/listDayRecommend.jsp</result>
+		 	   </action>
+			   <action name="listDayRecommend" class="dayRecommendAction" method="listDayRecommend"/>
+			   <action name="saveOrUpdateDayRecommend" class="dayRecommendAction" method="saveOrUpdateDayRecommend"/>
+			   <action name="getDayRecommendInfo" class="dayRecommendAction" method="getDayRecommendInfo"/>
+			   <action name="deleteDayRecommend" class="dayRecommendAction" method="deleteDayRecommend"/>
+			   <action name="listProductByType" class="dayRecommendAction" method="listProductByType"/>
+   </package>
+   <!-- 每日推荐模块end -->
+   <!-- 邮件订阅begin -->
+   <package name="mailSubscribeAction" namespace="/back/mailSubscribe" extends="struts-default">
+   		<action name="gotoMailSubscribeInfoPage" class="mailSubscribeAction" method="gotoMailSubscribeInfoPage">
+   			<result name="success">/WEB-INF/shop/mailSubscribe/mailSubscribeList.jsp</result>
+   		</action>
+   		<action name="listMailSubscribes" class="mailSubscribeAction"	method="listMailSubscribes"></action>
+   		<action name="saveOrUpdateMailSubscribe" class="mailSubscribeAction" method="saveOrUpdateMailSubscribe"></action>
+   		<action name="deleteMailSubscribe" class="mailSubscribeAction" method="deleteMailSubscribe"></action>
+   		<action name="getMailSubscribeObject" class="mailSubscribeAction" method="getMailSubscribeObject"></action>
+   		<action name="listCustomer" class="mailSubscribeAction" method="listCustomer"></action>
+   		<action name="sendMail" class="mailSubscribeAction" method="sendMail"></action>
+   </package>
+   <!-- 邮件订阅end -->
+
+   <!-- 首页轮播图begin -->
+	 <package name="homeLBT" namespace="/back/homeLBT" extends="functionPurview">
+	 	<action name="gotoHomeLBTPage" class="homeLBTAction" method="gotoHomeLBTPage">
+	 	    <!-- 调用功能权限的拦截器 -->
+			<interceptor-ref name="functionPurviewStack"/>
+	 		<result>/WEB-INF/shop/homeLBT/listHomeLBT.jsp</result>
+	 	</action>
+	 	<action name="gotoIndexLBTPage" class="homeLBTAction" method="gotoIndexLBTPage">
+	 		<result>/WEB-INF/shop/front/homeModule/indexLBT.jsp</result>
+	 	</action>
+	 	<action name="listHomeLBT" class="homeLBTAction" method="listHomeLBT"/>
+	 	<action name="getHomeLBTObject" class="homeLBTAction" method="getHomeLBTObject"/>
+	 	<action name="saveOrUpdateHomeLBT" class="homeLBTAction" method="saveOrUpdateHomeLBT"/>
+	 	<action name="deleteHomeLBT" class="homeLBTAction" method="deleteHomeLBT"/>
+	 	<action name="uploadImage" class="homeLBTAction" method="uploadImage"/>
+	 	<action name="showImage" class="homeLBTAction" method="showImage"/>
+	 </package>
+	 <!-- 首页轮播图end -->
+	 <!-- 首页广告位begin -->
+	 <package name="homeAdvertisement" namespace="/back/homeAdvertisement" extends="functionPurview">
+	 	<action name="gotoHomeAdvertisementPage" class="homeAdvertisementAction" method="gotoHomeAdvertisementPage">
+	 		<result>/WEB-INF/shop/homeAdvertisement/listHomeAdvertisement.jsp</result>
+	 	</action>
+	 	<action name="gotoIndexAdvertisementPage" class="homeAdvertisementAction" method="gotoIndexAdvertisementPage">
+	 		<result>/WEB-INF/shop/front/homeModule/indexLBT.jsp</result>
+	 	</action>
+	 	<action name="listHomeAdvertisement" class="homeAdvertisementAction" method="listHomeAdvertisement"/>
+	 	<action name="getHomeAdvertisementObject" class="homeAdvertisementAction" method="getHomeAdvertisementObject"/>
+	 	<action name="saveOrUpdateHomeAdvertisement" class="homeAdvertisementAction" method="saveOrUpdateHomeAdvertisement"/>
+	 	<action name="deleteHomeAdvertisement" class="homeAdvertisementAction" method="deleteHomeAdvertisement"/>
+	 	<action name="uploadImage" class="homeAdvertisementAction" method="uploadImage"/>
+	 </package>
+	 <!-- 首页广告位end -->
+	 <!-- 首页特别商品begin -->
+	 <package name="homeParticularlyTab" namespace="/back/homeParticularlyTab" extends="functionPurview">
+	 	<action name="gotoHomeParticularlyTabPage" class="homeParticularlyTabAction" method="gotoHomeParticularlyTabPage">
+	 		<result>/WEB-INF/shop/homeParticularlyTab/listHomeParticularlyTab.jsp</result>
+	 	</action>
+	 	<action name="listHomeParticularlyTab" class="homeParticularlyTabAction" method="listHomeParticularlyTab"/>
+	 	<action name="getHomeParticularlyTabObject" class="homeParticularlyTabAction" method="getHomeParticularlyTabObject"/>
+	 	<action name="saveOrUpdateHomeParticularlyTab" class="homeParticularlyTabAction" method="saveOrUpdateHomeParticularlyTab"/>
+	 	<action name="deleteHomeParticularlyTab" class="homeParticularlyTabAction" method="deleteHomeParticularlyTab"/>
+	 	<action name="uploadImage" class="homeParticularlyTabAction" method="uploadImage"/>
+	 </package>
+	 <!-- 首页特别商品end -->
+	 <!-- 首页数据字典begin -->
+	 <package name="homeKeyBook" namespace="/back/homeKeyBook" extends="functionPurview">
+	 	<action name="gotoHomeKeyBookPage" class="homeKeyBookAction" method="gotoHomeKeyBookPage">
+	 		<interceptor-ref name="functionPurviewStack"/>
+	 		<result>/WEB-INF/basic/homeKeyBook/homeKeyBookList.jsp</result>
+	 	</action>
+	 	<action name="gotoPlatformServPage" class="homeKeyBookAction" method="gotoPlatformServPage">
+	 		<result>/WEB-INF/basic/platformService/platformServiceList.jsp</result>
+	 	</action>
+	 	<action name="listHomeKeyBook" class="homeKeyBookAction" method="listHomeKeyBook" />
+	 	<action name="listPlatformServ" class="homeKeyBookAction" method="listPlatformServ" />
+	 	<action name="saveOrUpdateHomeKeyBook" class="homeKeyBookAction" method="saveOrUpdateHomeKeyBook" />
+	 	<action name="getHomeKeyBookInfo" class="homeKeyBookAction" method="getHomeKeyBookInfo" />
+	 	<action name="deleteHomeKeyBook" class="homeKeyBookAction" method="deleteHomeKeyBook" />
+	 	<action name="updateInServletContextHomeKeyBook" class="homeKeyBookAction" method="updateInServletContextHomeKeyBook" />
+	 </package>
+	 <!-- 首页数据字典end -->
+
+	 <!-- 首页中间分类 begin -->
+	 <package name="backShopHomeMiddleCategory" namespace="/back/shopHomeMiddleCategory" extends="struts-default">
+	  		   <!-- 树的维护 -->
+	 	   <action name="gotoShopHomeMiddleCategoryTree" class="shopHomeMiddleCategoryAction" method="gotoShopHomeMiddleCategoryTree">
+		     <result name="success">/WEB-INF/shop/shopHomeMiddleCategory/shopHomeMiddleCategoryTree.jsp</result>
+		   </action>
+	  		   <!-- 点击树维护列表信息 -->
+	 	   <action name="gotoShopHomeMiddleCategoryTablePage" class="shopHomeMiddleCategoryAction" method="gotoShopHomeMiddleCategoryTablePage">
+		     <result name="success">/WEB-INF/shop/shopHomeMiddleCategory/shopHomeMiddleCategoryTree_listLink.jsp</result>
+		   </action>
+		   <action name="getShopHomeMiddleCategoryObj" class="shopHomeMiddleCategoryAction" method="getShopHomeMiddleCategoryObj"></action>
+		   <action name="getNodes" class="shopHomeMiddleCategoryAction" method="getNodes"></action>
+		   <action name="saveOrEditShopHomeMiddleCategory" class="shopHomeMiddleCategoryAction" method="saveOrEditShopHomeMiddleCategory"></action>
+		   <action name="delShopHomeMiddleCategory" class="shopHomeMiddleCategoryAction" method="delShopHomeMiddleCategory"></action>
+	 </package>
+	 <!-- 首页中间分类 end -->
+
+	 <!-- 首页中间分类两侧维护 begin -->
+	 <package name="backShopHomeMiddleCategoryBilateral" namespace="/back/shopHomeMiddleCategoryBilateral" extends="functionPurview">
+	 	   <action name="gotoShopHomeMiddleCategoryBilateralPage" class="shopHomeMiddleCategoryBilateralAction" method="gotoShopHomeMiddleCategoryBilateralPage">
+		     <result name="success">/WEB-INF/shop/shopHomeMiddleCategoryBilateral/bilateralList.jsp</result>
+		   </action>
+		   <action name="listShopHomeMiddleCategoryBilateral" class="shopHomeMiddleCategoryBilateralAction" method="listShopHomeMiddleCategoryBilateral"></action>
+		   <action name="uploadImage" class="shopHomeMiddleCategoryBilateralAction" method="uploadImage"></action>
+		   <action name="saveOrUpdateShopHomeMiddleCategoryBilateral" class="shopHomeMiddleCategoryBilateralAction" method="saveOrUpdateShopHomeMiddleCategoryBilateral"></action>
+		   <action name="getShopHomeMiddleCategoryBilateralObj" class="shopHomeMiddleCategoryBilateralAction" method="getShopHomeMiddleCategoryBilateralObj"></action>
+		   <action name="deleteByIds" class="shopHomeMiddleCategoryBilateralAction" method="deleteByIds"></action>
+	 </package>
+	 <!-- 首页中间分类两侧维护 end -->
+
+	 <!-- 首页中间分类tab维护 begin -->
+	 <package name="backShopHomeMiddleCategoryTAB" namespace="/back/shopHomeMiddleCategoryTAB" extends="functionPurview">
+	 	   <action name="gotoShopHomeMiddleCategoryTABPage" class="shopHomeMiddleCategoryTABAction" method="gotoShopHomeMiddleCategoryTABPage">
+		     <result name="success">/WEB-INF/shop/shopHomeMiddleCategoryTAB/categoryTABList.jsp</result>
+		   </action>
+		   <action name="listShopHomeMiddleCategoryTAB" class="shopHomeMiddleCategoryTABAction" method="listShopHomeMiddleCategoryTAB"></action>
+		   <action name="uploadImage" class="shopHomeMiddleCategoryTABAction" method="uploadImage"></action>
+		   <action name="saveOrUpdateShopHomeMiddleCategoryTAB" class="shopHomeMiddleCategoryTABAction" method="saveOrUpdateShopHomeMiddleCategoryTAB"></action>
+		   <action name="getShopHomeMiddleCategoryTABObj" class="shopHomeMiddleCategoryTABAction" method="getShopHomeMiddleCategoryTABObj"></action>
+		   <action name="deleteByIds" class="shopHomeMiddleCategoryTABAction" method="deleteByIds"></action>
+	 </package>
+	 <!-- 首页中间分类tab维护 end -->
+
+	 <!-- 会员折扣 begin -->
+	 <package name="customerDiscountAction" namespace="/back/customerDiscountAction" extends="struts-default">
+	 	<action name="listCustomerDiscount" class="customerDiscountAction" method="listCustomerDiscount"></action>
+	 	<action name="saveOrUpdateCustomerDiscount" class="customerDiscountAction" method="saveOrUpdateCustomerDiscount"></action>
+	 	<action name="getCustomerDiscountObject" class="customerDiscountAction" method="getCustomerDiscountObject"></action>
+	 	<action name="deleteCustomerDiscount" class="customerDiscountAction" method="deleteCustomerDiscount"></action>
+	 </package>
+	 <!-- 会员折扣 end -->
+
+	 <!-- 店铺销售申请结算后台 begin -->
+	<package name="settlementBack" namespace="/back/settlement" extends="functionPurview">
+		<action name="gotoShopSettlementDetailInfoPage" class="shopSettlementDetailAction" method="gotoShopSettlementDetailInfoPage">
+			<!-- 调用功能权限的拦截器 -->
+			<interceptor-ref name="functionPurviewStack"/>
+			<result name="success">/WEB-INF/shop/shopSettlementDetail/shopSettlementDetailList.jsp</result>
+		</action>
+		<action name="listShopSettlementDetail" class="shopSettlementDetailAction" method="listShopSettlementDetail"></action>
+		<action name="getShopSettlementDetailObject" class="shopSettlementDetailAction" method="getShopSettlementDetailObject"></action>
+		<action name="updateReviewStatus" class="shopSettlementDetailAction" method="updateReviewStatus"></action>
+	</package>
+	<!-- 店铺销售申请结算后台 end -->
+
+	<!-- #########################商品标签 begin######################### -->
+	 <!-- 适合行业标签 begin -->
+	 <package name="backShopTradeTag" namespace="/back/shopTradeTag" extends="struts-default">
+	 	<action name="gotoShopTradeTagPage" class="shopTradeTagAction" method="gotoShopTradeTagPage">
+	 		<result>/WEB-INF/shop/tags/shopTradeTag/listShopTradeTag.jsp</result>
+	 	</action>
+	 	<action name="listShopTradeTag" class="shopTradeTagAction" method="listShopTradeTag"></action>
+	 	<action name="savaOrUpdateShopTradeTag" class="shopTradeTagAction" method="savaOrUpdateShopTradeTag"></action>
+	 	<action name="getShopTradeTagObject" class="shopTradeTagAction" method="getShopTradeTagObject"></action>
+	 	<action name="deleteShopTradeTag" class="shopTradeTagAction" method="deleteShopTradeTag"></action>
+	 	<action name="checkTageName" class="shopTradeTagAction" method="checkTageName"></action>
+	 </package>
+	 <!-- 适合行业标签 end -->
+
+	 <!-- 使用场合标签 begin -->
+	 <package name="backShopSituationTag" namespace="/back/shopSituationTag" extends="struts-default">
+	 	<action name="gotoShopSituationTagPage" class="shopSituationTagAction" method="gotoShopSituationTagPage">
+	 		<result>/WEB-INF/shop/tags/shopSituationTag/listShopSituationTag.jsp</result>
+	 	</action>
+	 	<action name="listShopSituationTag" class="shopSituationTagAction" method="listShopSituationTag"></action>
+	 	<action name="savaOrUpdateShopSituationTag" class="shopSituationTagAction" method="savaOrUpdateShopSituationTag"></action>
+	 	<action name="getShopSituationTagObject" class="shopSituationTagAction" method="getShopSituationTagObject"></action>
+	 	<action name="deleteShopSituationTag" class="shopSituationTagAction" method="deleteShopSituationTag"></action>
+	 	<action name="checkTageName" class="shopSituationTagAction" method="checkTageName"></action>
+	 </package>
+	 <!-- 使用场合标签 end -->
+
+	 <!-- 适合行业标签和使用场合标签关联表 begin -->
+	 <package name="backShopTradeSituationTag" namespace="/back/shopTradeSituationTag" extends="struts-default">
+	 	<action name="gotoShopTradeSituationTagPage" class="shopTradeSituationTagAction" method="gotoShopTradeSituationTagPage">
+	 		<result>/WEB-INF/shop/tags/shopTradeSituationTag/listShopTradeSituationTag.jsp</result>
+	 	</action>
+	 	<action name="listShopTradeSituationTag" class="shopTradeSituationTagAction" method="listShopTradeSituationTag"></action>
+	 	<action name="listShopSituationTag" class="shopTradeSituationTagAction" method="listShopSituationTag"></action>
+	 	<action name="savaOrUpdateShopTradeSituationTag" class="shopTradeSituationTagAction" method="savaOrUpdateShopTradeSituationTag"></action>
+	 	<action name="deleteShopTradeSituationTag" class="shopTradeSituationTagAction" method="deleteShopTradeSituationTag"></action>
+	 </package>
+	 <!-- 适合行业标签和使用场合标签关联表 end -->
+	<!-- #########################商品标签 end######################### -->
+
+	<!-- 商品扩展属性值begin -->
+	   <package name="attributeValue" namespace="/back/attributeValue" extends="functionPurview">
+		   <action name="gotoAttributeValuePage" class="attributeValueAction" method="gotoAttributeValuePage">
+		   		<interceptor-ref name="functionPurviewStack"/>
+	       		<result name="success">/WEB-INF/shop/attributeValue/attributeValueList.jsp</result>
+		   	</action>
+		   	<action name="listAttributeValue" class="attributeValueAction" method="listAttributeValue"/>
+		   	<action name="saveOrUpdateAttributeValue" class="attributeValueAction" method="saveOrUpdateAttributeValue"/>
+		   	<action name="getAttributeValueInfo" class="attributeValueAction" method="getAttributeValueInfo"/>
+		   	<action name="deleteAttributeValues" class="attributeValueAction" method="deleteAttributeValues"/>
+		   	<action name="checkAttrValueName" class="attributeValueAction" method="checkAttrValueName"/>
+	   </package>
+	<!-- 商品扩展属性值end -->
+
+	<!-- 物流公司begin -->
+	<package name="logistics" namespace="/back/logistics" extends="functionPurview">
+		<action name="gotoLogisticsPage" class="logisticsAction" method="gotoLogisticsPage">
+			<interceptor-ref name="functionPurviewStack"/>
+			<result>/WEB-INF/shop/logistics/logisticsList.jsp</result>
+		</action>
+		<action name="listLogistics" class="logisticsAction" method="listLogistics"></action>
+		<action name="saveOrUpdateLogistics" class="logisticsAction" method="saveOrUpdateLogistics"></action>
+		<action name="getLogisticsObject" class="logisticsAction" method="getLogisticsObject"></action>
+		<action name="deleteLogistics" class="logisticsAction" method="deleteLogistics"></action>
+		<action name="initLogistics" class="logisticsAction" method="initLogistics"></action>
+		<action name="initCityCourier" class="logisticsAction" method="initCityCourier"></action>
+	</package>
+		<!-- 物流公司end -->
+	<!-- 客服begin -->
+	<package name="customerService" namespace="/back/customerService" extends="functionPurview">
+		<action name="gotoCustomerServicePage" class="customerServiceAction" method="gotoCustomerServicePage">
+			<interceptor-ref name="functionPurviewStack"/>
+			<result>/WEB-INF/shop/customerService/customerServiceList.jsp</result>
+		</action>
+		<action name="listCustomerService" class="customerServiceAction" method="listCustomerService"></action>
+		<action name="saveOrUpdateCustomerService" class="customerServiceAction" method="saveOrUpdateCustomerService"></action>
+		<action name="getCustomerServiceInfo" class="customerServiceAction" method="getCustomerServiceInfo"></action>
+		<action name="deleteCustomerServices" class="customerServiceAction" method="deleteCustomerServices"></action>
+	</package>
+	<!-- 客服end -->
+
+	<!-- 店铺-客服begin -->
+	<package name="shopCustomerService" namespace="/back/shopCustomerService" extends="basePackage">
+		<action name="gotoShopCustomerServicePage" class="shopCustomerServiceAction" method="gotoShopCustomerServicePage">
+			<result>/WEB-INF/shop/shopCustomerService/listShopCustomerService.jsp</result>
+		</action>
+		<action name="listShopCustomerService" class="shopCustomerServiceAction" method="listShopCustomerService"></action>
+		<action name="listUnShopCustomerService" class="shopCustomerServiceAction" method="listUnShopCustomerService"></action>
+		<action name="savaOrUpdateShopCustomerService" class="shopCustomerServiceAction" method="savaOrUpdateShopCustomerService"></action>
+		<action name="deleteShopCustomerService" class="shopCustomerServiceAction" method="deleteShopCustomerService"></action>
+	</package>
+	<!-- 店铺-客服end -->
+
+	<!-- 自营店铺-客服begin -->
+	<package name="selfSupportCustomerService" namespace="/back/selfSupportCustomerService" extends="basePackage">
+		<action name="gotoShopCustomerServicePage" class="selfSupportCustomerServiceAction" method="gotoShopCustomerServicePage">
+			<result>/WEB-INF/shop/SelfSupportCustomerService/listShopCustomerService.jsp</result>
+		</action>
+		<action name="listShopCustomerService" class="selfSupportCustomerServiceAction" method="listShopCustomerService"></action>
+		<action name="listUnShopCustomerService" class="selfSupportCustomerServiceAction" method="listUnShopCustomerService"></action>
+		<action name="savaOrUpdateShopCustomerService" class="selfSupportCustomerServiceAction" method="savaOrUpdateShopCustomerService"></action>
+		<action name="deleteShopCustomerService" class="selfSupportCustomerServiceAction" method="deleteShopCustomerService"></action>
+	</package>
+
+	<!-- 自营店铺-客服end -->
+
+	<!-- 店铺会员begin -->
+	<package name="memberShip" namespace="/back/memberShip" extends="basePackage">
+		<action name="gotoMemberShipPage" class="memberShipAction" method="gotoMemberShipPage">
+			<result>/WEB-INF/shop/customer/listMemberShip.jsp</result>
+		</action>
+		<action name="listMemberShip" class="memberShipAction" method="listMemberShip"></action>
+	</package>
+	<!-- 店铺会员begin -->
+
+	<!-- 商城begin -->
+	<package name="shops" namespace="/back/shops" extends="basePackage">
+		<action name="gotoShopsPage" class="shopsAction" method="gotoShopsPage">
+		<result>/WEB-INF/shop/shops/shopsList.jsp</result>
+		</action>
+		<action name="findShopsList" class="shopsAction" method="findShopsList"></action>
+		<action name="saveOrUpdateShops" class="shopsAction" method="saveOrUpdateShops"></action>
+		<action name="deleteShops" class="shopsAction" method="deleteShops"></action>
+		<action name="getShopsObject" class="shopsAction" method="getShopsObject"></action>
+		<action name="findAreaList" class="shopsAction" method="findAreaList"></action>
+	</package>
+	<!-- 商城end -->
+
+	<!-- 商城-店铺begin -->
+	<package name="shopsShopinfo" namespace="/back/shopsShopinfo" extends="basePackage">
+		<action name="gotoShopsShopinfoPage" class="shopsShopinfoAction" method="gotoShopsShopinfoPage">
+		<result>/WEB-INF/shop/shopsShopinfo/shopsShopinfoList.jsp</result>
+		</action>
+		<action name="findShopsShopinfoList" class="shopsShopinfoAction" method="findShopsShopinfoList"></action>
+		<action name="saveOrUpdateShopsShopinfo" class="shopsShopinfoAction" method="saveOrUpdateShopsShopinfo"></action>
+		<action name="deleteShopsShopinfo" class="shopsShopinfoAction" method="deleteShopsShopinfo"></action>
+		<action name="getShopsShopinfoObject" class="shopsShopinfoAction" method="getShopsShopinfoObject"></action>
+		<action name="findShopCategoryList" class="shopsShopinfoAction" method="findShopCategoryList"></action>
+		<action name="findShopInfoList" class="shopsShopinfoAction" method="findShopInfoList"></action>
+	</package>
+	<!-- 商城-店铺end -->
+
+	<!-- 同城快递员人事档案begin -->
+	<package name="cityCourier" namespace="/back/cityCourier" extends="basePackage">
+		<action name="gotoCityCourierPage" class="cityCourierAction" method="gotoCityCourierPage">
+			<result>/WEB-INF/shop/cityCourier/listCityCourier.jsp</result>
+		</action>
+		<action name="ListCityCourier" class="cityCourierAction" method="ListCityCourier"></action>
+		<action name="saveOrUpdateCityCourier" class="cityCourierAction" method="saveOrUpdateCityCourier"></action>
+		<action name="getCityCourierInfo" class="cityCourierAction" method="getCityCourierInfo"></action>
+		<action name="deleteCityCouriers" class="cityCourierAction" method="deleteCityCouriers"></action>
+		<action name="findCityList" class="cityCourierAction" method="findCityList"></action>
+	</package>
+	<!-- 同城快递员人事档案end -->
+
+	<!-- 商城汇总表begin -->
+	<package name="mallSummary" namespace="/back/mallSummary" extends="functionPurview">
+		<action name="gotoCollectiveOrderPage" class="mallSummaryAction" method="gotoCollectiveOrderPage">
+		    <!-- 调用功能权限的拦截器 -->
+			<interceptor-ref name="functionPurviewStack"/>
+			<result>/WEB-INF/shop/mallSummary/collectiveOrderList.jsp</result>
+		</action>
+		<action name="ListCollectiveOrder" class="mallSummaryAction" method="ListCollectiveOrder"></action>
+		<action name="importExcelTJDD" class="mallSummaryAction" method="importExcelTJDD"></action>
+	</package>
+	<package name="transactionsByDate" namespace="/back/transactionsByDate" extends="basePackage">
+		<action name="gotoTransactionsByDatePage" class="transactionsByDateAction" method="gotoTransactionsByDatePage">
+			<result>/WEB-INF/shop/mallSummary/transactionsByDateList.jsp</result>
+		</action>
+		<action name="ListTransactionsByDate" class="transactionsByDateAction" method="ListTransactionsByDate"></action>
+		<action name="importExcelJYHZBD" class="transactionsByDateAction" method="importExcelJYHZBD"></action>
+	</package>
+	<package name="transactionsByState" namespace="/back/transactionsByState" extends="basePackage">
+		<action name="gotoTransactionsByStatePage" class="transactionsByStateAction" method="gotoTransactionsByStatePage">
+			<result>/WEB-INF/shop/mallSummary/transactionsByStateList.jsp</result>
+		</action>
+		<action name="ListTransactionsByState" class="transactionsByStateAction" method="ListTransactionsByState"></action>
+		<action name="importExcelJYHZBS" class="transactionsByStateAction" method="importExcelJYHZBS"></action>
+	</package>
+	<!-- 商城汇总表end -->
+
+	<!-- 注册分享begin -->
+	<package name="shareRigster" namespace="/back/shareRigster" extends="functionPurview">
+		<action name="gotoShareRigsterPage" class="shareRigsterAction" method="gotoShareRigsterPage">
+			<interceptor-ref name="functionPurviewStack"/>
+			<result>/WEB-INF/shop/shareRigster/shareRigsterList.jsp</result>
+		</action>
+		<action name="listShareRigster" class="shareRigsterAction" method="listShareRigster"/>
+		<action name="exportShareRigsterExcel" class="shareRigsterAction" method="exportShareRigsterExcel">
+			<result name="success" type="redirectAction">
+				<param name="namespace">/publicExport</param>
+				<param name="actionName">exportExcel</param>
+			</result>
+			<result name="error" >/error.jsp</result>
+		</action>
+	</package>
+	<!-- 注册分享end -->
+	<!-- 供应商金币收支明细begin -->
+	<package name="supplierMallCoinDetail" namespace="/back/supplierMallCoinDetail" extends="functionPurview">
+		<action name="gotoSupplierMallCoinDetailPage" class="supplierMallCoinDetailAction" method="gotoSupplierMallCoinDetailPage">
+		    <!-- 调用功能权限的拦截器 -->
+			<interceptor-ref name="functionPurviewStack"/>
+			<result>/WEB-INF/shop/supplierMallCoinDetail/supplierMallCoinDetailList.jsp</result>
+		</action>
+		<action name="listSupplierMallCoinDetail" class="supplierMallCoinDetailAction" method="listSupplierMallCoinDetail">
+		</action>
+		<action name="exportSupplierMallCoinExcel" class="supplierMallCoinDetailAction" method="exportSupplierMallCoinExcel">
+			<result name="success" type="redirectAction">
+				<param name="namespace">/publicExport</param>
+				<param name="actionName">exportExcel</param>
+			</result>
+			<result name="error" >/error.jsp</result>
+		</action>
+	</package>
+	<!-- 供应商金币收支明细end -->
+	<package name="supplierBrokerageCoinDetail" namespace="/back/supplierBrokerageCoinDetail" extends="basePackage">
+		<action name="gotoSupplierBrokerageCoinDetailPage" class="supplierBrokerageCoinDetailAction" method="gotoSupplierBrokerageCoinDetailPage">
+			<result>/WEB-INF/shop/supplierBrokerageCoinDetail/supplierBrokerageCoinDetailList.jsp</result>
+		</action>
+		<action name="listSupplierBrokerageCoinDetail" class="supplierBrokerageCoinDetailAction" method="listSupplierBrokerageCoinDetail">
+		</action>
+		<action name="exportSupplierBrokerageCoinExcel" class="supplierBrokerageCoinDetailAction" method="exportSupplierBrokerageCoinExcel">
+			<result name="success" type="redirectAction">
+				<param name="namespace">/publicExport</param>
+				<param name="actionName">exportExcel</param>
+			</result>
+			<result name="error" >/error.jsp</result>
+		</action>
+	</package>
+	<!-- 供应商金币收支明细end -->
+	<!-- 去导出订单信息到excel -->
+	<package name="statisticAnalysisExcel" namespace="/back/statisticAnalysisExcel" extends="basePackage">
+		<action name="exportStatisticOrders" class="statisticAnalysisExcelAction" method="exportStatisticOrders" >
+			<result name="success" type="redirectAction">
+				<param name="namespace">/publicExport</param>
+				<param name="actionName">exportExcel</param>
+			</result>
+			<result name="error" >/error.jsp</result>
+		</action>
+	</package>
+	<!-- 去导出订单信息到excel end-->
+
+	<!-- 供应商金币提现end -->
+	<package name="shopMallCoinWithdrawals" namespace="/back/shopMallCoinWithdrawals" extends="functionPurview">
+		<action name="gotoShopMallCoinWithdrawalsPage" class="shopMallCoinWithdrawalsAction" method="gotoShopMallCoinWithdrawalsPage">
+			<interceptor-ref name="functionPurviewStack"/>
+			<result>/WEB-INF/shop/shopMallCoinWithdrawals/shopMallCoinWithdrawalsList.jsp</result>
+		</action>
+		<action name="listShopMallCoinWithdrawals" class="shopMallCoinWithdrawalsAction" method="listShopMallCoinWithdrawals"/>
+		<action name="getShopMallCoinWithdrawalsById" class="shopMallCoinWithdrawalsAction" method="getShopMallCoinWithdrawalsById"/>
+		<action name="saveOrUpdateShopMallCoinWithdrawalsObject" class="shopMallCoinWithdrawalsAction" method="saveOrUpdateShopMallCoinWithdrawalsObject"/>
+		<action name="exportShopMallCoinWithdrawalsExcel" class="shopMallCoinWithdrawalsAction" method="exportShopMallCoinWithdrawalsExcel">
+			<result name="success" type="redirectAction">
+				<param name="namespace">/publicExport</param>
+				<param name="actionName">exportExcel</param>
+			</result>
+			<result name="error" >/error.jsp</result>
+		</action>
+	</package>
+	<!-- 供应商金币提现end -->
+
+	<!-- 商品咨询begin -->
+	<package name="productInfoQuestion" namespace="/back/productInfoQuestion" extends="functionPurview">
+		<action name="gotoProductInfoQuestionPage" class="productInfoQuestionAction" method="gotoProductInfoQuestionPage">
+			<interceptor-ref name="functionPurviewStack"/>
+			<result>/WEB-INF/shop/productInfoQuestion/productInfoQuestionList.jsp</result>
+		</action>
+		<action name="listProductInfoQuestion" class="productInfoQuestionAction" method="listProductInfoQuestion"></action>
+		<action name="getProductInfoQuestionInfo" class="productInfoQuestionAction" method="getProductInfoQuestionInfo"></action>
+		<action name="saveOrUpdateProductInfoQuestion" class="productInfoQuestionAction" method="saveOrUpdateProductInfoQuestion"></action>
+		<action name="deleteProductInfoQuestion" class="productInfoQuestionAction" method="deleteProductInfoQuestion"></action>
+	</package>
+	<!-- 商品咨询end -->
+
+	<!-- 热门搜索begin -->
+	<package name="topSearch" namespace="/back/topSearch" extends="functionPurview">
+		<action name="gotoTopSearchPage" class="topSearchAction" method="gotoTopSearchPage">
+			<interceptor-ref name="functionPurviewStack"/>
+			<result name="success">/WEB-INF/shop/topSearch/topSearchList.jsp</result>
+		</action>
+		<action name="listTopSearch" class="topSearchAction" method="listTopSearch"></action>
+		<action name="saveOrUpdateTopSearch" class="topSearchAction" method="saveOrUpdateTopSearch"></action>
+		<action name="getTopSearchObject" class="topSearchAction" method="getTopSearchObject"></action>
+		<action name="deleteTopSearch" class="topSearchAction" method="deleteTopSearch"></action>
+	</package>
+	<!-- 热门搜索end -->
+	<!-- 店铺销售统计begin -->
+	<package name="shopSalesStatistics" namespace="/back/shopSalesStatistics" extends="functionPurview">
+		<action name="gotoShopSalesStatistics" class="shopSalesStatisticsAction" method="gotoShopSalesStatistics">
+			<interceptor-ref name="functionPurviewStack"/>
+			<result name="success">/WEB-INF/shop/statistics/shopSalesStatisticsList.jsp</result>
+		</action>
+		<action name="listShopSalesStatistics" class="shopSalesStatisticsAction" method="listShopSalesStatistics"></action>
+		<action name="exportCountModFuleExcel" class="shopSalesStatisticsAction" method="exportCountModFuleExcel">
+			<result name="success" type="redirectAction">
+				<param name="namespace">/publicExport</param>
+				<param name="actionName">exportExcel</param>
+			</result>
+			<result name="error">/error.jsp</result>
+		</action>
+	</package>
+	<!-- 店铺销售统计end -->
+	<!-- 热门分类销售统计begin -->
+	<package name="hotCategoryStatistics" namespace="/back/hotCategoryStatistics" extends="functionPurview">
+		<action name="gotoHotCategoryStatistics" class="hotCategoryStatisticsAction" method="gotoHotCategoryStatistics">
+			<interceptor-ref name="functionPurviewStack"/>
+			<result name="success">/WEB-INF/shop/statistics/hotCategoryStatisticsList.jsp</result>
+		</action>
+		<action name="listHotCategoryStatistics" class="hotCategoryStatisticsAction" method="listHotCategoryStatistics"></action>
+		<action name="exportCountModFuleExcel" class="hotCategoryStatisticsAction" method="exportCountModFuleExcel">
+			<result name="success" type="redirectAction">
+				<param name="namespace">/publicExport</param>
+				<param name="actionName">exportExcel</param>
+			</result>
+			<result name="error">/error.jsp</result>
+		</action>
+	</package>
+	<!-- 热门分类销售统计end -->
+	<!-- 热门品牌销售统计begin -->
+	<package name="hotBrandStatistics" namespace="/back/hotBrandStatistics" extends="functionPurview">
+		<action name="gotoHotBrandStatistics" class="hotBrandStatisticsAction" method="gotoHotBrandStatistics">
+			<interceptor-ref name="functionPurviewStack"/>
+			<result name="success">/WEB-INF/shop/statistics/hotBrandStatisticsList.jsp</result>
+		</action>
+		<action name="listHotBrandStatistics" class="hotBrandStatisticsAction" method="listHotBrandStatistics"></action>
+		<action name="exportCountModFuleExcel" class="hotBrandStatisticsAction" method="exportCountModFuleExcel">
+			<result name="success" type="redirectAction">
+				<param name="namespace">/publicExport</param>
+				<param name="actionName">exportExcel</param>
+			</result>
+			<result name="error">/error.jsp</result>
+		</action>
+	</package>
+	<!-- 热门品牌销售统计end -->
+	<!-- 区域订单统计begin -->
+	<package name="areaOrdersCount" namespace="/back/areaOrdersCount" extends="functionPurview">
+		<action name="gotoAreaOrdersCountPage" class="areaOrdersCountAction" method="gotoAreaOrdersCountPage">
+			<interceptor-ref name="functionPurviewStack"/>
+			<result name="success">/WEB-INF/shop/areaOrders/areaOrdersCountList.jsp</result>
+		</action>
+		<action name="areaOrdersCountList" class="areaOrdersCountAction" method="areaOrdersCountList"></action>
+	    <action name="findAreaList" class="shopsAction" method="findAreaList"></action>
+	    <action name="exportCountModFuleExcel" class="areaOrdersCountAction" method="exportCountModFuleExcel">
+			<result name="success" type="redirectAction">
+				<param name="namespace">/publicExport</param>
+				<param name="actionName">exportExcel</param>
+			</result>
+			<result name="error">/error.jsp</result>
+		</action>
+	</package>
+	<!-- 区域订单统计end -->
+	<!-- 会员统计begin -->
+	<package name="customerStatistics" namespace="/back/customerStatistics" extends="functionPurview">
+		<action name="gotoCustomerStatistics" class="customerStatisticsAction" method="gotoCustomerStatistics">
+			<interceptor-ref name="functionPurviewStack"/>
+			<result name="success">/WEB-INF/shop/statistics/customerStatisticsList.jsp</result>
+		</action>
+		<action name="listCustomerStatistics" class="customerStatisticsAction" method="listCustomerStatistics"></action>
+		<action name="exportCountModFuleExcel" class="customerStatisticsAction" method="exportCountModFuleExcel">
+			<result name="success" type="redirectAction">
+				<param name="namespace">/publicExport</param>
+				<param name="actionName">exportExcel</param>
+			</result>
+			<result name="error">/error.jsp</result>
+		</action>
+	</package>
+	<!-- 会员统计end -->
+	<!-- 商品统计begin -->
+	<package name="productStatistics" namespace="/back/productStatistics" extends="functionPurview">
+		<action name="gotoPaidReturnProduct" class="ordersAction" method="gotoPaidReturnProduct">
+			<interceptor-ref name="functionPurviewStack"/>
+			<result name="success">/WEB-INF/shop/statistics/productStatisticsList.jsp</result>
+		</action>
+		<action name="findPaidReturnProduct" class="ordersAction" method="findPaidReturnProduct"></action>
+		<action name="exportCountModFuleExcel" class="ordersAction" method="exportCountModFuleExcel">
+			<result name="success" type="redirectAction">
+				<param name="namespace">/publicExport</param>
+				<param name="actionName">exportExcel</param>
+			</result>
+			<result name="error">/error.jsp</result>
+		</action>
+	</package>
+	<!-- 商品统计end -->
+
+	<!-- 提现begin -->
+	<package name="drawing" namespace="/back/customer/drawing" extends="struts-default">
+		<action name="gotoDrawingPageList" class="drawingAction" method="gotoDrawingPageList">
+			<result>/WEB-INF/shop/customer/drawingList.jsp</result>
+		</action>
+		<action name="drawingPageList" class="drawingAction" method="drawingPageList"></action>
+		<action name="saveOrUpdateDrawingState" class="drawingAction" method="saveOrUpdateDrawingState"></action>
+		<action name="getDrawingObject" class="drawingAction" method="getDrawingObject"></action>
+		<action name="deleteExpiredFinanceSynced" class="drawingAction" method="deleteExpiredFinanceSynced"></action>
+		<action name="exportCountModFuleExcel" class="drawingAction" method="exportCountModFuleExcel">
+			<result name="success" type="redirectAction">
+				<param name="namespace">/publicExport</param>
+				<param name="actionName">exportExcel</param>
+			</result>
+			<result name="error">/error.jsp</result>
+		</action>
+	</package>
+	<!-- 提现end -->
+</struts>

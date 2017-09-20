@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!-- 微信基本信息begin -->
+	<bean id="publicNoInfoDao" class="wxmg.publicNo.dao.imp.PublicNoInfoDao"  parent="baseDao"/>
+	<bean id="publicNoInfoService" class="wxmg.publicNo.service.imp.PublicNoInfoService"  parent="baseService">
+		<property name="publicNoInfoDao"><ref bean="publicNoInfoDao" /></property>
+	</bean>
+	<!-- 微信基本信息end -->
+
+	<!-- 公众号角色信息begin -->
+	<bean id="publicNumberRoleRelDao" class="wxmg.publicNo.dao.imp.PublicNumberRoleRelDao"  parent="baseDao"/>
+	<bean id="publicNumberRoleRelService" class="wxmg.publicNo.service.imp.PublicNumberRoleRelService"  parent="baseService">
+		<property name="publicNumberRoleRelDao"><ref bean="publicNumberRoleRelDao" /></property>
+	</bean>
+	<!-- 公众号角色信息end -->
+
+	<!-- 微信菜单信息begin -->
+	<bean id="wxMenuInfoDao" class="wxmg.menu.dao.imp.MenuInfoDao"  parent="baseDao"/>
+	<bean id="menuInfoService" class="wxmg.menu.service.imp.MenuInfoService"  parent="baseService">
+		<property name="wxMenuInfoDao"><ref bean="wxMenuInfoDao" /></property>
+	</bean>
+	<!-- 微信菜单信息end -->
+	<!-- 素材图文信息begin -->
+	<bean id="materialImageTxtInfoDao" class="wxmg.material.dao.imp.MaterialImageTxtInfoDao"  parent="baseDao"/>
+	<bean id="materialImageTxtInfoService" class="wxmg.material.service.imp.MaterialImageTxtInfoService"  parent="baseService">
+		<property name="materialImageTxtInfoDao"><ref bean="materialImageTxtInfoDao" /></property>
+	</bean>
+	<!-- 素材图文信息end -->
+	<!-- 素材图片信息begin -->
+	<bean id="materialImageInfoDao" class="wxmg.material.dao.imp.MaterialImageInfoDao"  parent="baseDao"/>
+	<bean id="materialImageInfoService" class="wxmg.material.service.imp.MaterialImageInfoService"  parent="baseService">
+		<property name="materialImageInfoDao"><ref bean="materialImageInfoDao" /></property>
+	</bean>
+	<!-- 素材图片信息end -->
+	<!-- 微信语音信息begin -->
+	<bean id="wxMaterialVoiceInfoDao" class="wxmg.material.dao.imp.MaterialVoiceInfoDao" parent="baseDao"></bean>
+	<bean id="wxMaterialVoiceInfoSerivce" class="wxmg.material.service.imp.MaterialVoiceInfoService" parent="baseService">
+		<property name="wxMaterialVoiceInfoDao"><ref bean="wxMaterialVoiceInfoDao"/></property>
+	</bean>
+	<!-- 微信语音信息end -->
+	<!--视频信息begin-->
+	<bean id="wxMaterialVideoInfoDao" class="wxmg.material.dao.imp.MaterialVideoInfoDao" parent="baseDao"></bean>
+	<bean id="wxMaterialVideoInfoSerivce" class="wxmg.material.service.imp.MaterialVideoInfoService" parent="baseService">
+		<property name="wxMaterialVideoInfoDao"><ref bean="wxMaterialVideoInfoDao"/></property>
+	</bean>
+	<!--视频信息end-->
+	<!-- 文本消息信息begin -->
+	<bean id="textMessageInfoDao" class="wxmg.material.dao.imp.TextMessageInfoDao"  parent="baseDao"/>
+	<bean id="textMessageInfoService" class="wxmg.material.service.imp.TextMessageInfoService"  parent="baseService">
+		<property name="textMessageInfoDao"><ref bean="textMessageInfoDao" /></property>
+	</bean>
+	<!-- 文本消息信息end -->
+	<!-- 粉丝图片消息信息begin -->
+	<bean id="imageMessageInfoDao" class="wxmg.fansMessage.dao.imp.ImageMessageInfoDao"  parent="baseDao"/>
+	<bean id="imageMessageInfoService" class="wxmg.fansMessage.service.imp.ImageMessageInfoService"  parent="baseService">
+		<property name="imageMessageInfoDao"><ref bean="imageMessageInfoDao" /></property>
+		<property name="publicNoInfoService"><ref bean="publicNoInfoService" /></property>
+		<property name="wXPublicNumberSendMsgInfoService"><ref bean="wXPublicNumberSendMsgInfoService" /></property>
+	</bean>
+	<!--粉丝图片息信息end -->
+	<!-- 粉丝文本消息信息begin -->
+	<bean id="wxTextMessageInfoDao" class="wxmg.fansMessage.dao.imp.TextMessageInfoDao"  parent="baseDao"/>
+	<bean id="wxTextMessageInfoService" class="wxmg.fansMessage.service.imp.TextMessageInfoService"  parent="baseService">
+		<property name="wxTextMessageInfoDao"><ref bean="wxTextMessageInfoDao" /></property>
+		<property name="publicNoInfoService"><ref bean="publicNoInfoService" /></property>
+		<property name="wXPublicNumberSendMsgInfoService"><ref bean="wXPublicNumberSendMsgInfoService" /></property>
+	</bean>
+	<!--粉丝文本息信息end -->
+	<!-- 粉丝语音消息信息begin -->
+	<bean id="voiceMessageInfoDao" class="wxmg.fansMessage.dao.imp.VoiceMessageInfoDao"  parent="baseDao"/>
+	<bean id="voiceMessageInfoService" class="wxmg.fansMessage.service.imp.VoiceMessageInfoService"  parent="baseService">
+		<property name="voiceMessageInfoDao"><ref bean="voiceMessageInfoDao" /></property>
+		<property name="publicNoInfoService"><ref bean="publicNoInfoService" /></property>
+		<property name="wXPublicNumberSendMsgInfoService"><ref bean="wXPublicNumberSendMsgInfoService" /></property>
+	</bean>
+	<!--粉丝语音消息信息end -->
+	<!-- 粉丝视频消息信息begin -->
+	<bean id="videoMessageInfoDao" class="wxmg.fansMessage.dao.imp.VideoMessageInfoDao"  parent="baseDao"/>
+	<bean id="videoMessageInfoService" class="wxmg.fansMessage.service.imp.VideoMessageInfoService"  parent="baseService">
+		<property name="videoMessageInfoDao"><ref bean="videoMessageInfoDao" /></property>
+		<property name="publicNoInfoService"><ref bean="publicNoInfoService" /></property>
+		<property name="wXPublicNumberSendMsgInfoService"><ref bean="wXPublicNumberSendMsgInfoService" /></property>
+	</bean>
+	<!--粉丝视频消息信息end -->
+	<!-- 粉丝位置消息信息begin -->
+	<bean id="locationMessageInfoDao" class="wxmg.fansMessage.dao.imp.LocationMessageInfoDao"  parent="baseDao"/>
+	<bean id="locationMessageInfoService" class="wxmg.fansMessage.service.imp.LocationMessageInfoService"  parent="baseService">
+		<property name="locationMessageInfoDao"><ref bean="locationMessageInfoDao" /></property>
+		<property name="publicNoInfoService"><ref bean="publicNoInfoService" /></property>
+		<property name="wXPublicNumberSendMsgInfoService"><ref bean="wXPublicNumberSendMsgInfoService" /></property>
+	</bean>
+	<!--粉丝位置消息信息end -->
+	<!-- 粉丝链接消息信息begin -->
+	<bean id="urlMessageInfoDao" class="wxmg.fansMessage.dao.imp.UrlMessageInfoDao"  parent="baseDao"/>
+	<bean id="urlMessageInfoService" class="wxmg.fansMessage.service.imp.UrlMessageInfoService"  parent="baseService">
+		<property name="urlMessageInfoDao"><ref bean="urlMessageInfoDao" /></property>
+		<property name="publicNoInfoService"><ref bean="publicNoInfoService" /></property>
+		<property name="wXPublicNumberSendMsgInfoService"><ref bean="wXPublicNumberSendMsgInfoService" /></property>
+	</bean>
+	<!--粉丝链接消息信息end -->
+	<!-- 粉丝事件消息信息begin -->
+	<bean id="eventMessageInfoDao" class="wxmg.fansMessage.dao.imp.EventMessageInfoDao"  parent="baseDao"/>
+	<bean id="eventMessageInfoService" class="wxmg.fansMessage.service.imp.EventMessageInfoService"  parent="baseService">
+		<property name="eventMessageInfoDao"><ref bean="eventMessageInfoDao" /></property>
+		<property name="publicNoInfoService"><ref bean="publicNoInfoService" /></property>
+		<property name="fansUserInfoService"><ref bean="fansUserInfoService" /></property>
+		<property name="fansPublicnoService"><ref bean="fansPublicnoService" /></property>
+		<property name="wXPublicNumberSendMsgInfoService"><ref bean="wXPublicNumberSendMsgInfoService" /></property>
+		<property name="customerService"><ref bean="customerService" /></property>
+		<property name="expandEventMessageInfoService"><ref bean="expandEventMessageInfoService" /></property>
+		<property name="shopCustomerInfoService"><ref bean="shopCustomerInfoService" /></property>
+	</bean>
+	<!--粉丝事件消息信息end -->
+	<!-- 粉丝语音识别消息信息begin -->
+	<bean id="voiceIdentifyMessageInfoDao" class="wxmg.fansMessage.dao.imp.VoiceIdentifyMessageInfoDao"  parent="baseDao"/>
+	<bean id="voiceIdentifyMessageInfoService" class="wxmg.fansMessage.service.imp.VoiceIdentifyMessageInfoService"  parent="baseService">
+		<property name="voiceIdentifyMessageInfoDao"><ref bean="voiceIdentifyMessageInfoDao" /></property>
+		<property name="publicNoInfoService"><ref bean="publicNoInfoService" /></property>
+		<property name="wXPublicNumberSendMsgInfoService"><ref bean="wXPublicNumberSendMsgInfoService" /></property>
+		<property name="productInfoService"><ref bean="productInfoService" /></property>
+	</bean>
+	<!--粉丝语音识别消息信息end -->
+
+	<!-- 微信响应认证，微信响应Url begin -->
+	<!-- 微信响应认证，微信响应Url end -->
+	<!-- 粉丝分组 begin-->
+	<bean id="fansGroupDao" class="wxmg.basicInfo.dao.imp.FansGroupDao" parent="baseDao"/>
+	<bean id="fansGroupService" class="wxmg.basicInfo.service.imp.FansGroupService" parent="baseService">
+		<property name="fansGroupDao"><ref bean="fansGroupDao"/></property>
+	</bean>
+	<!-- 粉丝分组 end-->
+	<!--公众号发送消息信息 begin-->
+	<bean id="wXPublicNumberSendMsgInfoDao" class="wxmg.sendMessage.dao.imp.WXPublicNumberSendMsgInfoDao" parent="baseDao"/>
+	<bean id="wXPublicNumberSendMsgInfoService" class="wxmg.sendMessage.service.imp.WXPublicNumberSendMsgInfoService" parent="baseService">
+		<property name="wXPublicNumberSendMsgInfoDao"><ref bean="wXPublicNumberSendMsgInfoDao"/></property>
+	</bean>
+	<!-- 公众号发送消息信息end-->
+	<!-- 租户信息表begin -->
+	<bean id="wXTenantInfoDao" class="wxmg.tenant.dao.imp.WXTenantInfoDao" parent="baseDao"/>
+	<bean id="wXTenantInfoService" class="wxmg.tenant.service.imp.WXTenantInfoService" parent="baseService">
+		<property name="wXTenantInfoDao"><ref bean="wXTenantInfoDao"/></property>
+	</bean>
+	<!-- 租户信息表end -->
+	<!-- 粉丝用户和公众号关联信息表begin -->
+	<bean id="fansPublicnoDao" class="wxmg.basicInfo.dao.imp.FansPublicnoDao" parent="baseDao"/>
+	<bean id="fansPublicnoService" class="wxmg.basicInfo.service.imp.FansPublicnoService" parent="baseService">
+		<property name="fansPublicnoDao"><ref bean="fansPublicnoDao"/></property>
+	</bean>
+	<!-- 粉丝用户和公众号关联信息表end -->
+	<!-- 粉丝用户信息begin -->
+	<bean id="fansUserInfoDao" class="wxmg.basicInfo.dao.imp.FansUserInfoDao" parent="baseDao"/>
+	<bean id="fansUserInfoService" class="wxmg.basicInfo.service.imp.FansUserInfoService"  parent="baseService">
+		<property name="fansUserInfoDao"><ref bean="fansUserInfoDao" /></property>
+		<property name="fansPublicnoService"><ref bean="fansPublicnoService" /></property>
+	</bean>
+	<!-- 粉丝用户信息end -->
+	<!-- 全局返回码信息begin -->
+	<bean id="globalRetrunCodeDao" class="wxmg.globalReturnCode.dao.imp.GlobalRetrunCodeDao" parent="baseDao"/>
+	<bean id="globalRetrunCodeService" class="wxmg.globalReturnCode.service.imp.GlobalRetrunCodeService"  parent="baseService">
+		<property name="globalRetrunCodeDao"><ref bean="globalRetrunCodeDao" /></property>
+	</bean>
+	<!-- 全局返回码信息end -->
+
+	<!-- 扩展微信事件 消息发送  begin -->
+	<bean id="expandEventMessageInfoService" class="wxmg.fansMessage.service.imp.ExpandEventMessageInfoService"  parent="baseService">
+		<property name="fansUserInfoService"><ref bean="fansUserInfoService" /></property>
+		<property name="wXPublicNumberSendMsgInfoService"><ref bean="wXPublicNumberSendMsgInfoService" /></property>
+		<property name="disCustomerService"><ref bean="disCustomerService" /></property>
+		<property name="customerService"><ref bean="customerService" /></property>
+		<property name="shopCustomerInfoService"><ref bean="shopCustomerInfoService" /></property>
+		<property name="publicNoInfoService"><ref bean="publicNoInfoService" /></property>
+		<property name="fansPublicnoService"><ref bean="fansPublicnoService" /></property>
+		<property name="shopInfoService"><ref bean="shopInfoService" /></property>
+	</bean>
+	<!-- 扩展微信事件 消息发送 end -->
+
+</beans>

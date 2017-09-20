@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="wxmg.publicNo.pojo.PublicNoInfo" table="wx_publicno_info">
+        <id name="publicNumberId" type="java.lang.Integer">
+            <column name="publicNumberId" />
+            <generator class="increment"/>
+        </id>
+         <property name="tenantInfoId" type="java.lang.Integer">
+            <column name="tenantInfoId"/>
+        </property>
+        <property name="url" type="java.lang.String">
+            <column name="url"/>
+        </property>
+        <property name="token" type="java.lang.String">
+            <column name="token"/>
+        </property>
+        <property name="appId" type="java.lang.String">
+            <column name="appId"/>
+        </property>
+        <property name="appSecret" type="java.lang.String">
+            <column name="appSecret"/>
+        </property>
+        <property name="wxNo" type="java.lang.String">
+            <column name="wxNo"/>
+        </property>
+        <property name="wxName" type="java.lang.String">
+            <column name="wxName"/>
+        </property>
+        <property name="companyName" type="java.lang.String">
+            <column name="companyName"/>
+        </property>
+        <property name="comments" type="java.lang.String">
+            <column name="comments"/>
+        </property>
+        <property name="qrCodeUrl" type="java.lang.String">
+            <column name="qrCodeUrl"/>
+        </property>
+        <property name="toUserName" type="java.lang.String">
+            <column name="toUserName"/>
+        </property>
+         <property name="publicNumberType" type="java.lang.Integer">
+            <column name="publicNumberType"/>
+        </property>
+         <property name="createTime" type="java.util.Date">
+            <column name="createTime"/>
+        </property>
+         <property name="lastUpdateDate" type="java.util.Date">
+            <column name="lastUpdateDate"/>
+        </property>
+    </class>
+</hibernate-mapping>

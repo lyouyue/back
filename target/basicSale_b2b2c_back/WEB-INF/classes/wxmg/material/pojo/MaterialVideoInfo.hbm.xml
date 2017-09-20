@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+<class name="wxmg.material.pojo.MaterialVideoInfo" table="wx_material_video_info">
+<!-- 素材视频ID,增长策略自增 -->
+<id name="materialVideoInfoId" type="java.lang.Integer" >
+<column name="materialVideoInfoId"/>
+<generator class="increment"></generator>
+</id>
+<!-- 公众号 -->
+<property name="publicNumberId" type="java.lang.Integer">
+<column name="publicNumberId"/>
+</property>
+
+<!-- 视频媒体号 -->
+<property name="videoMediaId" type="java.lang.String">
+<column name="videoMediaId"/>
+</property>
+<!-- 视频url -->
+<property name="videoUrl" type="java.lang.String">
+<column name="videoUrl"/>
+</property>
+<!-- 视频缩略图url-->
+<property name="videoThumbUrl" type="java.lang.String">
+<column name="videoThumbUrl"/>
+</property>
+<!-- 视频标题 -->
+<property name="videoTitle" type="java.lang.String">
+<column name="videoTitle"/>
+</property>
+<!-- 视频名称-->
+<property name="videoName" type="java.lang.String">
+<column name="videoName"/>
+</property>
+<!-- 视频格式 -->
+<property name="videoFormatEnumId" type="java.lang.Integer">
+<column name="videoFormatEnumId"/>
+</property>
+<!-- 视频大小-->
+<property name="videoSize" type="java.lang.String">
+<column name="videoSize"/>
+</property>
+<!-- 视频描述 -->
+<property name="videoDescription" type="java.lang.String">
+<column name="videoDescription"/>
+</property>
+<!-- 视频是否发送 -->
+<property name="infoSendFlag" type="java.lang.String">
+<column name="infoSendFlag"/>
+</property>
+<!-- 视频媒体ID获取时间-->
+<property name="videoMediaIdCreatedTime" type="java.util.Date">
+<column name="videoMediaIdCreatedTime"/>
+</property>
+<!-- 创建人 -->
+<property name="createdBy" type="java.lang.Integer">
+<column name="createdBy"/>
+</property>
+<!-- 创建时间 -->
+<property name="createTime" type="java.util.Date">
+<column name="createTime" ></column>
+</property>
+<!--最后修改人  -->
+<property name="lastUpdatedBy" type="java.lang.Integer">
+<column name="lastUpdatedBy"/>
+</property>
+<!-- 最后修改时间 -->
+<property name="lastUpdateDate" type="java.util.Date">
+<column name="lastUpdateDate"/>
+</property>
+<!-- 删除标记 -->
+<property name="deletedFlag" type="java.lang.String">
+<column name="deletedFlag"></column>
+</property>
+<!-- 删除人 -->
+<property name="deletedBy" type="java.lang.Integer">
+<column name="deletedBy"></column>
+</property>
+ <!-- 删除日期 -->
+<property name="deletionDate" type="java.util.Date">
+<column name="deletionDate"></column>
+</property>
+<!-- 备注 -->
+<property name="remark" type="java.lang.String">
+<column name="remark"></column>
+</property>
+</class>
+</hibernate-mapping>

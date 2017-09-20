@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	
+	<!-- 手机端数据字典begin -->	
+	 <package name="phoneKeyBook" namespace="/back/phoneKeyBook" extends="functionPurview">
+	 	<action name="gotoPhoneKeyBookPage" class="phoneKeyBookAction" method="gotoPhoneKeyBookPage">
+	 	    <!-- 调用功能权限的拦截器 -->
+			<interceptor-ref name="functionPurviewStack"/>
+	 		<result>/WEB-INF/basic/phoneKeyBook/phoneKeyBookList.jsp</result>
+	 	</action>
+	 	<action name="listPhoneKeyBook" class="phoneKeyBookAction" method="listPhoneKeyBook" />
+	 	<action name="saveOrUpdatePhoneKeyBook" class="phoneKeyBookAction" method="saveOrUpdatePhoneKeyBook" />
+	 	<action name="getPhoneKeyBookInfo" class="phoneKeyBookAction" method="getPhoneKeyBookInfo" />
+	 	<action name="deletePhoneKeyBook" class="phoneKeyBookAction" method="deletePhoneKeyBook" />
+	 	<action name="updateInServletContextPhoneKeyBook" class="phoneKeyBookAction" method="updateInServletContextPhoneKeyBook" />
+	 </package>
+	 <!-- 手机端数据字典end -->	
+	 <!-- 手机端首页分类 begin -->	
+	 <package name="backPhoneHomeCategory" namespace="/back/phoneHomeCategory" extends="struts-default">
+   		   <!-- 树的维护 -->	
+	 	   <action name="gotoPhoneHomeCategoryTree" class="phoneHomeCategoryAction" method="gotoPhoneHomeCategoryTree">
+		     <result name="success">/WEB-INF/phone/back/phoneHomeCategory/phoneHomeCategoryTree.jsp</result>
+		   </action>
+   		   <!-- 点击树维护列表信息 -->	
+	 	   <action name="gotoPhoneHomeCategoryTablePage" class="phoneHomeCategoryAction" method="gotoPhoneHomeCategoryTablePage">
+		     <result name="success">/WEB-INF/phone/back/phoneHomeCategory/phoneHomeCategoryTree_listLink.jsp</result>
+		   </action>
+		   <action name="getPhoneHomeCategoryObj" class="phoneHomeCategoryAction" method="getPhoneHomeCategoryObj"></action>
+		   <action name="getNodes" class="phoneHomeCategoryAction" method="getNodes"></action>
+		   <action name="saveOrEditPhoneHomeCategory" class="phoneHomeCategoryAction" method="saveOrEditPhoneHomeCategory"></action>
+		   <action name="delPhoneHomeCategory" class="phoneHomeCategoryAction" method="delPhoneHomeCategory"></action>
+		   <action name="uploadImage" class="phoneHomeCategoryAction" method="uploadImage"></action>
+	 </package>
+	 <!-- 手机端首页分类 end -->	
+ 	 <!-- 手机端首页分类信息 begin -->	
+	 <package name="backPhoneHomeCategoryInfo" namespace="/back/phoneHomeCategoryInfo" extends="functionPurview">
+	 	   <action name="gotoPhoneHomeCategoryInfoPage" class="phoneHomeCategoryInfoAction" method="gotoPhoneHomeCategoryInfoPage">
+	 	     <!-- 调用功能权限的拦截器 -->
+			 <interceptor-ref name="functionPurviewStack"/>
+		     <result name="success">/WEB-INF/phone/back/phoneHomeCategoryInfo/categoryInfoList.jsp</result>
+		   </action>
+		   <action name="listPhoneHomeCategoryInfo" class="phoneHomeCategoryInfoAction" method="listPhoneHomeCategoryInfo"></action>
+		   <action name="uploadImage" class="phoneHomeCategoryInfoAction" method="uploadImage"></action>
+		   <action name="saveOrUpdatePhoneHomeCategoryInfo" class="phoneHomeCategoryInfoAction" method="saveOrUpdatePhoneHomeCategoryInfo"></action>
+		   <action name="getPhoneHomeCategoryInfoObj" class="phoneHomeCategoryInfoAction" method="getPhoneHomeCategoryInfoObj"></action>
+		   <action name="deleteByIds" class="phoneHomeCategoryInfoAction" method="deleteByIds"></action>
+	 </package>
+	 <!-- 手机端首页分类信息 end -->	
+	 <!-- 手机积分商城轮播图begin -->
+	 <package name="phoneIntegral" namespace="/back/phoneIntegral" extends="functionPurview">
+	 	<action name="gotoPhoneIntegralPage" class="phoneIntegralAction" method="gotoPhoneIntegralPage">
+	 	    <!-- 调用功能权限的拦截器 -->
+			<interceptor-ref name="functionPurviewStack"/>
+		    <result name="success">/WEB-INF/phone/back/phoneIntegral/phoneIntegralList.jsp</result>
+		</action>
+	 	<action name="listPhoneIntegral" class="phoneIntegralAction" method="listPhoneIntegral"></action>
+	 	<action name="saveOrUpdatePhoneIntegral" class="phoneIntegralAction" method="saveOrUpdatePhoneIntegral"></action>
+	 	<action name="getPhoneIntegralObject" class="phoneIntegralAction" method="getPhoneIntegralObject"></action>
+	 	<action name="deletePhoneIntegralByIds" class="phoneIntegralAction" method="deletePhoneIntegralByIds"></action>
+	 </package>
+	 <!-- 手机积分商城轮播图end -->
+</struts>    

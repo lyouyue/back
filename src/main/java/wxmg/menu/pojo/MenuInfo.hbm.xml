@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="wxmg.menu.pojo.MenuInfo" table="wx_menu_info" dynamic-insert="true" dynamic-update="true">
+		<id name="wxmiId" type="java.lang.Integer">
+			<column name="wxmiId"/>
+			<generator class="increment"/>
+		</id>
+		<property name="parentId" type="java.lang.Integer">
+			<column name="parentId"/>
+		</property>
+		<property name="parentName" type="java.lang.String">
+			<column name="parentName"/>
+		</property>
+		<property name="type" type="java.lang.String">
+			<column name="type"/>
+		</property>
+		<property name="typeValue" type="java.lang.String">
+			<column name="typeValue"/>
+		</property>
+		<property name="name" type="java.lang.String">
+			<column name="name"/>
+		</property>
+		<property name="createTime" type="java.util.Date">
+			<column name="createTime"/>
+		</property>
+		<property name="publicNumberId" type="java.lang.Integer">
+			<column name="publicNumberId"/>
+		</property>
+		<property name="isOwnerSecondLevel" type="java.lang.Integer">
+			<column name="isOwnerSecondLevel"/>
+		</property>
+		<property name="sortIndex" type="java.lang.Integer">
+			<column name="sortIndex"/>
+		</property>
+		<property name="lastUpdatedBy" type="java.lang.Long">
+			<column name="lastUpdatedBy"/>
+		</property>
+		<property name="lastUpdateDate" type="java.util.Date">
+			<column name="lastUpdateDate"/>
+		</property>
+	</class>
+</hibernate-mapping>

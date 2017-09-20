@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<!--常量重新定义 -->
+	<!-- 开发模式下使用,这样可以打印出更详细的错误信息 -->
+	<constant name="struts.devmode" value="true" />
+	<!-- 国际化，加载自定义的资源文件 -->
+	<constant name="struts.custom.i18n.resources" value="hyyt"></constant>
+	<constant name="struts.multipart.saveDir" value="D:/tmp"></constant>
+	<constant name="struts.multipart.maxSize" value="2097152000"></constant>
+	<constant name="struts.i18n.encoding" value="UTF-8"></constant>
+	<constant name="struts.i18n.reload" value="true"></constant>
+	<!-- 控制<s:textfield name="user.userName"/>标签自动添加多余代码：<td class="tdLabel"></td> -->
+	<constant name="struts.ui.theme" value="simple" />
+	<!-- 自动重新加载映射加载 -->
+	<constant name="struts.convention.classes.reload" value="true"/>
+	<!-- 搜寻action的根包  Convention默认的根packages  -->
+	<!-- 重新设置Struts 2的请求后缀,默认为*.action -->
+	<constant name="struts.action.extension" value="action"/>
+    <!-- 当struts的配置文件修改后,系统是否自动重新加载该文件 -->
+    <constant name="struts.configuration.xml.reload" value="true"/>
+    <!-- action 对象是由Spring负责创建  -->
+    <constant name="struts.objectFactory" value="spring" />
+
+    <!-- 引入其他模块struts配置文件 -->
+	<include file="struts_basic.xml"></include>
+	<include file="struts_cms.xml"></include>
+	<include file="struts_public.xml"></include>
+	<include file="struts_shop.xml"></include>
+	<include file="struts_rating.xml"></include>
+	<include file="struts_phone.xml"></include>
+	<include file="struts_tuan.xml"></include>
+	<include file="struts_promotion.xml"></include>
+	<include file="struts_discountcoupon.xml"></include>
+	<include file="struts_distribution.xml"></include>
+	<include file="struts_panicBuying.xml"></include>
+
+	<package name="functionPurview" namespace="/" extends="struts-default">
+        <!-- 功能权限声明拦截器 -->
+	    <interceptors>
+	       <interceptor name="functionPurviewInterceptor" class="util.interceptor.FunctionPurviewInterceptor" />
+	       <!-- 功能权限配置拦截器栈 -->
+	       <interceptor-stack name="functionPurviewStack">
+	           <interceptor-ref name="defaultStack" />
+	           <interceptor-ref name="functionPurviewInterceptor" />
+	       </interceptor-stack>
+	    </interceptors>
+	</package>
+	<package name="json-default" extends="struts-default">
+		<result-types>
+			<result-type name="json" class="org.apache.struts2.json.JSONResult"/>
+		</result-types>
+		<interceptors>
+			<interceptor name="json" class="org.apache.struts2.json.JSONInterceptor"/>
+		</interceptors>
+	</package>
+</struts>

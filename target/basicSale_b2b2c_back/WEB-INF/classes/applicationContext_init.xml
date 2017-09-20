@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!-- 初始化action名称对应模板到全局上下文中 ServletContext  -->
+	<bean id="initializingOPLogTemp" class="initializing.InitializingOPLogTemp" init-method="afterPropertiesSet" ></bean>
+
+
+	<!-- 初始化启用查询缓存的类 begin -->
+	<bean id="initializingOpenQueryCacheClass" class="initializing.InitializingOpenQueryCacheClass" init-method="afterPropertiesSet" >
+		<property name="classSimpleName">
+			<value>${cache.open_query_cache_class_simplename}</value>
+		</property>
+	</bean>
+	<!-- 初始化启用查询缓存的类 end -->
+
+	<!-- 初始化数据字典到全局上下文中 ServletContext -->
+	<bean id="initializingKeyBook" class="initializing.InitializingKeyBook" init-method="afterPropertiesSet" >
+		<property name="keyBookService"><ref bean="keyBookService" /></property>
+		<property name="articleService"><ref bean="articleService" /></property>
+		<property name="categoryService"><ref bean="categoryService" /></property>
+		<property name="productTypeService"><ref bean="productTypeService" /></property>
+		<property name="brandTypeService"><ref bean="brandTypeService" /></property>
+		<property name="brandService"><ref bean="brandService" /></property>
+		<property name="phoneKeyBookService"><ref bean="phoneKeyBookService" /></property>
+		<property name="publicNoInfoService"><ref bean="publicNoInfoService" /></property>
+		<property name="systemConfigService"><ref bean="systemConfigService" /></property>
+	</bean>
+	<bean id="initializingHomeKeyBook" class="initializing.InitializingHomeKeyBook" init-method="afterPropertiesSet" >
+		<property name="homeKeyBookService"><ref bean="homeKeyBookService" /></property>
+	</bean>
+	<!-- 初始化数据字典到全局上下文中 ServletContext -->
+
+	<!--  初始化首页集合到全局上下文中-->
+	<bean id="initializingStatistics" class="initializing.InitializingStatistics" init-method="afterPropertiesSet" >
+		<property name="statisticsService"><ref bean="statisticsService" /></property>
+	</bean>
+	<!--  初始化首页集合到全局上下文中-->
+
+	<!-- 初始化加载金币赠送规则  -->
+	<bean id="initializingCoinRules" class="initializing.InitializingCoinRules" init-method="afterPropertiesSet" >
+		<property name="coinRulesService"><ref bean="coinRulesService" /></property>
+	</bean>
+
+</beans>

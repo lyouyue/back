@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="wxmg.material.pojo.MaterialImageInfo" table="wx_material_image_info" >
+        <id name="materialImageInfoId" type="java.lang.Integer">
+            <column name="materialImageInfoId"/>
+            <generator class="increment"/>
+        </id>
+        <property name="publicNumberId" type="java.lang.Integer">
+            <column name="publicNumberId"/>
+        </property>
+        <property name="picMediaId" type="java.lang.String">
+            <column name="picMediaId"/>
+        </property>
+        <property name="picUrl" type="java.lang.String">
+            <column name="picUrl"/>
+        </property>
+        <property name="picName" type="java.lang.String">
+            <column name="picName"/>
+        </property>
+        <property name="picSize" type="java.lang.String">
+            <column name="picSize"/>
+        </property>
+        <property name="picFormatEnumId" type="java.lang.Integer">
+            <column name="picFormatEnumId"/>
+        </property>
+        <property name="infoSendFlag" type="java.lang.Integer">
+            <column name="infoSendFlag"/>
+        </property>
+        <property name="picMediaIdCreatedTime" type="java.util.Date">
+            <column name="picMediaIdCreatedTime"/>
+        </property>
+        <property name="imageTxtFlag" type="java.lang.Integer">
+            <column name="imageTxtFlag"/>
+        </property>
+        <property name="createdBy" type="java.lang.Integer">
+            <column name="createdBy"/>
+        </property>
+        <property name="createTime" type="java.util.Date">
+            <column name="createTime"/>
+        </property>
+        <property name="lastUpdatedBy" type="java.lang.Integer">
+            <column name="lastUpdatedBy"/>
+        </property>
+        <property name="lastUpdateDateDatetime" type="java.util.Date">
+            <column name="lastUpdateDateDatetime"/>
+        </property>
+        <property name="deletedFlag" type="java.lang.Integer">
+            <column name="deletedFlag"/>
+        </property>
+        <property name="deletedBy" type="java.lang.Integer">
+            <column name="deletedBy"/>
+        </property>
+        <property name="deletionDate" type="java.util.Date">
+            <column name="deletionDate"/>
+        </property>
+        <property name="remark" type="java.lang.String">
+            <column name="remark"/>
+        </property>
+
+    </class>
+</hibernate-mapping>

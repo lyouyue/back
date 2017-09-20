@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="basic.pojo.Purview" table="basic_purview" dynamic-insert="true" dynamic-update="true">
+        <id name="purviewId" type="java.lang.Integer">
+            <column name="purviewId" />
+            <generator class="native" />
+        </id>
+        <property name="purviewName" type="java.lang.String">
+            <column name="purviewName"/>
+        </property>
+        <property name="parentId" type="java.lang.Integer">
+            <column name="parentId"/>
+        </property>
+        <property name="sortCode" type="java.lang.Integer">
+            <column name="sortCode"/>
+        </property>
+        <property name="isLeaf" type="java.lang.Integer">
+            <column name="isLeaf"/>
+        </property>
+        <property name="url" type="java.lang.String">
+            <column name="url"/>
+        </property>
+        <property name="iconUrl" type="java.lang.String">
+            <column name="iconUrl"/>
+        </property>
+        <property name="levelCode" type="java.lang.Integer">
+            <column name="levelCode"/>
+        </property>
+    </class>
+</hibernate-mapping>

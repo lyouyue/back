@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <!-- 套餐抢购begin -->
+    <bean id="panicBuyingDao" class="panicBuying.dao.imp.PanicBuyingDao" parent="baseDao"/>
+    <bean id="homePanicRecommendDao" class="panicBuying.dao.imp.HomePanicRecommendDao" parent="baseDao"/>
+
+    <bean id="panicBuyingService" class="panicBuying.service.imp.PanicBuyingService" parent="baseService">
+        <property name="panicBuyingDao"><ref bean="panicBuyingDao"/> </property>
+    </bean>
+    <bean id="homePanicRecommendService" class="panicBuying.service.imp.HomePanicRecommendService" parent="baseService">
+        <property name="homePanicRecommendDao"><ref bean="homePanicRecommendDao"/> </property>
+    </bean>
+
+    <bean id="panicBuyingAction" class="panicBuying.action.PanicBuyingAction" scope="prototype">
+        <property name="panicBuyingService"><ref bean="panicBuyingService"/> </property>
+        <property name="homePanicRecommendService"><ref bean="homePanicRecommendService"/> </property>
+        <property name="shopInfoService"><ref bean="shopInfoService"/> </property>
+    </bean>
+    <!-- 套餐抢购end -->
+</beans>

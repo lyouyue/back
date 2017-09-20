@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="wxmg.publicNo.pojo.PublicNumberRoleRel" table="wx_public_number_role_rel">
+        <id name="publicNumberRoleRelId" type="java.lang.Integer">
+            <column name="publicNumberRoleRelId" />
+            <generator class="increment"/>
+        </id>
+         <property name="publicNumberId" type="java.lang.Integer">
+            <column name="publicNumberId"/>
+        </property>
+        <property name="actorid" type="java.lang.Integer">
+            <column name="actorid"/>
+        </property>
+        <property name="roleName" type="java.lang.String">
+            <column name="roleName"/>
+        </property>
+        <property name="roleTypeEnumId" type="java.lang.Integer">
+            <column name="roleTypeEnumId"/>
+        </property>
+        <property name="publicNumberName" type="java.lang.String">
+            <column name="publicNumberName"/>
+        </property>
+        <property name="pnOriginalId" type="java.lang.String">
+            <column name="pnOriginalId"/>
+        </property>
+        <property name="createTime" type="java.util.Date">
+            <column name="createTime"/>
+        </property>
+        <property name="lastUpdateDate" type="java.util.Date">
+            <column name="lastUpdateDate"/>
+        </property>
+    </class>
+</hibernate-mapping>

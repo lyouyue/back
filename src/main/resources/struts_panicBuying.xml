@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+    <!-- 套餐抢购begin -->
+    <package name="backPanicBuying" namespace="/back/panicBuying" extends="functionPurview">
+<!--        <action name="showFront" class="panicBuyingAction" method="showFront">
+        </action>-->
+        <action name="gotoPanicBuyingPage" class="panicBuyingAction" method="gotoPanicBuyingPage">
+            <!-- 调用功能权限的拦截器 -->
+			<interceptor-ref name="functionPurviewStack"/>
+            <result>/WEB-INF/panicBuying/panicBuyingList.jsp</result>
+        </action>
+        <action name="listPanicBuying" class="panicBuyingAction" method="listPanicBuying"/>
+        <action name="updateShow" class="panicBuyingAction" method="updateShow"/>
+        <action name="listPanicBuyingRecord" class="panicBuyingAction" method="listPanicBuyingRecord"/>
+    </package>
+    <!-- 套餐抢购end -->
+</struts>

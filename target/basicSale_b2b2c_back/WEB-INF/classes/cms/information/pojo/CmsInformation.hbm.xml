@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="cms.information.pojo.CmsInformation" table="cms_information" lazy="false"  dynamic-insert="true" dynamic-update="true">
+        <cache usage="read-write"/>
+        <id name="informationId" type="java.lang.Integer">
+            <column name="informationId" />
+            <generator class="native" />
+        </id>
+       <property name="categoryId" type="java.lang.Integer">
+            <column name="categoryId" />
+        </property>
+        <property name="informationType" type="java.lang.String">
+            <column name="informationType" length="20">
+                <comment>0,无附件,1,文档 2 图片 3 视频 4 音频</comment>
+            </column>
+        </property>
+        <property name="title" type="java.lang.String">
+            <column name="title" length="200">
+                <comment>这个字段的另一作用：服务于seo 用法：当前字段+主页title</comment>
+            </column>
+        </property>
+        <property name="brief" type="java.lang.String">
+            <column name="brief" length="200">
+                <comment>摘要：从内容中抽取出来的一段文字，同时可以用于seo优化 用法：当前字段+主页description</comment>
+            </column>
+        </property>
+        <property name="content" type="java.lang.String">
+            <column name="content" />
+        </property>
+        <property name="author" type="java.lang.String">
+            <column name="author" />
+        </property>
+        <property name="imgUrl" type="java.lang.String">
+            <column name="imgUrl" length="200" />
+        </property>
+        <property name="imgTrueName" type="java.lang.String">
+            <column name="imgTrueName" length="200" />
+        </property>
+        <property name="outUrl" type="java.lang.String">
+            <column name="outUrl" length="200">
+                <comment>如果存在外部地址的话， 这个优先级最高， 点击新闻标题直接跳到这个 链接地址</comment>
+            </column>
+        </property>
+        <property name="keywords" type="java.lang.String">
+            <column name="keywords" length="300">
+                <comment>这个字段的另一作用：服务于seo 用法：当前字段+主页keywords</comment>
+            </column>
+        </property>
+        <property name="clickCount" type="java.lang.Integer">
+            <column name="clickCount">
+                <comment>用户点击一次增加一次</comment>
+            </column>
+        </property>
+        <property name="sortCode" type="java.lang.Integer">
+            <column name="sortCode" />
+        </property>
+        <property name="isDeal" type="java.lang.Short">
+            <column name="isDeal">
+                <comment>0 正常状态 1 进入回收站，即伪删除</comment>
+            </column>
+        </property>
+        <property name="isEssence" type="java.lang.Short">
+            <column name="isEssence">
+                <comment>0 非精华 1 精华</comment>
+            </column>
+        </property>
+        <property name="isPass" type="java.lang.Short">
+            <column name="isPass">
+                <comment>0未审核 1已经审核2不通过 </comment>
+            </column>
+        </property>
+        <property name="isOpenDiscuss" type="java.lang.Short">
+            <column name="isOpenDiscuss">
+                <comment>0 不开放 1 开发评价</comment>
+            </column>
+        </property>
+        <property name="isShow" type="java.lang.Short">
+            <column name="isShow">
+                <comment>0不显示 1 显示</comment>
+            </column>
+        </property>
+        <property name="createTime" type="java.lang.String">
+            <column name="createTime" length="40">
+                <comment>取服务器的当前时间</comment>
+            </column>
+        </property>
+         <property name="seoTitle" type="java.lang.String">
+            <column name="seoTitle" length="200" />
+        </property>
+        <property name="updateTime" type="java.lang.String">
+            <column name="updateTime" length="40" />
+        </property>
+        <property name="publishUser" type="java.lang.String">
+            <column name="publishUser" length="50">
+                <comment>发布人</comment>
+            </column>
+        </property>
+        <property name="modifyUser" type="java.lang.String">
+            <column name="modifyUser" length="50">
+                <comment>修改人</comment>
+            </column>
+        </property>
+          <property name="cityName" type="java.lang.String">
+            <column name="cityName" length="50">
+                <comment>城市名称</comment>
+            </column>
+        </property>
+          <property name="districtName" type="java.lang.String">
+            <column name="districtName" length="50">
+                <comment>小区名称</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

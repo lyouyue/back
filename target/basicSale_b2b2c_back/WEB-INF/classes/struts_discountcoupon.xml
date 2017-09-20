@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<!-- 优惠券begin -->
+	  	<package name="discountcoupon" namespace="/back/discountcoupon" extends="functionPurview">
+	  		 <action name="gotoDiscountCouponPage" class="discountCouponAction" method="gotoDiscountCouponPage">
+	  		 	<interceptor-ref name="functionPurviewStack"/>
+	  		 	<result name="success">/WEB-INF/discountcoupon/disountCouponList.jsp</result>
+	  		 </action>
+	  		 <action name="gotoCustomerdiscount" class="customerdiscountcouponAction" method="gotoCustomerdiscount">
+	  		 	<interceptor-ref name="functionPurviewStack"/>
+	  		 	<result name="success">/WEB-INF/discountcoupon/customerdisountCouponList.jsp</result>
+	  		 </action>
+	  		 <action name="listDiscountCouponApply" class="discountCouponAction" method="listDiscountCouponApply"/>
+	  		 <action name="selcetCustomerdiscount" class="customerdiscountcouponAction" method="selcetCustomerdiscount"/>
+	  		 <action name="selectCouponAmount" class="customerdiscountcouponAction" method="selectCouponAmount"/>
+	  		 <action name="saveOrUpdateDiscountCoupon" class="discountCouponAction" method="saveOrUpdateDiscountCoupon"/>
+	  		 <action name="saveOrUpdateispass" class="discountCouponAction" method="saveOrUpdateispass"/>
+	  		 <action name="saveOrUpdateuseStatus" class="discountCouponAction" method="saveOrUpdateuseStatus"/>
+	  		 <action name="uploadImage" class="discountCouponAction" method="uploadImage"/>
+	  		 <action name="deleteDiscountCoupon" class="discountCouponAction" method="deleteDiscountCoupon"/>
+	  		 <action name="getDiscountCouponById" class="discountCouponAction" method="getDiscountCouponById"/>
+	  		 <action name="manualGiveCoupon" class="discountCouponAction" method="manualGiveCoupon"/>
+	  	</package>
+	  <!-- 优惠券end -->
+</struts>

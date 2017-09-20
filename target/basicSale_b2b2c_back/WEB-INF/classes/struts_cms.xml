@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+        <!-- 全局范围的 hyyt 开头的两个文件  -->
+        <constant name="struts.custom.i18n.resources" value="hyyt"/>
+	    <!-- 文章分类 -->
+		<package name="category" namespace="/back/category" extends="struts-default"> 
+		   <!-- 分类树  -->
+		   <action name="manageCategoryTree" class="categoryTreeAction" method="manageCategoryTree">
+		      <result name="success">/WEB-INF/cms/back/category/manageCategory.jsp</result>
+		   </action>
+		   <action name="gotoCategoryTree" class="categoryTreeAction" method="gotoCategoryTree">
+		      <result name="success">/WEB-INF/cms/back/category/categoryTree.jsp</result>
+		   </action>
+		   <action name="getNodes" class="categoryTreeAction" method="getNodes"/>
+		   <action name="saveOrEditCategory" class="categoryTreeAction" method="saveOrEditCategory"/>
+		   <action name="getCategoryObject" class="categoryTreeAction" method="getCategoryObject"/>
+		   <action name="delCategory" class="categoryTreeAction" method="delCategory"/>
+		   <!-- action范围国际化 -->
+		   <action name="gotoNative" class="nativeAction" method="gotoNative">
+		      <result name="success">/WEB-INF/cms/native/native2.jsp</result>
+		   </action>
+	   </package>
+	   
+	    <!-- 文章  -->
+		<package name="cmsArticle" namespace="/back/cmsArticle" extends="struts-default"> 
+		   <action name="listArticle" class="acticleAction" method="listArticle"/>
+		   <action name="saveOrUpdateArticle" class="acticleAction" method="saveOrUpdateArticle"/>
+		   <action name="getArticleObject" class="acticleAction" method="getArticleObject"/>
+		   <action name="deleteArticle" class="acticleAction" method="deleteArticle"/>
+		   <action name="updateIsPass" class="acticleAction" method="updateIsPass"/>
+		   <action name="gotoArticleInfoPage" class="acticleAction" method="gotoArticleInfoPage">
+		      <result name="success">/WEB-INF/cms/back/article/articleList.jsp</result>
+		   </action>
+		   <action name="sendMail" class="acticleAction" method="sendMail"></action>
+		   <action name="listCustomer" class="acticleAction" method="listCustomer"></action>
+		   <action name="sendMails" class="acticleAction" method="sendMails"></action>
+	   </package>
+	    <!-- 附件  -->  
+		<package name="cmsArticleAtt" namespace="/back/cmsArticleAtt" extends="struts-default"> 
+		   <action name="deleteAtt" class="attachmentActicleAction" method="deleteAtt"/>
+	   </package>
+	   
+	    <!-- 信息begin -->	
+	 <package name="information" namespace="/back/cmsInformation" extends="basePackage">
+	 	<action name="gotoCmsInformationPage" class="cmsInformationAction" method="gotoCmsInformationPage">
+	 		<result>/WEB-INF/cms/back/information/informationList.jsp</result>
+	 	</action> 
+	 	<action name="listCmsInformation" class="cmsInformationAction" method="listCmsInformation"/>
+	 	<action name="getCmsInformationObject" class="cmsInformationAction" method="getCmsInformationObject"/>
+	 	<action name="saveOrUpdateCmsInformation" class="cmsInformationAction" method="saveOrUpdateCmsInformation"/>
+	 	<action name="deleteCmsInformation" class="cmsInformationAction" method="deleteCmsInformation"/>
+	 </package>
+	 <!-- 信息end -->
+	<!-- 信息分类 begin-->
+	<package name="informationCategory" namespace="/back/cmsInformationCategory" extends="basePackage">
+		<!-- 分类树 -->
+		<action name="manageCmsInformationCategoryTree" class="cmsInformationCategoryAction" method="manageCmsInformationCategoryTree">
+			<result name="success">/WEB-INF/cms/back/informationCategory/manageInformationCategory.jsp</result>
+		</action>
+		<action name="gotoCmsInformationCategoryTree" class="cmsInformationCategoryAction" method="gotoCmsInformationCategoryTree">
+			<result name="success">/WEB-INF/cms/back/informationCategory/informationCategoryTree.jsp</result>
+		</action>
+		<action name="getNodes" class="cmsInformationCategoryAction" method="getNodes" />
+		<action name="saveOrEditCmsInformationCategory" class="cmsInformationCategoryAction" method="saveOrEditCmsInformationCategory" />
+		<action name="getCmsInformationCategoryObject" class="cmsInformationCategoryAction" method="getCmsInformationCategoryObject" />
+		<action name="delCmsInformationCategory" class="cmsInformationCategoryAction" method="delCmsInformationCategory" />
+		<!-- 同步新闻分类到ServletContent中 -->
+		<!-- <action name="updateInServletContextNewsType" class="cmsInformationCategoryAction" method="updateInServletContextNewsType" /> -->
+	</package>
+	<!-- 信息分类 end-->
+</struts>    

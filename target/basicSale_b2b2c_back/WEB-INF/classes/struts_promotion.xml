@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	
+	  <!-- 平台管理促销活动begin -->
+	   <package name="promotion" namespace="/back/promotion" extends="functionPurview"> 
+		   <action name="gotoPromotionPage" class="promotionAction" method="gotoPromotionPage">
+		   		<interceptor-ref name="functionPurviewStack"/>
+	       		<result name="success">/WEB-INF/promotion/promotionList.jsp</result>
+		   	</action>
+		   	<action name="listPromotion" class="promotionAction" method="listPromotion"/>
+		   	<action name="saveOrUpdatePromotion" class="promotionAction" method="saveOrUpdatePromotion"/>
+		   	<action name="getPromotionObject" class="promotionAction" method="getPromotionObject"/>
+		   	<action name="getPromotionObjectDetai" class="promotionAction" method="getPromotionObjectDetai"/>
+		   	<action name="deletePromotion" class="promotionAction" method="deletePromotion"/>
+		   	<action name="uploadImage" class="promotionAction" method="uploadImage"/>
+		   	<action name="getSalesPromotionDiscountObject" class="promotionAction" method="getSalesPromotionDiscountObject"/>
+		   	<action name="saveOrUpdateSalesPromotionDiscount" class="promotionAction" method="saveOrUpdateSalesPromotionDiscount"/>
+		   	<action name="checkPromotion" class="promotionAction" method="checkPromotion"/>
+		   	<action name="openPlatformPromotion" class="promotionAction" method="openPlatformPromotion"/>
+		   	<action name="closePlatformPromotion" class="promotionAction" method="closePlatformPromotion"/>
+		   	<action name="checkPromotionType" class="promotionAction" method="checkPromotionType"/>
+	   </package>
+	<!-- 平台管理促销活动end -->
+	
+	<!-- 店铺申请参加促销begin -->
+	   <package name="disproduct" namespace="/back/disproduct" extends="functionPurview"> 
+		   <action name="gotoProductListByPromotionIdPage" class="disproductAction" method="gotoProductListByPromotionIdPage">
+		   		<interceptor-ref name="functionPurviewStack"/>
+	       		<result name="success">/WEB-INF/promotion/productListByPromotionId.jsp</result>
+		   	</action>
+		   	<action name="findProductListByPromotionId" class="disproductAction" method="findProductListByPromotionId"/>
+		   	<action name="listProductInfo" class="disproductAction" method="listProductInfo"/>
+		   	<action name="batch" class="disproductAction" method="batch"></action>
+		   	<action name="deleteDisproduct" class="disproductAction" method="deleteDisproduct"/>
+		   	<action name="approveOrReject" class="disproductAction" method="approveOrReject"/>
+		   	<action name="updateSort" class="disproductAction" method="updateSort"/>
+	   </package>
+	<!-- 店铺申请参加促销end -->
+	  
+	  <!-- 促销活动申请begin -->
+	  	<package name="promotionapply" namespace="/back/promotionapply" extends="functionPurview">
+	  		 <action name="gotoPromotionApplyPage" class="promotionApplyAction" method="gotoPromotionApplyPage">
+	  		 	<interceptor-ref name="functionPurviewStack"/>
+	  		 	<result name="success">/WEB-INF/promotion/list.jsp</result>
+	  		 </action>
+	  		 <action name="listPromotionApply" class="promotionApplyAction" method="listPromotionApply"/>
+	  		 <action name="saveOrUpdatePromotionApply" class="promotionApplyAction" method="saveOrUpdatePromotionApply"/>
+	  		 <action name="deletePromotionApply" class="promotionApplyAction" method="deletePromotionApply"/>
+	  		 <action name="getPromotionApplyById" class="promotionApplyAction" method="getPromotionApplyById"/>
+	  		 <action name="getCheckById" class="promotionApplyAction" method="getCheckById"/>
+	  		 <action name="saveOrNextPromotionApply" class="promotionApplyAction" method="saveOrNextPromotionApply"/>
+	  	</package>
+	  <!-- 促销活动申请end -->
+</struts>

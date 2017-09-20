@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+    <!-- 日志begin -->
+    <package name="opLog" namespace="/opLog" extends="struts-default">
+        <action name="goToOpLog" class="opLogAction" method="goToOpLog">
+            <result>/WEB-INF/basic/oplog/opLogList.jsp</result>
+        </action>
+        <action name="listOpLog" class="opLogAction" method="listOpLog"></action>
+        <action name="getOpLogObject" class="opLogAction" method="getOpLogObject"></action>
+    </package>
+    <!-- 日志end -->
+    <!--上传图片文件begin  -->
+    <package name="upload" namespace="/back/upload" extends="struts-default">
+        <!-- 处理上传文件拦截器转发信息 -->
+        <action name="returnUploadPath" class="util.action.UploadAction" method="returnUploadPath"/>
+        <!--上传文件begin -->
+        <action name="uploadFiles" class="util.action.MultiFileOperatorAction" method="uploadFile">
+            <interceptor-ref name="fileUpload">
+                <!-- 限制文件上传大小：5242880 =1024*1024*2 （2M） -->
+                <param name="maximumSize">2097152</param>
+                <param name="allowedExtensions">.txt</param>
+                <param name="allowedTypes">text/plain</param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack"></interceptor-ref>
+        </action>
+        <!--上传文件end -->
+        <!-- 上传图片 begin -->
+        <action name="asyncUploadImage" class="util.action.UploadAction" method="asyncUploadImage">
+            <interceptor-ref name="fileUpload">
+                <param name="maximumSize">2097152</param>
+                <param name="allowedExtensions">.gif,.jpg,.jpeg,.png,.bmp</param>
+                <param name="allowedTypes">
+                    image/gif,image/jpg,image/jpeg,image/png,image/x-png,image/bmp
+                </param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack"></interceptor-ref>
+            <!-- 			<result name="input" >/error.jsp</result> -->
+            <result name="input" type="redirectAction">
+                <param name="actionName">returnUploadPath</param>
+            </result>
+        </action>
+        <!-- 上传图片 end -->
+    </package>
+    <!--上传文件end  -->
+
+
+    <!-- 公用文件上传 begin -->
+    <package name="fileOperator" namespace="/fileOperator" extends="struts-default">
+        <action name="asyncUploadFile" class="fileOperatorAction" method="asyncUploadFile"></action>
+    </package>
+
+    <!-- 数据字典begin -->
+    <package name="keybook" namespace="/back/keybook" extends="functionPurview">
+        <action name="gotoKeyBookPage" class="keyBookAction" method="gotoKeyBookPage">
+            <!-- 调用功能权限的拦截器 -->
+            <interceptor-ref name="functionPurviewStack"/>
+            <result>/WEB-INF/basic/keybook/keyBookList.jsp</result>
+        </action>
+        <action name="gotoPayTypePage" class="keyBookAction" method="gotoPayTypePage">
+            <!-- 调用功能权限的拦截器 -->
+            <interceptor-ref name="functionPurviewStack"/>
+            <result>/WEB-INF/basic/payTypeKeybook/payTypeKeyBookList.jsp</result>
+        </action>
+        <action name="listKeyBook" class="keyBookAction" method="listKeyBook"></action>
+        <action name="gotoPayManagementPage" class="keyBookAction" method="gotoPayManagementPage">
+            <!-- 调用功能权限的拦截器 -->
+            <interceptor-ref name="functionPurviewStack"/>
+            <result>/WEB-INF/basic/payManagement/payManagementList.jsp</result>
+        </action>
+        <action name="listPayManagement" class="keyBookAction" method="listPayManagement"></action>
+        <action name="listPayType" class="keyBookAction" method="listPayType"></action>
+        <action name="saveOrUpdateKeyBook" class="keyBookAction" method="saveOrUpdateKeyBook"></action>
+        <action name="updatePayType" class="keyBookAction" method="updatePayType"></action>
+        <action name="updatePayMethodById" class="keyBookAction" method="updatePayMethodById"></action>
+        <action name="getKeyBookInfo" class="keyBookAction" method="getKeyBookInfo"></action>
+        <action name="deleteKeyBook" class="keyBookAction" method="deleteKeyBook"></action>
+        <action name="updateInServletContextKeyBook" class="keyBookAction" method="updateInServletContextKeyBook"></action>
+    </package>
+    <!-- 数据字典end -->
+
+    <!-- 金币赠送规则 begin -->
+    <package name="coinRules" namespace="/back/coinRules" extends="functionPurview">
+        <action name="gotoCoinRulesPage" class="coinRulesAction" method="gotoCoinRulesPage">
+            <!-- 调用功能权限的拦截器 -->
+            <interceptor-ref name="functionPurviewStack"/>
+            <result>/WEB-INF/shop/coinRules/coinRulesList.jsp</result>
+        </action>
+        <action name="listCoinRules" class="coinRulesAction" method="listCoinRules"></action>
+        <action name="saveOrUpdateCoinRules" class="coinRulesAction" method="saveOrUpdateCoinRules"></action>
+        <action name="getCoinRulesInfo" class="coinRulesAction" method="getCoinRulesInfo"></action>
+        <action name="deleteCoinRules" class="coinRulesAction" method="deleteCoinRules"></action>
+        <action name="updateInServletContextCoinRules" class="coinRulesAction" method="updateInServletContextCoinRules"></action>
+    </package>
+    <!-- 金币赠送规则 end -->
+    <!-- 后台管理员 -->
+    <package name="users" namespace="/back/users" extends="struts-default">
+        <action name="listUsers" class="usersAction" method="listUsers"/>
+        <action name="getUsersObject" class="usersAction" method="getUsersObject"/>
+        <action name="deleteUsers" class="usersAction" method="deleteUsers"/>
+        <action name="gotoUsersPage" class="usersAction" method="gotoUsersPage">
+            <result name="success">/WEB-INF/basic/users/usersList.jsp</result>
+        </action>
+        <action name="saveOrUpdateUsers" class="usersAction" method="saveOrUpdateUsers"/>
+        <action name="checkUsers" class="usersAction" method="checkUsers"/>
+        <action name="checkUsers1" class="usersAction" method="checkUsers1"/>
+        <action name="goToupdatePasswordPage" class="usersAction" method="goToupdatePasswordPage">
+            <result name="success">/WEB-INF/basic/backLogin/changePassword.jsp</result>
+        </action>
+        <action name="updatePassword" class="usersAction" method="updatePassword"></action>
+        <action name="checkOldPassWord" class="usersAction" method="checkOldPassWord"/>
+    </package>
+    <!-- 角色 -->
+    <package name="actor" namespace="/back/actor" extends="struts-default">
+        <action name="gotoActorPage" class="actorAction" method="gotoActorPage">
+            <result name="success">/WEB-INF/basic/actor/actorList.jsp</result>
+        </action>
+        <action name="listActor" class="actorAction" method="listActor"/>
+        <action name="saveOrUpdateActor" class="actorAction" method="saveOrUpdateActor"/>
+        <action name="getActorObject" class="actorAction" method="getActorObject"/>
+        <action name="deleteActor" class="actorAction" method="deleteActor"/>
+        <action name="checkActor" class="actorAction" method="checkActor"/>
+    </package>
+    <!-- 模块权限 -->
+    <package name="purview" namespace="/back/purview" extends="struts-default">
+        <action name="gotoPurviewPage" class="purviewAction" method="gotoPurviewPage">
+            <result name="success">/WEB-INF/basic/purview/purviewList.jsp</result>
+        </action>
+        <action name="getNodes" class="purviewAction" method="getNodes"/>
+        <action name="saveOrUpdatePurview" class="purviewAction" method="saveOrUpdatePurview"/>
+        <action name="getPurviewObject" class="purviewAction" method="getPurviewObject"/>
+        <action name="delPurview" class="purviewAction" method="delPurview"/>
+        <action name="getResetPurviewList" class="purviewAction" method="getResetPurviewList"/>
+    </package>
+    <!-- 功能权限 -->
+    <package name="functions" namespace="/functions" extends="struts-default">
+        <action name="listFunctions" class="functionsAction" method="listFunctions"/>
+        <action name="saveOrUpdateFunctions" class="functionsAction" method="saveOrUpdateFunctions"/>
+        <action name="getFunctionsObject" class="functionsAction" method="getFunctionsObject"/>
+        <action name="deleteFunctions" class="functionsAction" method="deleteFunctions"/>
+    </package>
+    <!-- 用户和角色 -->
+    <package name="usersActor" namespace="/back/usersActor" extends="struts-default">
+        <action name="findActorListByUsersId" class="usersActorAction" method="findActorListByUsersId">
+            <result name="success">/WEB-INF/basic/usersActor/usersActorList.jsp</result>
+        </action>
+        <action name="listUsersActorByUsersId" class="usersActorAction" method="listUsersActorByUsersId"/>
+        <action name="listActorInfo" class="usersActorAction" method="listActorInfo"/>
+        <action name="deleteUsersActor" class="usersActorAction" method="deleteUsersActor"/>
+        <action name="saveOrUpdateUsersActor" class="usersActorAction" method="saveOrUpdateUsersActor">
+            <result name="success">/WEB-INF/basic/users/usersList.jsp</result>
+        </action>
+    </package>
+    <!-- 角色和权限 -->
+    <package name="actorPurview" namespace="/back/actorPurview" extends="struts-default">
+        <action name="assignPurview" class="actorPurviewAction" method="assignPurview">
+            <result name="success">/WEB-INF/basic/actorPurview/actorPurviewList.jsp</result>
+        </action>
+        <action name="getPurviewListByActorId" class="actorPurviewAction" method="getPurviewListByActorId"/>
+        <action name="saveActorPurview" class="actorPurviewAction" method="saveActorPurview"/>
+        <action name="getFunctionsListByPurviewId" class="actorPurviewAction" method="getFunctionsListByPurviewId">
+            <!-- <result name="success">/WEB-INF/basic/actorPurview/showFunctionsList.jsp</result> -->
+        </action>
+    </package>
+    <!-- Cookie -->
+    <package name="cookie" namespace="/back/cookie" extends="struts-default">
+        <action name="Cookie" class="basic.action.CookieAction" method="Cookie">
+            <result name="success">/WEB-INF/jsp/front/login.jsp</result>
+        </action>
+    </package>
+
+    <!-- 后台管理员登录begin -->
+    <package name="backLogin" namespace="/backLogin" extends="struts-default">
+        <action name="userFirstLogin" class="backLoginAction" method="userFirstLogin">
+            <result name="success" type="stream">
+                <param name="contentType">image/jpeg</param>
+                <param name="inputName">imageStream</param>
+                <param name="bufferSize">2048</param>
+            </result>
+        </action>
+        <action name="goToExit" class="backLoginAction" method="goToExit">
+            <!-- <result name="success" type="redirectAction">
+                    <param name="namespace">/HYYTBackLogin</param>
+                    <param name="actionName">HYYTBackLogin</param>
+                </result> -->
+            <result>/index.jsp</result>
+        </action>
+        <action name="checkingUsers" class="backLoginAction" method="checkingUsers"/>
+    </package>
+    <package name="login" namespace="/back/backLogin" extends="struts-default">
+        <action name="userLogin" class="backLoginAction" method="userLogin">
+            <result name="success">/WEB-INF/basic/backLogin/workspace.jsp</result>
+            <result name="false" type="redirectAction">
+                <param name="namespace">/HYYTBackLogin</param>
+                <param name="actionName">HYYTBackLogin</param>
+            </result>
+        </action>
+        <action name="selectPurview" class="backLoginAction" method="selectPurview">
+            <result name="success">/WEB-INF/basic/backLogin/left.jsp</result>
+        </action>
+        <action name="header" class="backLoginAction" method="header">
+            <result name="success">/WEB-INF/basic/backLogin/header.jsp</result>
+        </action>
+        <action name="footer" class="backLoginAction" method="footer">
+            <result name="success">/WEB-INF/basic/backLogin/footer.jsp</result>
+        </action>
+    </package>
+    <!-- 后台管理员end -->
+    <!-- 后台管理员登录之后权限begin -->
+    <package name="afterLogin" namespace="/HYYTBackLogin" extends="struts-default">
+        <action name="HYYTBackLogin" class="backLoginAction" method="gotoLoginPage">
+            <result name="success">/WEB-INF/basic/backLogin/backLogin.jsp</result>
+        </action>
+        <action name="left" class="backLoginAction" method="left">
+            <result name="success">/WEB-INF/basic/backLogin/left.jsp</result>
+        </action>
+        <action name="welcome" class="backLoginAction" method="welcome">
+            <result name="success">/WEB-INF/basic/backLogin/welcome.jsp</result>
+        </action>
+    </package>
+    <!-- 地区action begin -->
+    <package name="area" namespace="/back/area" extends="struts-default">
+        <action name="gotoAreaTree" class="areaAction" method="gotoAreaTree">
+            <result name="success">/WEB-INF/basic/area/areaManagerTrea.jsp</result>
+        </action>
+        <action name="getNodes" class="areaAction" method="getNodes"></action>
+        <action name="getAreaObject" class="areaAction" method="getAreaObject"></action>
+        <action name="saveOrEditArea" class="areaAction" method="saveOrEditArea"></action>
+        <action name="deleteArea" class="areaAction" method="deleteArea"></action>
+    </package>
+    <!-- 地区action end -->
+
+    <!--更新初始化加载信息页面begin-->
+    <package name="backUpdateInitInformation" namespace="/back/updateInitInformation" extends="basePackage">
+        <action name="gotoUpdateInitInformationPage" class="updateInitInformationAction" method="gotoUpdateInitInformationPage">
+            <result>/WEB-INF/basic/updateInitInformation/updateInitInformationList.jsp</result>
+        </action>
+        <action name="gotoUpdateHomeInitPage" class="updateInitInformationAction" method="gotoUpdateHomeInitPage">
+            <result>/WEB-INF/basic/updateInitInformation/updateHomeIndex.jsp</result>
+        </action>
+        <!-- 导出套餐分类及品牌关系数据excel -->
+        <action name="outExcel" class="updateInitInformationAction" method="outExcel"/>
+        <!-- 导入套餐分类及品牌关系数据excel -->
+        <action name="uploadExcelFile" class="updateInitInformationAction" method="uploadExcelFile"/>
+    </package>
+    <!--更新初始化加载信息页面end-->
+    <!-- 基础设置begin -->
+    <package name="systemConfig" namespace="/back/systemConfig" extends="functionPurview">
+        <action name="gotoSystemConfigPage" class="systemConfigAction" method="gotoSystemConfigPage">
+            <!-- 调用功能权限的拦截器 -->
+            <interceptor-ref name="functionPurviewStack"/>
+            <result>/WEB-INF/basic/systemConfig/systemConfigList.jsp</result>
+        </action>
+        <action name="listSystemConfig" class="systemConfigAction" method="listSystemConfig"></action>
+        <action name="saveOrUpdateSystemConfig" class="systemConfigAction" method="saveOrUpdateSystemConfig"></action>
+        <action name="getSystemConfigObject" class="systemConfigAction" method="getSystemConfigObject"></action>
+        <action name="deleteSystemConfig" class="systemConfigAction" method="deleteSystemConfig"></action>
+        <action name="updateSystemConfig" class="systemConfigAction" method="updateSystemConfig"></action>
+    </package>
+    <!-- 基础设置end -->
+    <!-- 统计begin -->
+    <package name="statistics" namespace="/back/statistics" extends="functionPurview">
+        <action name="gotoStatisticsPage" class="statisticsAction" method="gotoStatisticsPage">
+            <interceptor-ref name="functionPurviewStack"/>
+            <result name="success">/WEB-INF/basic/statistics/statisticsList.jsp</result>
+        </action>
+        <action name="ListStatistics" class="statisticsAction" method="ListStatistics"></action>
+        <action name="getStatisticsInfo" class="statisticsAction" method="getStatisticsInfo"></action>
+        <action name="saveOrUpdateStatistics" class="statisticsAction" method="saveOrUpdateStatistics"></action>
+        <action name="deleteStatistics" class="statisticsAction" method="deleteStatistics"></action>
+        <action name="getListByStatisticsType" class="statisticsAction" method="getListByStatisticsType"></action>
+        <action name="initStatisticsHome" class="statisticsAction" method="initStatisticsHome"></action>
+        <action name="updateData" class="statisticsAction" method="updateData"></action>
+    </package>
+    <!-- 统计end -->
+    <!--aliyun begin  -->
+    <package name="alyin" namespace="/aliyun" extends="basePackage">
+        <action name="AliYunSendMsg" class="util.note.aliyun.aliyun" method="AliYunSendMsg">
+        </action>
+    </package>
+    <!--aliyun end  -->
+
+    <!--搜索 适用于ssm项目 start-->
+    <package name="search" namespace="/search" extends="basePackage">
+        <action name="searchProduct" class="search.action.ProductSearchAction" method="search">
+        </action>
+    </package>
+    <!--搜索 适用于ssm项目 end-->
+    <!-- 系统公告消息 start-->
+    <package name="news" namespace="/news" extends="basePackage">
+    	 <action name="news" class="basic.action.NewsAction" method="news">
+    	 <result name="success">/WEB-INF/basic/sysnews/news.jsp</result>
+        </action>
+    </package>
+    <!-- 系统公告消息 end-->
+</struts>

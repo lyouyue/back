@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>	
+	<!-- 分销模板配置信息begin  -->
+	<package name="configure"  namespace="/back/configure" extends="struts-default">
+		<action name="gotoConfigurePage" class="disConfigureAction" method="gotoConfigurePage">
+			<result name="success">/WEB-INF/distribution/configure/updateConfigure.jsp</result>
+		</action>
+		<action name="saveOrUpdateDisConfigure" class="disConfigureAction" method="saveOrUpdateDisConfigure"></action>
+	</package>
+	<!-- 分销模板配置信息end -->
+	
+	<!-- 分销会员统计begin -->
+	<package name="disCustomer" namespace="/back/disCustomer" extends="struts-default">
+		<action name="gotoCustomerList" class="disCustomerAction" method="gotoCustomerList">
+	   			<result name="success">/WEB-INF/distribution/customer/customerList.jsp</result>
+	   	</action>
+   		<action name="getCustomerList" class="disCustomerAction" method="getCustomerList"></action>
+   		<action name="listCustomer" class="disCustomerAction" method="listCustomer"></action>
+   		<action name="resetPassword" class="disCustomerAction" method="resetPassword"></action>
+   		<action name="getReturnAmount" class="disCustomerAction" method="getReturnAmount"></action>
+	   	<action name="gotoResetPasswordPage" class="disCustomerAction" method="gotoResetPasswordPage">
+	 		<result>/WEB-INF/distribution/resetPassWord/resetPassWordList.jsp</result>
+	 	</action>
+	 	<action name="gotoLowePage" class="disCustomerAction" method="gotoLowePage">
+	   		<result name="success">/WEB-INF/distribution/customer/customerLoweList.jsp</result>
+	   	</action>
+	 	<action name="listLoweCustomer" class="disCustomerAction" method="listLoweCustomer"></action>
+	</package>
+	<!-- 分销会员统计end -->
+	
+</struts>    

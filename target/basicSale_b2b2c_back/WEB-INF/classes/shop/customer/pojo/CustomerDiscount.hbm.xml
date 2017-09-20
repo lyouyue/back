@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="shop.customer.pojo.CustomerDiscount" table="shop_customer_discount" >
+        <id name="customerDiscountId" type="java.lang.Integer">
+            <column name="customerDiscountId"/>
+            <generator class="native"/>
+        </id>
+        <property name="customerId" type="java.lang.Integer">
+            <column name="customerId"/>
+        </property>
+        <property name="discountValue" type="java.lang.Integer">
+            <column name="discountValue"/>
+        </property>
+    </class>
+</hibernate-mapping>

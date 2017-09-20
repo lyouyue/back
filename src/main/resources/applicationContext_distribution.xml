@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+   <!-- 分销模板begin -->
+   <bean id="disConfigureDao" class="distribution.configure.dao.imp.DisConfigureDao"  parent="baseDao"/>
+   <bean id="disConfigureService" class="distribution.configure.service.imp.DisConfigureService"  parent="baseService">
+		<property name="disConfigureDao"><ref bean="disConfigureDao" /></property>
+   </bean>
+   <bean id="disConfigureAction" class="distribution.configure.action.DisConfigureAction" scope="prototype">
+		<property name="disConfigureService"><ref bean="disConfigureService" /></property>
+   </bean>
+   <!-- 分销模板end--> 
+	   
+   <!-- 分销用户begin -->   
+   <bean id="disCustomerDao" class="distribution.customer.dao.imp.DisCustomerDao"  parent="baseDao"/>
+   <bean id="disCustomerService" class="distribution.customer.service.imp.DisCustomerService"  parent="baseService">
+		<property name="disCustomerDao"><ref bean="disCustomerDao" /></property>
+   </bean>
+   <bean id="disCustomerAction" class="distribution.customer.action.DisCustomerAction" scope="prototype">
+		<property name="disCustomerService"><ref bean="disCustomerService" /></property>
+		<property name="customerService"><ref bean="customerService" /></property>
+   </bean>
+   <!-- 分销用户end -->   
+   
+   
+		
+		
+	
+</beans>

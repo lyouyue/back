@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/task
+	http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+
+
+	<!-- 配置task任务扫描注解 -->
+	<task:annotation-driven/>
+
+	<!-- 自动添加数据 begin -->
+	<bean id="platformPromotionService" class="promotion.service.imp.PlatformPromotionService"  scope="prototype">
+		<property name="platformPromotionDao" ref="platformPromotionDao" ></property>
+	</bean>
+	<task:scheduled-tasks>
+		<!-- 每天凌晨0点5分0秒扫描数据库，有开启的活动则开启 -->
+		<task:scheduled ref="platformPromotionService" method="updatePlatformPromotionState" cron="00 05 00 * * ?" />
+	</task:scheduled-tasks>
+	<!-- 自动添加数据 end -->
+
+	<!-- 0点25分0秒 自动开启用户优惠券 begin -->
+	<bean id="taskCustomerdiscountcouponService" class="discountcoupon.service.imp.CustomerdiscountcouponService"  scope="prototype">
+		<property name="customerdiscountcouponDao" ref="customerdiscountcouponDao" ></property>
+	</bean>
+	<task:scheduled-tasks>
+		<task:scheduled ref="taskCustomerdiscountcouponService" method="updatestatus" cron="00 25 00 * * ?" />
+	</task:scheduled-tasks>
+	<!-- 自动开启用户优惠券 end -->
+
+	<!-- 商家申请自动结算 begin -->
+	<bean id="quartzShopSettlementService" class="quartz.service.QuartzShopSettlementService"  scope="prototype">
+		<property name="ordersDao" ref="ordersDao" ></property>
+		<property name="shopSettlementDetailDao" ref="shopSettlementDetailDao" ></property>
+	</bean>
+	<task:scheduled-tasks>
+		<task:scheduled ref="quartzShopSettlementService" method="updateShopSettlement" cron="0 0 8 15 * ?" />
+	</task:scheduled-tasks>
+	<!-- 商家申请自动结算 end -->
+
+	<!-- 自动开启 同步用户现金钱包余额、充值总额、金币数量，删除过期的已同步记录 begin -->
+	<bean id="quartzCustomerBankrollService" class="quartz.service.QuartzCustomerBankrollService"  scope="prototype">
+		<property name="customerBankrollService" ref="customerBankrollService" ></property>
+	</bean>
+	<task:scheduled-tasks>
+		<!-- 自动开启 同步用户现钱钱包余额、充值总额-->
+		<task:scheduled ref="quartzCustomerBankrollService" method="saveBankRollBySync" cron="0 01 4 * * ?" />
+	</task:scheduled-tasks>
+	<task:scheduled-tasks>
+		<!-- 自动开启 同步用户现钱钱包总积分-->
+		<task:scheduled ref="quartzCustomerBankrollService" method="saveBankRollMallCoinBySync" cron="0 06 4 * * ?" />
+	</task:scheduled-tasks>
+	<task:scheduled-tasks>
+		<!-- 自动开启 删除过期(n秒, n在basic_systemconfig表中配置，默认7天)的已同步的财务记录-->
+		<task:scheduled ref="quartzCustomerBankrollService" method="deleteExpiredFinanceSynced" cron="0 10 4 * * ?" />
+	</task:scheduled-tasks>
+	<!-- 自动开启 同步用户现金钱包余额、充值总额、金币数量，删除过期的已同步记录 end -->
+
+	<!-- 已发货订单到期自动收货，及到期订单的自动评价 begin -->
+	<bean id="autoCommentService" class="quartz.service.QuartzAutoCommentService">
+		<property name="ordersService" ref="ordersService"></property>
+		<property name="shopInfoService" ref="shopInfoService"></property>
+		<property name="ordersOPLogService" ref="ordersOPLogService"></property>
+		<property name="ordersListService" ref="ordersListService"></property>
+		<property name="evaluateGoodsService" ref="evaluateGoodsService"></property>
+	</bean>
+	<task:scheduled-tasks>
+		<!-- 01点10分0秒 订单中套餐 n天自动评价 n在配置文件中：quartz_autoComment -->
+		<task:scheduled ref="autoCommentService" method="saveAutoComment" cron="01 10 00 * * ?" />
+	</task:scheduled-tasks>
+	<task:scheduled-tasks>
+		<!-- 已发货订单 n天自动收货定时器  n在配置文件中：quartz_takeDelivery -->
+		<task:scheduled ref="autoCommentService" method="saveAutoTakeDelivery" cron="00 05 00 * * ?" />
+	</task:scheduled-tasks>
+	<!-- 已发货订单到期自动收货，及到期订单的自动评价 end -->
+
+	<!-- 01点20分0秒 扫描团购套餐是否结束 begin -->
+	<bean id="tuanProductStateService" class="quartz.service.QuartzTuanProductStateService" scope="prototype">
+		<property name="tuanProductService" ref="tuanProductService"></property>
+	</bean>
+	<task:scheduled-tasks>
+		<task:scheduled ref="tuanProductStateService" method="saveCloseState" cron="01 20 0 * * ?" />
+	</task:scheduled-tasks>
+	<!-- 扫描团购套餐是否结束 end -->
+
+	<!-- 订单自动返利 begin -->
+	<bean id="quartzOrdersRebateService" class="quartz.service.QuartzOrdersRebateService"  scope="prototype">
+		<property name="ordersService" ref="ordersService" ></property>
+		<property name="returnsApplyService" ref="returnsApplyService" ></property>
+		<property name="fundDetailService" ref="fundDetailService" ></property>
+	</bean>
+	<!-- <task:scheduled-tasks>
+		<task:scheduled ref="quartzOrdersRebateService" method="saveRebateOrders" cron="0 30 02 * * ?" />
+	</task:scheduled-tasks> -->
+	<!-- 订单自动返利 end -->
+
+	<!-- 自动更新微信Token begin -->
+	<task:scheduled-tasks>
+		<task:scheduled ref="publicNoInfoService" method="accessTokenInit" cron="0 0 */1 * * ?" />
+	</task:scheduled-tasks>
+	<!-- 自动更新微信Token end -->
+
+	<!-- 自动更新统计表数据 begin -->
+	<task:scheduled-tasks>
+		<task:scheduled ref="statisticsService" method="updateStatistics" cron="0 0 */2 * * ?" />
+	</task:scheduled-tasks>
+	<!-- 自动更新统计表数据 end -->
+
+	<!-- 自动取消过期订单 start -->
+	<task:scheduled-tasks>
+		<!-- 每天1点35分0秒，自动取消 早于前一天23:59:59的 未付款订单 -->
+		<task:scheduled ref="ordersService" method="updateAutoCancelOrder" cron="01 35 0 * * ?" />
+	</task:scheduled-tasks>
+	<!-- 自动取消过期订单 end -->
+</beans>

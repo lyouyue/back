@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="basic.pojo.SystemConfig" table="basic_systemconfig" >
+        <id name="id" type="java.lang.Integer">
+            <column name="id" precision="10" scale="0" />
+            <generator class="native"/>
+        </id>
+        <property name="name" type="java.lang.String">
+            <column name="name" length="200" not-null="true"/>
+        </property>
+        <property name="type" type="java.lang.String">
+            <column name="type" length="100" not-null="true"/>
+        </property>
+        <property name="value" type="java.lang.String">
+            <column name="value" length="200" not-null="true"/>
+        </property>
+        <property name="groupColumn" type="java.lang.String">
+            <column name="groupColumn" length="20" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>

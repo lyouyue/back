@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <!-- 操作日志记录 -->
+    <bean id="opLogAction" class="basic.action.OpLogAction" scope="prototype">
+		<property name="opLogService"><ref bean="opLogService" /></property>
+	</bean>
+	<bean id="opLogService" class="basic.service.imp.OPLogService"  parent="baseService">
+		<property name="opLogDao"><ref bean="opLogDao" /></property>
+	</bean>
+	<bean id="opLogDao" class="basic.dao.imp.OPLogDao"  parent="baseDao"/>
+
+    <!-- 数据字典begin -->
+    <bean id="keyBookDao" class="basic.dao.imp.KeyBookDao"  parent="baseDao"/>
+	<bean id="keyBookService" class="basic.service.imp.KeyBookService"  parent="baseService">
+		<property name="keyBookDao"><ref bean="keyBookDao" /></property>
+	</bean>
+	<bean id="keyBookAction" class="basic.action.KeyBookAction" scope="prototype">
+		<property name="keyBookService"><ref bean="keyBookService" /></property>
+		<property name="articleService"><ref bean="articleService" /></property>
+		<property name="categoryService"><ref bean="categoryService" /></property>
+	</bean>
+	<!-- 数据字典end -->
+
+	<!-- 搜索引擎service -->
+	<bean id="productSearchAction" class="search.action.ProductSearchAction" scope="prototype">
+		<property name="searchService"><ref bean="searchService"/> </property>
+		<property name="brandService"><ref bean="brandService"/> </property>
+		<property name="productInfoService"><ref bean="productInfoService"/> </property>
+	</bean>
+	<bean id="searchService" class="search.service.imp.SearchService" scope="prototype">
+		<property name="compassTemplate"><ref bean="compassTemplate" /></property>
+		<property name="evaluateGoodsDao"><ref bean="evaluateGoodsDao" /></property>
+	</bean>
+	<!-- 搜索引擎end -->
+    <!-- 金币赠送规则 begin -->
+    <bean id="coinRulesDao" class="shop.common.dao.imp.CoinRulesDao"  parent="baseDao"/>
+	<bean id="coinRulesService" class="shop.common.service.imp.CoinRulesService"  parent="baseService">
+		<property name="coinRulesDao"><ref bean="coinRulesDao" /></property>
+	</bean>
+	<bean id="coinRulesAction" class="shop.common.action.CoinRulesAction" scope="prototype">
+		<property name="coinRulesService"><ref bean="coinRulesService" /></property>
+	</bean>
+	<!-- 金币赠送规则 end -->
+
+    <!-- 管理员 -->
+	<bean id="usersAction" class="basic.action.UsersAction" scope="prototype">
+		<property name="usersService"><ref bean="usersService" /></property>
+	</bean>
+	<bean id="usersService" class="basic.service.imp.UsersService"  parent="baseService">
+		<property name="usersDao"><ref bean="usersDao" /></property>
+		<property name="usersActorService"><ref bean="usersActorService" /></property>
+	</bean>
+	<bean id="usersDao" class="basic.dao.imp.UsersDao"  parent="baseDao"/>
+
+    <!-- 角色 -->
+	<bean id="actorAction" class="basic.action.ActorAction" scope="prototype">
+		<property name="actorService"><ref bean="actorService" /></property>
+	</bean>
+	<bean id="actorService" class="basic.service.imp.ActorService"  parent="baseService">
+		<property name="actorDao"><ref bean="actorDao" /></property>
+		<property name="actorPurviewService"><ref bean="actorPurviewService" /></property>
+		<property name="usersActorService"><ref bean="usersActorService" /></property>
+	</bean>
+	<bean id="actorDao" class="basic.dao.imp.ActorDao"  parent="baseDao"/>
+
+    <!-- 模块权限-->
+	<bean id="purviewAction" class="basic.action.PurviewAction" scope="prototype">
+		<property name="purviewService"><ref bean="purviewService" /></property>
+	</bean>
+	<bean id="purviewService" class="basic.service.imp.PurviewService"  parent="baseService">
+		<property name="purviewDao"><ref bean="purviewDao" /></property>
+		<property name="actorPurviewService"><ref bean="actorPurviewService" /></property>
+		<property name="functionsService"><ref bean="functionsService" /></property>
+	</bean>
+	<bean id="purviewDao" class="basic.dao.imp.PurviewDao"  parent="baseDao"/>
+	<!-- 功能权限begin-->
+	<bean id="functionsAction" class="basic.action.FunctionsAction" scope="prototype">
+		<property name="functionsService"><ref bean="functionsService" /></property>
+	</bean>
+	<bean id="functionsService" class="basic.service.imp.FunctionsService"  parent="baseService">
+		<property name="functionsDao"><ref bean="functionsDao" /></property>
+		<property name="actorPurviewService"><ref bean="actorPurviewService" /></property>
+	</bean>
+	<bean id="functionsDao" class="basic.dao.imp.FunctionsDao"  parent="baseDao"/>
+	<!-- 功能权限end-->
+
+	<!-- 用户角色begin -->
+		<bean id="usersActorAction" class="basic.action.UsersActorAction" scope="prototype">
+			<property name="usersActorService"><ref bean="usersActorService" /></property>
+			<property name="actorService"><ref bean="actorService" /></property>
+		</bean>
+		<bean id="usersActorService" class="basic.service.imp.UsersActorService"  parent="baseService">
+			<property name="usersActorDao"><ref bean="usersActorDao" /></property>
+		</bean>
+		<bean id="usersActorDao" class="basic.dao.imp.UsersActorDao"  parent="baseDao"/>
+	<!-- 用户角色end -->
+
+	<!-- 角色权限begin -->
+		<bean id="actorPurviewAction" class="basic.action.ActorPurviewAction" scope="prototype">
+			<property name="actorPurviewService"><ref bean="actorPurviewService" /></property>
+			<property name="purviewService"><ref bean="purviewService" /></property>
+			<property name="functionsService"><ref bean="functionsService" /></property>
+		</bean>
+		<bean id="actorPurviewService" class="basic.service.imp.ActorPurviewService"  parent="baseService">
+			<property name="actorPurviewDao"><ref bean="actorPurviewDao" /></property>
+		</bean>
+		<bean id="actorPurviewDao" class="basic.dao.imp.ActorPurviewDao"  parent="baseDao"/>
+	<!-- 角色权限end -->
+
+	<!-- 测试后台管理员登录begin -->
+		<bean id="backLoginAction" class="basic.action.BackLoginAction" scope="prototype">
+			<property name="usersService"><ref bean="usersService" /></property>
+			<property name="purviewService"><ref bean="purviewService" /></property>
+			<property name="usersActorService"><ref bean="usersActorService" /></property>
+			<property name="actorPurviewService"><ref bean="actorPurviewService" /></property>
+			<property name="publicNoInfoService"><ref bean="publicNoInfoService" /></property>
+			<property name="opLogService"><ref bean="opLogService" /></property>
+		</bean>
+	<!-- 测试后台管理员登录end -->
+
+
+	<!-- 公告文件上传  -->
+	<bean id="fileOperatorAction" class="util.action.FileOperatorAction" scope="prototype">
+	</bean>
+	<!-- 全局地址区域 -->
+	<bean id="areaDao" class="basic.dao.imp.AreaDao"  parent="baseDao"/>
+	<bean id="areaService" class="basic.service.imp.AreaService"  parent="baseService">
+		<property name="areaDao"><ref bean="areaDao" /></property>
+	</bean>
+	<bean id="areaAction" class="basic.action.AreaAction" scope="prototype">
+		<property name="areaService"><ref bean="areaService" /></property>
+	</bean>
+
+	<!-- 更新初始化信息 -->
+	<bean id="updateInitInformationAction" class="basic.action.UpdateInitInformationAction" scope="prototype">
+		<property name="productTypeService"><ref bean="productTypeService" /></property>
+		<property name="brandTypeService"><ref bean="brandTypeService" /></property>
+		<property name="brandService"><ref bean="brandService" /></property>
+		<property name="specificationService"><ref bean="specificationService" /></property>
+		<property name="specificationValueService"><ref bean="specificationValueService" /></property>
+		<property name="productAttributeService"><ref bean="productAttributeService" /></property>
+		<property name="attributeValueService"><ref bean="attributeValueService" /></property>
+		<property name="updateInitInformationService"><ref bean="updateInitInformationService" /></property>
+		<property name="measuringUnitService"><ref bean="measuringUnitService" /></property>
+		<property name="productMeasuringUnitService"><ref bean="productMeasuringUnitService" /></property>
+	</bean>
+	<bean id="updateInitInformationService" class="basic.service.imp.UpdateInitInformationService"  parent="baseService">
+		<property name="productTypeDao"><ref bean="productTypeDao" /></property>
+		<property name="brandDao"><ref bean="brandDao" /></property>
+		<property name="brandTypeDao"><ref bean="brandTypeDao" /></property>
+		<property name="specificationDao"><ref bean="specificationDao" /></property>
+		<property name="specificationValueDao"><ref bean="specificationValueDao" /></property>
+		<property name="productAttributeDao"><ref bean="producutAttributeDao" /></property>
+		<property name="attributeValueDao"><ref bean="attributeValueDao" /></property>
+		<property name="measuringUnitDao"><ref bean="measuringUnitDao" /></property>
+		<property name="productMeasuringUnitDao"><ref bean="productMeasuringUnitDao" /></property>
+	</bean>
+	<!--通用导出下载文件配置begin  -->
+	<bean id="exportExcelAction" class="util.action.ExportExcelAction" scope="prototype"></bean>
+	<!--通用导出下载文件配置end  -->
+	<!-- basic基础设置begin -->
+	<bean id="systemConfigDao" class="basic.dao.imp.SystemConfigDao" parent="baseDao"/>
+	<bean id="systemConfigService" class="basic.service.imp.SystemConfigService" parent="baseService">
+		<property name="systemConfigDao"><ref bean="systemConfigDao" /></property>
+	</bean>
+	<bean id="systemConfigAction" class="basic.action.SystemConfigAction" scope="prototype">
+		<property name="systemConfigService"><ref bean="systemConfigService" /></property>
+	</bean>
+	<!-- basic基础设置end -->
+
+	<!-- 统计begin -->
+	<bean id="statisticsAction" class="basic.action.StatisticsAction" scope="prototype">
+	<property name="statisticsService"><ref bean="statisticsService" /></property>
+	</bean>
+	<bean id="statisticsDao" class="basic.dao.imp.StatisticsDao" parent="baseDao"/>
+	<bean id="statisticsService" class="basic.service.imp.StatisticsService" parent="baseService">
+		<property name="statisticsDao"><ref bean="statisticsDao" /></property>
+		<property name="customerDao"><ref bean="customerDao" /></property>
+		<property name="shopInfoDao"><ref bean="shopInfoDao" /></property>
+		<property name="productInfoDao"><ref bean="productInfoDao" /></property>
+		<property name="ordersDao"><ref bean="ordersDao" /></property>
+		<property name="returnsApplyDao"><ref bean="returnsApplyDao" /></property>
+		<property name="informationDao"><ref bean="informationDao" /></property>
+		<property name="tuanProductDao"><ref bean="tuanProductDao" /></property>
+		<property name="storeApplyPromotionDao"><ref bean="storeApplyPromotionDao" /></property>
+	</bean>
+	<!-- 统计end -->
+</beans>

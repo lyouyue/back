@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	 <package name="publicUpload" namespace="/" extends="struts-default">
+	   <action name="uploadFile" class="util.action.MultiFileOperatorAction" method="uploadFile"/>
+	   <action name="getURLResult" class="util.action.MultiFileOperatorAction" method="getURLResult"/>
+	   <action name="reomveSessionInfo" class="util.action.MultiFileOperatorAction" method="reomveSessionInfo"/>
+	   <action name="deleteFile" class="util.action.MultiFileOperatorAction" method="deleteFile"/>
+	 </package>
+	 
+     <package name="publicDownload" namespace="/" extends="struts-default">
+       <action name="downloadFile" class="util.action.DownLoadFileAction" method="downloadFile">
+		    <result name="success" type="stream">
+		        <!-- 指定下载文件的内容类型，text/plain是默认类型 -->
+                <!--    <param name="contentType">text/plain</param> -->
+		        <!-- inputName默认值是inputStream，如果action中用于读取下载文件内容的属性名是inputStream，那么可以省略这个参数 -->
+		        <param name="inputName">downloadStream</param>
+		        <!--动态获取文件名，从Action中的取得filename-->
+		        <param name="contentDisposition">
+		            attachment;filename="${downloadFileName}"
+		        </param>
+		        <param name="bufferSize">2048</param>
+		    </result>
+		    <result name="error">/error.jsp</result>
+		    <result name="input">/error.jsp</result>
+		</action>
+     </package>
+     <!-- 通用导出下载文件配置 begin -->			
+	<package name="publicExport" namespace="/publicExport" extends="struts-default" >
+		<action name="exportExcel" class="exportExcelAction" method="exportExcel">
+			<result name="success" type="stream">
+				<!-- 指定下载文件的内容类型，text/plain是默认类型 -->
+				<param name="contentType">application/vnd.ms-excel;charset=UTF-8</param>
+				<!-- inputName默认值是inputStream，如果action中用于读取下载文件内容的属性名是inputStream，那么可以省略这个参数 -->
+				<param name="inputName">excelInputStream</param>
+				<!-- 动态获取文件名，从Action中的取得filename -->
+				<param name="contentDisposition">attachment;filename="${fileName}.xls"</param>
+				<!-- 读取缓冲区 -->
+				<param name="bufferSize">2048</param>
+			</result>
+			<result name="error">/error.jsp</result>
+			<result name="input">/error.jsp</result>
+		</action>
+	</package>
+	<!-- 通用导出下载文件配置 end -->
+	
+	<!-- 测试类 begin -->
+	<package name="backTest" namespace="/back/test" extends="struts-default"> 
+		<!-- 分类树  -->
+		<action name="gotoTestPage" class="util.action.TestAction" method="gotoTestPage">
+			<result name="success">/WEB-INF/test/testPage.jsp</result>
+		</action>
+		<action name="gotoAction" class="util.action.TestAction" method="gotoAction">
+			<result name="success">/WEB-INF/test/testPage.jsp</result>
+		</action>
+	</package>
+	<!-- 测试类 end -->
+	
+	
+</struts>  

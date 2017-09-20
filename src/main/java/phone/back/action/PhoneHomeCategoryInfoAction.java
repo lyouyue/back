@@ -1,0 +1,198 @@
+package phone.back.action;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import org.apache.log4j.Logger;
+import phone.back.pojo.PhoneHomeCategoryInfo;
+import phone.back.service.IPhoneHomeCategoryInfoService;
+import util.action.BaseAction;
+import util.common.EnumUtils;
+import util.other.JSONFormatDate;
+import util.upload.ImageFileUploadUtil;
+import basic.pojo.Users;
+
+/**
+ * 手机端分类信息
+ * 
+ * 2014-01-22
+ */
+public class PhoneHomeCategoryInfoAction extends BaseAction {
+
+	Logger logger = Logger.getLogger(this.getClass());
+	private static final long serialVersionUID = 1L;
+	/**首页分类信息service**/
+	private IPhoneHomeCategoryInfoService phoneHomeCategoryInfoService;
+
+	/**首页分类信息obj**/
+	private PhoneHomeCategoryInfo phoneHomeCategoryInfo=new PhoneHomeCategoryInfo();
+
+	/**id**/
+	private String categoryId;
+
+	// 上传文件路径
+	private File imagePath;
+	// 上传文件名称
+	private String imagePathFileName;
+	/**
+	 * 跳转
+	 */
+	public String gotoPhoneHomeCategoryInfoPage(){
+		return SUCCESS;
+	}
+	/**
+	 * 列表页面
+	 */
+	@SuppressWarnings("unchecked")
+	public void listPhoneHomeCategoryInfo()throws IOException{
+		//获取查询参数
+		String title = request.getParameter("title");
+		String isShow = request.getParameter("isShow");
+		String where=" where 1=1";
+		if(title!=null&&!"".equals(title)){
+			where+=" and o.title like '%"+title+"%'";
+		}
+		if(isShow!=null&&!"".equals(isShow)){
+			where+=" and o.isShow = "+isShow;
+		}
+		Integer totalRecordCount=phoneHomeCategoryInfoService.getCount(where+" and o.categoryId="+categoryId);
+		pageHelper.setPageInfo(pageSize, totalRecordCount, currentPage);
+		List<PhoneHomeCategoryInfo> list = phoneHomeCategoryInfoService.findListByPageHelper(null, pageHelper, where+" and o.categoryId="+categoryId+" order by o.categoryInfoId desc");
+		Map<String, Object> jsonMap = new HashMap<String, Object>();
+		jsonMap.put("total", totalRecordCount);
+		jsonMap.put("rows", list);
+		JSONObject jo = JSONObject.fromObject(jsonMap);
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		out.println(jo.toString());
+		out.flush();
+		out.close();
+	}
+	/**
+	 *  异步ajax 图片上传
+	 */
+	public void uploadImage() {
+		try {
+			Map<String, Object> jsonMap = new HashMap<String, Object>();
+			if (imagePath != null) {
+				String photoUrl = ImageFileUploadUtil.uploadImageFile(imagePath, imagePathFileName, getFileUrlConfig(), "image_phoneCategoryInfo");
+				String visitFileUploadRoot = String.valueOf(getFileUrlConfig().get("uploadFileVisitRoot"));
+				jsonMap.put("photoUrl", photoUrl);
+				jsonMap.put("visitFileUploadRoot", visitFileUploadRoot);
+			} else {
+				String photoUrl = "false1";
+				jsonMap.put("photoUrl", photoUrl);
+			}
+			JSONObject jo = JSONObject.fromObject(jsonMap);
+			response.setContentType("text/html;charset=utf-8");
+			PrintWriter out = response.getWriter();
+			out.println(jo.toString());
+			out.flush();
+			out.close();
+		// 1图片上传
+		} catch (IOException e) {
+			String tryCatch_className = Thread.currentThread().getStackTrace()[1].getClassName();String tryCatch_methodName = Thread.currentThread().getStackTrace()[1].getMethodName();StackTraceElement[] stackTrace = e.getStackTrace();int lineCount_log = 1;for (StackTraceElement stackTraceElement : stackTrace) {int e_lineNumber = stackTraceElement.getLineNumber();String e_className = stackTraceElement.getClassName();String e_methodName = stackTraceElement.getMethodName();logger.error("tryCatch_className: "+tryCatch_className+"    tryCatch_methodName: "+tryCatch_methodName+"    !!!!  "+lineCount_log+++"、  "+"#e.className: "+e_className+"    #e.methodName: "+e_methodName+"    #e.lineNumber: "+e_lineNumber+"    #e.info: "+e);}
+		}
+	}
+	/**
+	 * 保存
+	 * @throws IOException
+	 */
+	public void saveOrUpdatePhoneHomeCategoryInfo()throws IOException{
+		//当前登录对象
+		Users users = (Users) session.getAttribute("users");
+		Object o=null;
+		if(phoneHomeCategoryInfo!=null){
+			if(phoneHomeCategoryInfo.getCategoryInfoId()==null){//添加
+				//创建人 、创建时间
+				phoneHomeCategoryInfo.setCreateTime(new Date());
+				phoneHomeCategoryInfo.setPublishUser(users.getUserName());
+			}
+			//修改人、修改时间
+			phoneHomeCategoryInfo.setUpdateTime(new Date());
+			phoneHomeCategoryInfo.setModifyUser(users.getUserName());
+			o = phoneHomeCategoryInfoService.saveOrUpdateObject(phoneHomeCategoryInfo);
+		}
+		JSONObject jo = new JSONObject();
+		if(o!=null){
+			jo.accumulate("strFlag", true);
+		}else{
+			jo.accumulate("strFlag", false);
+		}
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		out.println(jo.toString());
+		out.flush();
+		out.close();
+	}
+	/**
+	 * 获得当前对象
+	 */
+	public void getPhoneHomeCategoryInfoObj()throws IOException{
+		String id = request.getParameter("id");
+		PhoneHomeCategoryInfo smcb = (PhoneHomeCategoryInfo) phoneHomeCategoryInfoService.getObjectByParams(" where o.categoryInfoId="+id);
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.registerJsonValueProcessor(Date.class, new JSONFormatDate(EnumUtils.DataFormat.Y_M_D_H_m_s.getValue()));
+		JSONObject jo = JSONObject.fromObject(smcb,jsonConfig);// 格式化result
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		out.println(jo.toString());
+		out.flush();
+		out.close();
+	}
+	/**
+	 * 删除分类
+	 */
+	public void deleteByIds()throws IOException{
+		String ids = request.getParameter("ids");
+		boolean bool = phoneHomeCategoryInfoService.deleteObjectsByIds("categoryInfoId", ids);
+		JSONObject jo = new JSONObject();
+		if(bool){
+			jo.accumulate("strFlag", true);
+		}else{
+			jo.accumulate("strFlag", false);
+		}
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		out.println(jo.toString());
+		out.flush();
+		out.close();
+	}
+	//setter getter
+	public File getImagePath() {
+		return imagePath;
+	}
+	public void setImagePath(File imagePath) {
+		this.imagePath = imagePath;
+	}
+	public String getImagePathFileName() {
+		return imagePathFileName;
+	}
+	public void setImagePathFileName(String imagePathFileName) {
+		this.imagePathFileName = imagePathFileName;
+	}
+	public String getCategoryId() {
+		return categoryId;
+	}
+	public void setCategoryId(String categoryId) {
+		this.categoryId = categoryId;
+	}
+	public PhoneHomeCategoryInfo getPhoneHomeCategoryInfo() {
+		return phoneHomeCategoryInfo;
+	}
+	public void setPhoneHomeCategoryInfo(PhoneHomeCategoryInfo phoneHomeCategoryInfo) {
+		this.phoneHomeCategoryInfo = phoneHomeCategoryInfo;
+	}
+	public void setPhoneHomeCategoryInfoService(
+			IPhoneHomeCategoryInfoService phoneHomeCategoryInfoService) {
+		this.phoneHomeCategoryInfoService = phoneHomeCategoryInfoService;
+	}
+
+}

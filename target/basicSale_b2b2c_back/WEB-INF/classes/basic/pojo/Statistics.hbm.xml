@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="basic.pojo.Statistics" table="basic_statistics" >
+        <id name="statisticsId" type="java.lang.Integer">
+            <column name="statisticsId"/>
+            <generator class="native"/>
+        </id>
+        <property name="statisticsType" type="java.lang.Integer">
+            <column name="statisticsType"/>
+        </property>
+        <property name="statisticsName" type="java.lang.String">
+            <column name="statisticsName"/>
+        </property>
+        <property name="statisticColor" type="java.lang.String">
+            <column name="statisticColor"/>
+        </property>
+        <property name="statisticsCode" type="java.lang.Integer">
+            <column name="statisticsCode"/>
+        </property>
+        <property name="statisticsNum" type="java.lang.String">
+            <column name="statisticsNum"/>
+        </property>
+        <property name="statisticsUrl" type="java.lang.String">
+            <column name="statisticsUrl"/>
+        </property>
+        <property name="sortCode" type="java.lang.Integer">
+            <column name="sortCode"/>
+        </property>
+        <property name="isShow" type="java.lang.Integer">
+            <column name="isShow"/>
+        </property>
+        <property name="updateTime" type="java.util.Date">
+            <column name="updateTime"/>
+        </property>
+    </class>
+</hibernate-mapping>

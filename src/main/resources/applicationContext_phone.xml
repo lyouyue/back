@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!-- 手机端数据字典begin -->
+    <bean id="phoneKeyBookDao" class="phone.back.dao.imp.PhoneKeyBookDao"  parent="baseDao"/>
+	<bean id="phoneKeyBookService" class="phone.back.service.imp.PhoneKeyBookService"  parent="baseService">
+		<property name="phoneKeyBookDao"><ref bean="phoneKeyBookDao" /></property>
+	</bean>
+	<bean id="phoneKeyBookAction" class="phone.back.action.PhoneKeyBookAction" scope="prototype">
+		<property name="phoneKeyBookService"><ref bean="phoneKeyBookService" /></property>
+	</bean>
+	<!-- 手机端数据字典end -->
+	
+	<!-- 手机端分类 begin -->
+    <bean id="phoneHomeCategoryDao" class="phone.back.dao.imp.PhoneHomeCategoryDao"  parent="baseDao"/>
+	<bean id="phoneHomeCategoryService" class="phone.back.service.imp.PhoneHomeCategoryService"  parent="baseService">
+		<property name="phoneHomeCategoryDao"><ref bean="phoneHomeCategoryDao" /></property>
+	</bean>
+	<bean id="phoneHomeCategoryAction" class="phone.back.action.PhoneHomeCategoryAction" scope="prototype">
+		<property name="phoneHomeCategoryService"><ref bean="phoneHomeCategoryService" /></property>
+	</bean>
+	<!-- 手机端分类 end -->
+	
+	<!-- 手机端分类信息 begin -->
+    <bean id="phoneHomeCategoryInfoDao" class="phone.back.dao.imp.PhoneHomeCategoryInfoDao"  parent="baseDao"/>
+	<bean id="phoneHomeCategoryInfoService" class="phone.back.service.imp.PhoneHomeCategoryInfoService"  parent="baseService">
+		<property name="phoneHomeCategoryInfoDao"><ref bean="phoneHomeCategoryInfoDao" /></property>
+	</bean>
+	<bean id="phoneHomeCategoryInfoAction" class="phone.back.action.PhoneHomeCategoryInfoAction" scope="prototype">
+		<property name="phoneHomeCategoryInfoService"><ref bean="phoneHomeCategoryInfoService" /></property>
+	</bean>
+	<!-- 手机端分类信息 end -->
+	<!-- SHOP_积分商城begin -->
+	<bean id="coinMallProductDao" class="coinMall.dao.imp.CoinMallProductDao" parent="baseDao"/>
+	<bean id="coinMallProductTypeDao" class="coinMall.dao.imp.CoinMallProductTypeDao" parent="baseDao"/>
+
+	<bean id="coinMallProductService" class="coinMall.service.imp.CoinMallProductService" parent="baseService">
+		<property name="coinMallProductDao"><ref bean="coinMallProductDao"/> </property>
+	</bean>
+	<bean id="coinMallProductTypeService" class="coinMall.service.imp.CoinMallProductTypeService" parent="baseService">
+		<property name="coinMallProductTypeDao"><ref bean="coinMallProductTypeDao"/> </property>
+	</bean>
+
+	<bean id="coinMallProductTypeAction" class="coinMall.action.CoinMallProductTypeAction" scope="prototype">
+		<property name="coinMallProductService"><ref bean="coinMallProductService"/> </property>
+		<property name="coinMallProductTypeService"><ref bean="coinMallProductTypeService"/> </property>
+	</bean>
+	<!-- SHOP_积分商城end -->
+	
+	<!-- 手机端积分商城轮播图begin -->
+	<bean id="phoneIntegralAction" class="phone.back.action.PhoneIntegralAction" scope="prototype">
+		<property name="phoneHomeCategoryInfoService"><ref bean="phoneHomeCategoryInfoService"/> </property>
+	</bean>
+	<!-- 手机端积分商城轮播图end -->
+</beans>

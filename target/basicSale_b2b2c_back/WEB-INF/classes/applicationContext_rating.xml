@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	
+	<!-- 买家等级升迁记录 begin -->
+	<bean id="buyersRecordAction" class="rating.buyersRecord.action.BuyersRecordAction" scope="prototype">
+		<property name="buyersRecordService"><ref bean="buyersRecordService" /></property>
+		<property name="buyersStrategyService"><ref bean="buyersStrategyService" /></property>
+		<property name="customerService"><ref bean="customerService" /></property>
+	</bean>
+	<bean id="buyersRecordService" class="rating.buyersRecord.service.imp.BuyersRecordService" parent="baseService">
+		<property name="buyersRecordDao"><ref bean="buyersRecordDao" /></property>
+		<property name="lineofcreditItemDao"><ref bean="lineofcreditItemDao" /></property>
+	</bean>
+	<bean id="buyersRecordDao" class="rating.buyersRecord.dao.imp.BuyersRecordDao" parent="baseDao"></bean>
+	<!-- 买家等级升迁记录 end -->
+	
+	<!-- 买家等级策略 begin -->
+	<bean id="buyersStrategyAction" class="rating.buyersStrategy.action.BuyersStrategyAction" scope="prototype">
+		<property name="buyersStrategyService"><ref bean="buyersStrategyService" /></property>
+	</bean>
+	<bean id="buyersStrategyService" class="rating.buyersStrategy.service.imp.BuyersStrategyService" parent="baseService">
+		<property name="buyersStrategyDao"><ref bean="buyersStrategyDao" /></property>
+	</bean>
+	<bean id="buyersStrategyDao" class="rating.buyersStrategy.dao.imp.BuyersStrategyDao" parent="baseDao"></bean>
+	<!-- 买家等级策略 end -->
+	
+	<!-- 卖家等级升迁记录 begin -->
+	<bean id="sellersRecordAction" class="rating.sellersRecord.action.SellersRecordAction" scope="prototype">
+		<property name="sellersRecordService"><ref bean="sellersRecordService" /></property>
+		<property name="sellersStrategyService"><ref bean="sellersStrategyService" /></property>
+		<property name="customerService"><ref bean="customerService" /></property>
+	</bean>
+	<bean id="sellersRecordService" class="rating.sellersRecord.service.imp.SellersRecordService" parent="baseService">
+		<property name="sellersRecordDao"><ref bean="sellersRecordDao" /></property>
+	</bean>
+	<bean id="sellersRecordDao" class="rating.sellersRecord.dao.imp.SellersRecordDao" parent="baseDao"></bean>
+	<!-- 卖家等级升迁记录 end -->
+	
+	<!-- 卖家等级策略 begin -->
+	<bean id="sellersStrategyAction" class="rating.sellersStrategy.action.SellersStrategyAction" scope="prototype">
+		<property name="sellersStrategyService"><ref bean="sellersStrategyService" /></property>
+	</bean>
+	<bean id="sellersStrategyService" class="rating.sellersStrategy.service.imp.SellersStrategyService" parent="baseService">
+		<property name="sellersStrategyDao"><ref bean="sellersStrategyDao" /></property>
+	</bean>
+	<bean id="sellersStrategyDao" class="rating.sellersStrategy.dao.imp.SellersStrategyDao" parent="baseDao"></bean>
+	<!-- 卖家等级策略 end -->
+	
+	<!-- 授信额度明细 begin -->
+	<bean id="lineofcreditItemService" class="shop.lineofcreditItem.service.imp.LineofcreditItemService" parent="baseService">
+		<property name="lineofcreditItemDao"><ref bean="lineofcreditItemDao" /></property>
+	</bean>
+	<bean id="lineofcreditItemDao" class="shop.lineofcreditItem.dao.imp.LineofcreditItemDao" parent="baseDao"></bean>
+	<!-- 授信额度明细 end -->
+	
+	<!-- 平台与买家结算 begin -->
+	<bean id="buyersSettlementAction" class="rating.platform.BuyersSettlementAction" scope="prototype">
+		<property name="shopInfoService"><ref bean="shopInfoService"/></property>
+		<property name="ordersService"><ref bean="ordersService"/></property>
+	</bean>		
+	<!-- 平台与买家结算 end -->
+	
+	<!-- 平台与卖家结算 begin -->
+	<bean id="sellerSettlementAction" class="rating.platform.SellerSettlementAction" scope="prototype">
+		<property name="shopInfoService"><ref bean="shopInfoService"/></property>
+		<property name="ordersService"><ref bean="ordersService"/></property>
+		<property name="shopSettlementDetailService"><ref bean="shopSettlementDetailService"/></property>
+		<property name="returnsApplyService"><ref bean="returnsApplyService"/></property>
+	</bean>		
+	<!-- 平台与卖家结算 end -->
+	
+</beans>

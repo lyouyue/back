@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<!-- 团购商品分类begin -->
+    <package name="tuanProductType" namespace="/back/tuanProductType" extends="functionPurview"> 
+	   <action name="gotoTuanProductTypePage" class="tuanProductTypeAction" method="gotoTuanProductTypePage">
+       			<!-- 调用功能权限的拦截器 -->
+			<interceptor-ref name="functionPurviewStack"/>
+       		<result>/WEB-INF/shop/tuanProductType/tuanProductTypeList.jsp</result>
+	   	</action>
+	   	<action name="getNodes" class="tuanProductTypeAction" method="getNodes"/>
+	   	<action name="saveOrEditTuanProductType" class="tuanProductTypeAction" method="saveOrEditTuanProductType"/>
+	   	<action name="getTuanProductTypeObject" class="tuanProductTypeAction" method="getTuanProductTypeObject"/>
+	   	<action name="delTuanProductType" class="tuanProductTypeAction" method="delTuanProductType"/>
+   		<action name="gotoProductInfoListByTuanProductTypeId" class="tuanProductTypeAction" method="gotoProductInfoListByTuanProductTypeId">
+       		<result name="success">/WEB-INF/shop/tuanProductType/tuanProductList.jsp</result>
+	   	</action>
+	   	<action name="listProductInfoByTuanProductTypeId" class="tuanProductTypeAction" method="listProductInfoByTuanProductTypeId"/>
+	   	<action name="deleteTuanTypeProduct" class="tuanProductTypeAction" method="deleteTuanTypeProduct"/>
+	   	<action name="findTuanList" class="tuanProductTypeAction" method="findTuanList"/>
+    </package>
+	<!-- 团购商品分类end -->
+</struts>    

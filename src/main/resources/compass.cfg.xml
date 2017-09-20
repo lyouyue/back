@@ -1,0 +1,15 @@
+<compass-core-config xmlns="http://www.compass-project.org/schema/core-config"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.compass-project.org/schema/core-config http://www.compass-project.org/schema/compass-core-config-2.1.xsd">
+<!-- compass 配置庖丁分词组件 -->
+	<compass name="default">
+		<connection>
+<!-- 		<value>/temp/compass</value> -->
+			<file path="file://D:/tmp/compass" />
+		</connection>
+		<searchEngine>
+			<analyzer name="PaodingAnalyzer" type="CustomAnalyzer" analyzerClass="net.paoding.analysis.analyzer.PaodingAnalyzer"></analyzer>
+		</searchEngine>
+	</compass>
+
+</compass-core-config>
